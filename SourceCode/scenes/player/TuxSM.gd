@@ -66,7 +66,8 @@ func _state_logic(delta):
 	host.update_grab_position()
 	
 	if randi() % 100 == 1:
-		OS.delay_msec((randi() % 100) + 150)
+#		OS.delay_msec((randi() % 100) + 150)
+		OS.delay_msec(150)
 
 func _get_transition(delta):
 	match state:

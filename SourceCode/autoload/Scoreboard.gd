@@ -41,6 +41,7 @@ onready var timer_text = $Control/ClockCounter/Timer
 onready var game_over_screen = $Control/GameOverScreen
 onready var sfx = $SFX
 onready var message_text_object = $Message
+onready var test_popup = $TestPopup
 
 var number_of_deaths = 0
 var level_timer_enabled = false
@@ -204,6 +205,10 @@ func game_over():
 	
 func _on_LEVELTIMER_timeout():
 	if Global.player == null: return
+	
+	test_popup.show()
+	yield(test_popup, "test_popup_closed")
+	
 	var player_state = Global.player.state_machine.state
 	if !["win", "dead"].has(player_state):
 		Global.player.die()

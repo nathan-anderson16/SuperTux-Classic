@@ -69,6 +69,9 @@ onready var high_bounce_height = high_bounce_height_in_tiles * Global.TILE_SIZE 
 var has_large_hitbox = false # Returns true if tux is using big Tux's hitbox
 var can_die = true
 
+var lag_cooldown = 250
+var next_lag = 0
+
 enum states {SMALL, BIG, FIRE}
 var state = states.SMALL setget update_state
 
@@ -397,6 +400,11 @@ func hurt(hurting_body):
 		else: # Get hurt
 			self.state -= 1
 			set_invincible()
+
+func lag() :
+	if OS.get_ticks_msec() > next_lag :
+		OS.delay_msec(500)
+		next_lag = OS.get_ticks_msec() + lag_cooldown
 
 func die():
 	if !can_die: return

@@ -3,31 +3,94 @@
 [ext_resource path="res://scenes/menus/TestPopup.gd" type="Script" id=1]
 
 [node name="TestPopup" type="Popup"]
-margin_right = 40.0
-margin_bottom = 40.0
+visible = true
+margin_right = 601.0
+margin_bottom = 113.0
 script = ExtResource( 1 )
 
 [node name="Panel" type="Panel" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 32.0
-margin_top = 32.0
-margin_right = -32.0
-margin_bottom = -32.0
+margin_left = -1.0
+margin_right = 75.0
+margin_bottom = -17.0
+rect_scale = Vector2( 1.5, 1.5 )
+
+[node name="Label" type="Label" parent="Panel"]
+margin_left = 190.0
+margin_top = 11.0
+margin_right = 336.0
+margin_bottom = 26.0
+rect_scale = Vector2( 1.5, 1.5 )
+text = "Quality of Experience"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_left = 562.0
+margin_top = 46.0
+margin_right = 663.0
+margin_bottom = 86.0
 
 [node name="HelloButton" type="Button" parent="Panel/HBoxContainer"]
 margin_right = 50.0
-margin_bottom = 20.0
+margin_bottom = 40.0
 text = "Hello!"
 
 [node name="CloseButton" type="Button" parent="Panel/HBoxContainer"]
-margin_right = 12.0
-margin_bottom = 20.0
+margin_left = 54.0
+margin_right = 101.0
+margin_bottom = 40.0
 text = "Close"
+
+[node name="HSlider" type="HSlider" parent="Panel"]
+margin_left = 10.0
+margin_top = 62.0
+margin_right = 541.0
+margin_bottom = 82.0
+min_value = 1.0
+max_value = 5.0
+value = 3.0
+tick_count = 5
+ticks_on_borders = true
+
+[node name="1" type="Label" parent="Panel"]
+margin_left = 13.0
+margin_top = 47.0
+margin_right = 53.0
+margin_bottom = 61.0
+rect_pivot_offset = Vector2( 48, 22 )
+text = "1"
+
+[node name="2" type="Label" parent="Panel"]
+margin_left = 141.0
+margin_top = 48.0
+margin_right = 181.0
+margin_bottom = 62.0
+rect_pivot_offset = Vector2( 48, 22 )
+text = "2"
+
+[node name="3" type="Label" parent="Panel"]
+margin_left = 271.0
+margin_top = 46.0
+margin_right = 311.0
+margin_bottom = 60.0
+rect_pivot_offset = Vector2( 48, 22 )
+text = "3"
+
+[node name="4" type="Label" parent="Panel"]
+margin_left = 529.0
+margin_top = 48.0
+margin_right = 569.0
+margin_bottom = 62.0
+rect_pivot_offset = Vector2( 48, 22 )
+text = "5"
+
+[node name="5" type="Label" parent="Panel"]
+margin_left = 399.0
+margin_top = 47.0
+margin_right = 439.0
+margin_bottom = 61.0
+rect_pivot_offset = Vector2( 48, 22 )
+text = "4"
 
 [connection signal="pressed" from="Panel/HBoxContainer/HelloButton" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="Panel/HBoxContainer/CloseButton" to="." method="_on_CloseButton_pressed"]

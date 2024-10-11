@@ -145,5 +145,9 @@ stream = ExtResource( 11 )
 [node name="Tween" type="Tween" parent="."]
 
 [node name="TestPopup" parent="." instance=ExtResource( 13 )]
+margin_left = 97.0
+margin_top = 252.0
+margin_right = 713.0
+margin_bottom = 373.0
 
 [connection signal="timeout" from="LEVELTIMER" to="." method="_on_LEVELTIMER_timeout"]

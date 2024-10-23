@@ -6,6 +6,7 @@ signal test_popup_closed
 # var a = 2
 # var b = "text"
 
+var qoe_slider_val = 3
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -16,10 +17,8 @@ func _ready():
 #func _process(delta):
 #	pass
 
-func _on_Button_pressed():
-	print("Button input")
 
-
-func _on_CloseButton_pressed():
+func _on_SubmitButton_pressed():
+	print("QoE: ", $Panel/QoeSlider.value)
 	self.hide()
 	emit_signal("test_popup_closed")

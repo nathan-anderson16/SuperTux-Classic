@@ -12,7 +12,7 @@ script = ExtResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -1.0
-margin_right = 75.0
+margin_right = 30.0
 margin_bottom = -17.0
 rect_scale = Vector2( 1.5, 1.5 )
 
@@ -30,18 +30,12 @@ margin_top = 46.0
 margin_right = 663.0
 margin_bottom = 86.0
 
-[node name="HelloButton" type="Button" parent="Panel/HBoxContainer"]
-margin_right = 50.0
+[node name="SubmitButton" type="Button" parent="Panel/HBoxContainer"]
+margin_right = 57.0
 margin_bottom = 40.0
-text = "Hello!"
+text = "Submit"
 
-[node name="CloseButton" type="Button" parent="Panel/HBoxContainer"]
-margin_left = 54.0
-margin_right = 101.0
-margin_bottom = 40.0
-text = "Close"
-
-[node name="HSlider" type="HSlider" parent="Panel"]
+[node name="QoeSlider" type="HSlider" parent="Panel"]
 margin_left = 10.0
 margin_top = 62.0
 margin_right = 541.0
@@ -92,5 +86,4 @@ margin_bottom = 61.0
 rect_pivot_offset = Vector2( 48, 22 )
 text = "4"
 
-[connection signal="pressed" from="Panel/HBoxContainer/HelloButton" to="." method="_on_Button_pressed"]
-[connection signal="pressed" from="Panel/HBoxContainer/CloseButton" to="." method="_on_CloseButton_pressed"]
+[connection signal="pressed" from="Panel/HBoxContainer/SubmitButton" to="." method="_on_SubmitButton_pressed"]

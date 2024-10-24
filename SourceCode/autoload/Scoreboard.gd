@@ -212,6 +212,7 @@ func _on_LEVELTIMER_timeout():
 	if Global.player == null: return
 	
 	# Show the qoe popup and pause the game
+	$TestPopup/Panel/QoeSlider.value = 3
 	test_popup.show()
 	_set_paused(true)
 	

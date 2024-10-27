@@ -349,7 +349,7 @@ func set_ui_scale(scale):
 	ui_scale.anchor_right = 1 / scale
 
 func layer_button_pressed(button_node, layer_object):
-	
+	print("Here 1")
 	# If we have edit layers mode enabled
 	if edit_objects_enabled:
 		if layer_object:
@@ -357,7 +357,7 @@ func layer_button_pressed(button_node, layer_object):
 				self.edit_objects_enabled = false
 				edit_layer(layer_object)
 		return
-	
+	print("Here 2")
 	var old_selected_layer = selected_layer
 	
 	self.selected_layer = layer_object
@@ -371,7 +371,9 @@ func layer_button_pressed(button_node, layer_object):
 	# Reset the currently selected tile/object when
 	# selecting a layer with a different TileSet than the current one
 	if selected_layer and old_selected_layer:
+
 		if is_instance_valid(selected_layer) and is_instance_valid(old_selected_layer):
+			print(selected_layer.get("tile_set"))
 			if !is_tilemap(selected_layer) or selected_layer.get("tile_set") != old_selected_layer.get("tile_set"):
 				self.current_object_resource = null
 				self.current_tile_id = -1

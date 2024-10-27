@@ -74,6 +74,9 @@ var tile_entities = {
 	"BadSmartblock" : "enemies/Smartblock",
 	
 	"HazLavaHitbox" : "objects/LavaHitbox",
+	"RandomDelayLagHitbox" : "objects/RandomDelayLagHitbox",
+	"ProbabilityLagHitbox" : "objects/ProbabilityLagHitbox",
+	"NextSpaceInputLagHitbox" : "objects/NextSpaceInputLagHitbox",
 }
 
 var entity_offset = Vector2(16, 16)
@@ -98,7 +101,7 @@ func tiles_to_objects():
 	set_spawn_point()
 	
 	var once_only_entity_list = []
-	
+
 	# Iterate through all used Tile IDS
 	for id in tile_ids:
 		var tile_name = tile_set.tile_get_name(id)
@@ -109,7 +112,6 @@ func tiles_to_objects():
 			
 			# Load the entity
 			var entity_scene = load("res://scenes/" + tile_entities.get(tile_name) + ".tscn")
-			
 			# Instance it for as many times as it's used
 			for tile in get_used_cells_by_id(id):
 				

@@ -47,6 +47,7 @@ WorldmapManager="*res://autoload/WorldmapManager.gd"
 MobileControls="*res://autoload/MobileControls.tscn"
 UserLevels="*res://autoload/UserLevelsManager.gd"
 WAVAudioImporter="*res://autoload/WAVAudioImporter.gd"
+Logger="*res://autoload/logger.gd"
 
 [display]
 

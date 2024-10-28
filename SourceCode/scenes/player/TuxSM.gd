@@ -27,6 +27,8 @@ func _ready():
 	add_state("win")
 	add_state("win_inside_igloo")
 	add_state("riding")
+	set_logger(get_node("/root/Logger")) 
+	print("Log file absolute path: " + ProjectSettings.globalize_path(logger.log_file_path))
 	call_deferred("set_state", "idle")
 
 func _state_logic(delta):
@@ -107,6 +109,11 @@ func _get_transition(delta):
 	return null
 
 func _enter_state(new_state, old_state):
+	if logger != null:
+		logger.log("Entering state: %s" % new_state)
+
+	if state != new_state:
+		Logger.log("State change!")
 	match new_state:
 		"duck":
 			host.duck_hitbox(true)

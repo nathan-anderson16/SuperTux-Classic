@@ -20,8 +20,7 @@ func _on_Submit_focus_entered():
 
 func _on_Submit_pressed():
 	print("User ID: ", user_id.text)
-	# TODO: Load the user into the practice level
-
+	SaveManager.new_game("res://scenes/levels/framespike/playtest.tscn")
 
 func _on_UserID_text_changed():
 	if user_id.text.is_valid_integer():
@@ -29,6 +28,7 @@ func _on_UserID_text_changed():
 	else:
 		submit_button.disabled = true
 
+# Resets the menu to its default state.
 func reset():
 	user_id.text = ""
 	submit_button.disabled = true

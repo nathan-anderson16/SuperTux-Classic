@@ -4,7 +4,6 @@
 [ext_resource path="res://scenes/menus/FrameStutter.gd" type="Script" id=2]
 
 [node name="FrameStutterMenu" type="Popup"]
-visible = true
 margin_right = 960.0
 margin_bottom = 520.0
 script = ExtResource( 2 )

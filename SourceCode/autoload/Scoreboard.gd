@@ -16,6 +16,14 @@
 
 
 extends CanvasLayer
+
+enum LEVEL_TYPE {
+	REGULAR = 0,
+	PRACTICE_1 = 1,
+	PRACTICE_2 = 2,
+	ROUND = 3
+}
+
 # This node keeps track of all player variables which persist between levels,
 # such as the coin counter, lives, etc.
 
@@ -209,16 +217,40 @@ func _set_paused(new_value):
 	Scoreboard.level_timer.paused = new_value
 
 func _on_LEVELTIMER_timeout():
-	if Global.player == null: return
+	if Global.player == null or Global.current_level == null: return
 	
-	# Show the qoe popup and pause the game
-	$TestPopup/QoEPopup/QoeSlider.value = 3
-	test_popup.show()
-	_set_paused(true)
+	var a = Global.current_level.level_type
+	var b = LEVEL_TYPE.REGULAR
 	
-	# Once the qoe popup is complete, unpause the game
-	yield(test_popup, "test_popup_closed")
-	_set_paused(false)
+	match Global.current_level.level_type:
+		# Regular level, just kill the player
+		LEVEL_TYPE.REGULAR:
+			var player_state = Global.player.state_machine.state
+			if !["win", "dead"].has(player_state):
+				Global.player.die()
+			return
+		
+		# Practice level 1 is over, send the player to practice level 2
+		LEVEL_TYPE.PRACTICE_1:
+			Global.goto_level("res://scenes/levels/framespike/playtest_spike.tscn")
+			return
+		
+		# Practice level 2 is over, so start the rounds
+		LEVEL_TYPE.PRACTICE_2:
+			print("Starting rounds")
+			# TODO: Actually load first level for the rounds
+			return
+
+		LEVEL_TYPE.ROUND:
+			# Show the qoe popup and pause the game
+			$TestPopup/QoEPopup/QoeSlider.value = 3
+			test_popup.show()
+			_set_paused(true)
+			
+			# Once the qoe popup is complete, unpause the game
+			yield(test_popup, "test_popup_closed")
+			_set_paused(false)
+			return
 	
 	var player_state = Global.player.state_machine.state
 	if !["win", "dead"].has(player_state):

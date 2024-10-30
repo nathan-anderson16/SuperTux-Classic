@@ -17,6 +17,8 @@
 
 extends Node2D
 
+const LEVEL_TYPE = preload("res://autoload/Scoreboard.gd").LEVEL_TYPE
+
 var level_intro = preload("res://scenes/menus/LevelIntroduction.tscn")
 
 var player_object = preload("res://scenes/player/Tux.tscn")
@@ -33,12 +35,13 @@ export var level_author = ""
 export var music = "ChipDisko" setget _set_level_music
 export var particle_system = ""
 export var uses_timer = true
-export var time = 10
+export var time = 300
 export var gravity = 10
 export var autoscroll_speed = 0.0
 export var starting_powerup = 0
 export var spawn_position = Vector2()
 export var level_height = 15
+export var level_type = LEVEL_TYPE.REGULAR
 
 # If the level uses custom music, this variable specifies
 # the time (in seconds) at which the custom music stream

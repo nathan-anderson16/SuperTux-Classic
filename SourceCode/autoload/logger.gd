@@ -1,7 +1,7 @@
 extends Node
 
 var log_file_path: String = "" 
-onready var lives_text = $Control/LifeCounter/Lives
+onready var lives_text = $"/root/Scoreboard"
 
 func _ready():
 	log_file_path = OS.get_user_data_dir() + "/logs/log.txt"
@@ -26,7 +26,7 @@ func write_log(message: String):
 	var log_message = ""
 	
 	if lives_text:
-		log_message += " Lives Text: " + lives_text.text
+		log_message += " Lives Text: " + lives_text.to_dict()
 	else:
 		log_message += " Lives Text node is null"
 	

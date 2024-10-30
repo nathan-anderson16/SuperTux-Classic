@@ -110,10 +110,10 @@ func _get_transition(delta):
 
 func _enter_state(new_state, old_state):
 	if logger != null:
-		logger.log("Entering state: %s" % new_state)
+		logger.write_log("Entering state: %s" % new_state)
 
-	if state != new_state:
-		Logger.log("State change!")
+	if old_state != new_state:
+		logger.write_log("State change!")
 	match new_state:
 		"duck":
 			host.duck_hitbox(true)

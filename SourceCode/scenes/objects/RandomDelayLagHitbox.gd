@@ -9,7 +9,7 @@ func _on_Lava_body_entered(body):
 	# If the body is invincible, don't kill it
 #	if body.get("invincible"):
 #		if body.invincible == true: return
-	print("Random Delay!")
+	print("Random Delay: ", Global.current_level.lag_min_delay)
 	if body.has_method("lag_random_delay"):
 		body.lag_random_delay((randi() % 10) + 5)
 		return

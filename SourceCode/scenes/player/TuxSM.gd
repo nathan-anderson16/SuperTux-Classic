@@ -32,6 +32,9 @@ func _ready():
 	call_deferred("set_state", "idle")
 
 func _state_logic(delta):
+	if logger != null:
+		logger.write_log("Entering state: %s" % state)
+	
 	if "dead" in state:
 		host.stop_riding_entity()
 		host.apply_gravity(delta)
@@ -109,11 +112,6 @@ func _get_transition(delta):
 	return null
 
 func _enter_state(new_state, old_state):
-	if logger != null:
-		logger.write_log("Entering state: %s" % new_state)
-
-	if old_state != new_state:
-		logger.write_log("State change!")
 	match new_state:
 		"duck":
 			host.duck_hitbox(true)

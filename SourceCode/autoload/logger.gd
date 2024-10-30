@@ -1,7 +1,7 @@
 extends Node
 
 var log_file_path: String = "" 
-onready var lives_text = $"/root/Scoreboard"
+onready var lives_text = $"/root/Scoreboard".lives_text
 
 func _ready():
 	log_file_path = OS.get_user_data_dir() + "/logs/log.txt"
@@ -20,13 +20,15 @@ func write_log(message: String):
 		
 	file.seek_end()
 	var datetime = OS.get_datetime()
-	var timestamp = str(datetime.year) + "-" + str(datetime.month).pad_zeros(2) + "-" + str(datetime.day).pad_zeros(2) + " " + str(datetime.hour).pad_zeros(2) + ":" + str(datetime.minute).pad_zeros(2) + ":" + str(datetime.second).pad_zeros(2) + "." + str(OS.get_ticks_msec() % 1000).pad_zeros(3)
+	var micro = Time.get_unix_time_from_system()
+	var final_micro = str(micro).split(".")[1]
+	var timestamp = str(datetime.year) + "-" + str(datetime.month).pad_zeros(2) + "-" + str(datetime.day).pad_zeros(2) + " " + str(datetime.hour).pad_zeros(2) + ":" + str(datetime.minute).pad_zeros(2) + ":" + str(datetime.second).pad_zeros(2) + "." + final_micro
 	file.store_line("[" + timestamp + "] " + message)
 	
 	var log_message = ""
 	
 	if lives_text:
-		log_message += " Lives Text: " + lives_text.to_dict()
+		log_message += " Lives Text: " + lives_text.text
 	else:
 		log_message += " Lives Text node is null"
 	

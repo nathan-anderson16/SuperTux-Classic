@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=21 format=2]
+[gd_resource type="TileSet" load_steps=24 format=2]
 
 [ext_resource path="res://images/enemies/spiky/walk1.png" type="Texture" id=1]
 [ext_resource path="res://images/enemies/stalactite/stalactite.png" type="Texture" id=2]
@@ -20,6 +20,9 @@
 [ext_resource path="res://images/enemies/smartball/walk1.png" type="Texture" id=18]
 [ext_resource path="res://images/enemies/smartblock/walk1.png" type="Texture" id=19]
 [ext_resource path="res://images/editor/LavaHitbox.png" type="Texture" id=20]
+[ext_resource path="res://images/editor/ProbabilityLagHitbox.png" type="Texture" id=21]
+[ext_resource path="res://images/editor/NextSpaceInputLagHitbox.png" type="Texture" id=22]
+[ext_resource path="res://images/editor/RandomDelayLagHitbox.png" type="Texture" id=23]
 
 [resource]
 2/name = "BadSnowball"
@@ -512,3 +515,66 @@
 37/shape_one_way_margin = 0.0
 37/shapes = [  ]
 37/z_index = 10
+38/name = "NextSpaceInputLagHitbox"
+38/texture = ExtResource( 22 )
+38/tex_offset = Vector2( 0, 0 )
+38/modulate = Color( 1, 1, 1, 1 )
+38/region = Rect2( 0, 0, 32, 32 )
+38/tile_mode = 2
+38/autotile/icon_coordinate = Vector2( 0, 0 )
+38/autotile/tile_size = Vector2( 32, 32 )
+38/autotile/spacing = 0
+38/autotile/occluder_map = [  ]
+38/autotile/navpoly_map = [  ]
+38/autotile/priority_map = [  ]
+38/autotile/z_index_map = [  ]
+38/occluder_offset = Vector2( 0, 0 )
+38/navigation_offset = Vector2( 0, 0 )
+38/shape_offset = Vector2( 0, 0 )
+38/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+38/shape_one_way = false
+38/shape_one_way_margin = 0.0
+38/shapes = [  ]
+38/z_index = 0
+39/name = "ProbabilityLagHitbox"
+39/texture = ExtResource( 21 )
+39/tex_offset = Vector2( 0, 0 )
+39/modulate = Color( 1, 1, 1, 1 )
+39/region = Rect2( 0, 0, 32, 32 )
+39/tile_mode = 2
+39/autotile/icon_coordinate = Vector2( 0, 0 )
+39/autotile/tile_size = Vector2( 32, 32 )
+39/autotile/spacing = 0
+39/autotile/occluder_map = [  ]
+39/autotile/navpoly_map = [  ]
+39/autotile/priority_map = [  ]
+39/autotile/z_index_map = [  ]
+39/occluder_offset = Vector2( 0, 0 )
+39/navigation_offset = Vector2( 0, 0 )
+39/shape_offset = Vector2( 0, 0 )
+39/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+39/shape_one_way = false
+39/shape_one_way_margin = 0.0
+39/shapes = [  ]
+39/z_index = 0
+40/name = "RandomDelayLagHitbox"
+40/texture = ExtResource( 23 )
+40/tex_offset = Vector2( 0, 0 )
+40/modulate = Color( 1, 1, 1, 1 )
+40/region = Rect2( 0, 0, 32, 32 )
+40/tile_mode = 2
+40/autotile/icon_coordinate = Vector2( 0, 0 )
+40/autotile/tile_size = Vector2( 32, 32 )
+40/autotile/spacing = 0
+40/autotile/occluder_map = [  ]
+40/autotile/navpoly_map = [  ]
+40/autotile/priority_map = [  ]
+40/autotile/z_index_map = [  ]
+40/occluder_offset = Vector2( 0, 0 )
+40/navigation_offset = Vector2( 0, 0 )
+40/shape_offset = Vector2( 0, 0 )
+40/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+40/shape_one_way = false
+40/shape_one_way_margin = 0.0
+40/shapes = [  ]
+40/z_index = 0

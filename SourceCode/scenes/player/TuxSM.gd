@@ -65,10 +65,33 @@ func _state_logic(delta):
 	host.update_sprite()
 	host.update_grab_position()
 	
-	if randi() % 100 == 1:
-		pass
-#		OS.delay_msec((randi() % 100) + 150)
-		#OS.delay_msec(150)
+	if ["walk", "jump"].has(state) :
+		if host.lag_delay > 0:
+			host.lag_delay = host.lag_delay - 1
+		elif host.lag_queued:
+			OS.delay_msec((randi() % 100) + 150)
+			host.lag_queued = false
+		
+		if host.intersecting_probability_fields > 0:
+			host.has_entered_field = true
+			if not host.has_probability_lagged and randi() % 100 < host.lag_chance:
+				OS.delay_msec((randi() % 100) + 150)
+				host.has_probability_lagged = true
+			else:
+				host.lag_chance += 0.1
+		else: 
+			if host.has_entered_field:
+				if not host.has_probability_lagged:
+					OS.delay_msec((randi() % 100) + 150)
+			host.has_entered_field = false
+			host.has_probability_lagged = false
+			host.lag_chance = 0
+
+	if ["jump"].has(state) :
+		if host.lag_next_jump :
+			OS.delay_msec((randi() % 100) + 150)
+			host.lag_next_jump = false
+			
 
 func _get_transition(delta):
 	match state:

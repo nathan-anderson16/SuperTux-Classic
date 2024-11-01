@@ -8,6 +8,17 @@ func _ready():
 	$AcceptablePopup/AcceptableSubmitButton.hide()
 	$AcceptablePopup.hide()
 
+func reset():
+	# Hide the necessary things
+	$QoEPopup/SubmitButton.hide()
+	$AcceptablePopup/AcceptableSubmitButton.hide()
+	$AcceptablePopup.hide()
+	$QoEPopup.show()
+	
+	# Reset values as necessary
+	$QoEPopup/QoeSlider.value = 3
+	$AcceptablePopup/HBoxContainer/NoButton.pressed = false
+	$AcceptablePopup/HBoxContainer/YesButton.pressed = false
 
 func _on_SubmitButton_pressed():
 	print("QoE: ", $QoEPopup/QoeSlider.value)

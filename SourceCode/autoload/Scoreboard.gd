@@ -243,7 +243,7 @@ func _on_LEVELTIMER_timeout():
 
 		LEVEL_TYPE.ROUND:
 			# Show the qoe popup and pause the game
-			$TestPopup/QoEPopup/QoeSlider.value = 3
+			test_popup.reset()
 			test_popup.show()
 			_set_paused(true)
 			

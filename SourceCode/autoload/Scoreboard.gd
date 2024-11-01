@@ -24,6 +24,14 @@ enum LEVEL_TYPE {
 	ROUND = 3
 }
 
+var round_paths = [
+	"res://scenes/levels/framespike/rounds/round1.tscn",
+	"res://scenes/levels/framespike/rounds/round2.tscn",
+	"res://scenes/levels/framespike/rounds/round3.tscn"
+]
+
+var current_round = 0
+
 # This node keeps track of all player variables which persist between levels,
 # such as the coin counter, lives, etc.
 
@@ -238,7 +246,7 @@ func _on_LEVELTIMER_timeout():
 		# Practice level 2 is over, so start the rounds
 		LEVEL_TYPE.PRACTICE_2:
 			print("Starting rounds")
-			# TODO: Actually load first level for the rounds
+			Global.goto_level(round_paths[0])
 			return
 
 		LEVEL_TYPE.ROUND:
@@ -250,6 +258,14 @@ func _on_LEVELTIMER_timeout():
 			# Once the qoe popup is complete, unpause the game
 			yield(test_popup, "test_popup_closed")
 			_set_paused(false)
+			current_round += 1
+			
+			# Done with all the rounds
+			if current_round >= len(round_paths):
+				print("Done with playtesting")
+				return
+			
+			Global.goto_level(round_paths[current_round])
 			return
 	
 	var player_state = Global.player.state_machine.state

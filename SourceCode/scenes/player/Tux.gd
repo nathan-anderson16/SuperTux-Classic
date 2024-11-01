@@ -72,6 +72,7 @@ var can_die = true
 
 var lag_queued = false
 var lag_delay = 0
+var lag_cooldown = 0
 
 var lag_next_jump = false
 

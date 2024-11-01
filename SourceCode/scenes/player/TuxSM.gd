@@ -29,6 +29,10 @@ func _ready():
 	add_state("riding")
 	call_deferred("set_state", "idle")
 
+func apply_lag():
+	OS.delay_msec((randi() % int(Global.current_level.lag_max_magnitude - Global.current_level.lag_min_magnitude)) + Global.current_level.lag_min_magnitude)
+	host.lag_cooldown = 500 # 50 frame lag cooldown
+	
 func _state_logic(delta):
 	if "dead" in state:
 		host.stop_riding_entity()
@@ -64,42 +68,47 @@ func _state_logic(delta):
 	
 	host.update_sprite()
 	host.update_grab_position()
-	
-	if ["walk", "jump"].has(state) :
-		if host.lag_delay > 0:
-			host.lag_delay = host.lag_delay - 1
-		elif host.lag_queued:
-			OS.delay_msec((randi() % int(Global.current_level.lag_max_magnitude - Global.current_level.lag_min_magnitude)) + Global.current_level.lag_min_magnitude)
-			host.lag_queued = false
-		
-		if host.intersecting_probability_fields > 0:
-			host.has_entered_field = true
-			if not host.has_probability_lagged and randi() % 100 < host.lag_chance:
-				OS.delay_msec((randi() % 100) + 150)
-				host.has_probability_lagged = true
-			else:
-				host.lag_chance += 0.1
-		else: 
-			if host.has_entered_field:
-				if not host.has_probability_lagged:
-					OS.delay_msec((randi() % 100) + 150)
-			host.has_entered_field = false
-			host.has_probability_lagged = false
-			host.lag_chance = 0
-		
-		if host.intersecting_lag_fields > 0:
-			host.has_entered_delay_field = true
-		else: 
-			if host.has_entered_delay_field:
-				host.lag_delay = (randi() % int(Global.current_level.lag_max_delay - Global.current_level.lag_min_delay)) + Global.current_level.lag_min_delay
-				host.lag_queued = true
-			host.has_entered_delay_field = false
-
-	if ["jump"].has(state) :
-		if host.lag_next_jump :
-			OS.delay_msec((randi() % 100) + 150)
-			host.lag_next_jump = false
+	if host.lag_cooldown <= 0 :
+		if ["walk", "jump"].has(state) :
+			if host.lag_delay > 0:
+				host.lag_delay = host.lag_delay - 1
+			elif host.lag_queued:
+				#OS.delay_msec((randi() % int(Global.current_level.lag_max_magnitude - Global.current_level.lag_min_magnitude)) + Global.current_level.lag_min_magnitude)
+				apply_lag()
+				host.lag_queued = false
 			
+			if host.intersecting_probability_fields > 0:
+				host.has_entered_field = true
+				if not host.has_probability_lagged and randi() % 100 < host.lag_chance:
+					#OS.delay_msec((randi() % 100) + 150)
+					apply_lag()
+					host.has_probability_lagged = true
+				else:
+					host.lag_chance += 0.1
+			else: 
+				if host.has_entered_field:
+					if not host.has_probability_lagged:
+						#OS.delay_msec((randi() % 100) + 150)
+						apply_lag()
+				host.has_entered_field = false
+				host.has_probability_lagged = false
+				host.lag_chance = 0
+			
+			if host.intersecting_lag_fields > 0:
+				host.has_entered_delay_field = true
+			else: 
+				if host.has_entered_delay_field:
+					host.lag_delay = (randi() % int(Global.current_level.lag_max_delay - Global.current_level.lag_min_delay)) + Global.current_level.lag_min_delay
+					host.lag_queued = true
+				host.has_entered_delay_field = false
+
+		if ["jump"].has(state) :
+			if host.lag_next_jump :
+				#OS.delay_msec((randi() % 100) + 150)
+				apply_lag()
+				host.lag_next_jump = false
+	else :
+		host.lag_cooldown -= 1
 
 func _get_transition(delta):
 	match state:

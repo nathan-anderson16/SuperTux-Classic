@@ -69,7 +69,7 @@ func _state_logic(delta):
 		if host.lag_delay > 0:
 			host.lag_delay = host.lag_delay - 1
 		elif host.lag_queued:
-			OS.delay_msec((randi() % 100) + 150)
+			OS.delay_msec((randi() % int(Global.current_level.lag_max_magnitude - Global.current_level.lag_min_magnitude)) + Global.current_level.lag_min_magnitude)
 			host.lag_queued = false
 		
 		if host.intersecting_probability_fields > 0:
@@ -86,6 +86,14 @@ func _state_logic(delta):
 			host.has_entered_field = false
 			host.has_probability_lagged = false
 			host.lag_chance = 0
+		
+		if host.intersecting_lag_fields > 0:
+			host.has_entered_delay_field = true
+		else: 
+			if host.has_entered_delay_field:
+				host.lag_delay = (randi() % int(Global.current_level.lag_max_delay - Global.current_level.lag_min_delay)) + Global.current_level.lag_min_delay
+				host.lag_queued = true
+			host.has_entered_delay_field = false
 
 	if ["jump"].has(state) :
 		if host.lag_next_jump :

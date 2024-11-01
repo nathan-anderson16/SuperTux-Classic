@@ -76,6 +76,9 @@ var lag_delay = 0
 var lag_next_jump = false
 
 var intersecting_probability_fields = 0
+var intersecting_lag_fields = 0
+var has_entered_delay_field = false
+
 var lag_chance = 0
 var has_probability_lagged = false
 var has_entered_field = false
@@ -410,9 +413,13 @@ func hurt(hurting_body):
 			self.state -= 1
 			set_invincible()
 
-func lag_random_delay(count) :
-	lag_delay = count
-	lag_queued = true
+func enter_delay_lag_field() :
+	intersecting_lag_fields += 1
+	print(intersecting_lag_fields)
+
+func exit_delay_lag_field() :
+	intersecting_lag_fields -= 1
+	print(intersecting_lag_fields)
 
 func entered_lag_field() :
 	intersecting_probability_fields += 1

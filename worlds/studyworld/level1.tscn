@@ -49,9 +49,13 @@ level_author = "FPSci"
 music = "ChipDisko"
 particle_system = ""
 uses_timer = true
-time = 10.0
+time = 60.0
 gravity = 10
 autoscroll_speed = 0.0
+lag_min_delay = 5.0
+lag_max_delay = 15.0
+lag_min_magnitude = 500.0
+lag_max_magnitude = 750.0
 starting_powerup = 0
 spawn_position = Vector2( 3, 13 )
 level_height = 15
@@ -66,7 +70,7 @@ child_editor_params = {
 current_scene = "Snow"
 
 [node name="SnowBG" type="ParallaxBackground" parent="BG Image" instance=ExtResource( 6 )]
-scroll_offset = Vector2( -3472.78, 0 )
+scroll_offset = Vector2( -1802.32, 0 )
 
 [node name="Background" type="TileMap" parent="." groups=["stc_tilemaps"] instance=ExtResource( 3 )]
 material = SubResource( 6 )
@@ -155,6 +159,6 @@ custom_autotile_tiles = [ "Water1", "Water2", "Water3", "Water4", "WaterFill", "
 tile_set = ExtResource( 7 )
 cell_size = Vector2( 32, 32 )
 format = 1
-tile_data = PoolIntArray( 393403, 536870940, 0, 524486, 27, 0, 720909, 536870926, 0, 851971, 5, 0 )
+tile_data = PoolIntArray( 393403, 536870940, 0, 524486, 27, 0, 720909, 536870926, 0, 720986, 536870952, 0, 720987, 536870952, 0, 720988, 536870952, 0, 786522, 536870952, 0, 786523, 536870952, 0, 786524, 536870952, 0, 851971, 5, 0, 852058, 536870952, 0, 852059, 536870952, 0, 852060, 536870952, 0 )
 script = ExtResource( 10 )
 enabled = true

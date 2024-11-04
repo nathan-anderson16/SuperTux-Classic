@@ -33,7 +33,7 @@ func _ready():
 
 func _state_logic(delta):
 	if logger != null:
-		logger.write_log("Entering state: %s" % state)
+		logger.write_log("Entering state: %s" + state)
 	
 	if "dead" in state:
 		host.stop_riding_entity()

@@ -1,13 +1,20 @@
 extends Node
 
 var log_file_path: String = "" 
+var tux_file: Node = null
 
 func _ready():
-	log_file_path = OS.get_user_data_dir() + "/logs/log.txt"
+	
+	#var tux_file = TuxGlobal
+	var datetime = OS.get_datetime()
+	var log_title_timestamp = str(datetime.year) + "-" + str(datetime.month).pad_zeros(2) + "-" + str(datetime.day).pad_zeros(2) + "_" + str(datetime.hour).pad_zeros(2) + "-" + str(datetime.minute).pad_zeros(2) + "-" + str(datetime.second).pad_zeros(2)
+	log_file_path = OS.get_user_data_dir() + "/logs/log_" + log_title_timestamp + ".csv"
 	
 	var dir = Directory.new()
 	if !dir.dir_exists(OS.get_user_data_dir() + "/logs"):
-		dir.make_dir(OS.get_user_data_dir() + "/logs")
+		var make_dir_result = dir.make_dir(OS.get_user_data_dir() + "/logs")
+		if make_dir_result != OK:
+			print("Failed to create logs directory!")
 	
 func write_log(message: String):
 	
@@ -21,20 +28,25 @@ func write_log(message: String):
 	
 	var error = file.open(log_file_path, File.READ_WRITE)
 	if error != OK:
-		print("Failed to open log file!")
+		file.open(log_file_path, File.WRITE)
+		print("No Log File Found, Creating A New One!")
 		return
-		
+	
 	file.seek_end()
 	var datetime = OS.get_datetime()
 	var micro = str(Time.get_unix_time_from_system()).split(".")[1]
 	var timestamp = str(datetime.year) + "-" + str(datetime.month).pad_zeros(2) + "-" + str(datetime.day).pad_zeros(2) + " " + str(datetime.hour).pad_zeros(2) + ":" + str(datetime.minute).pad_zeros(2) + ":" + str(datetime.second).pad_zeros(2) + "." + micro
-	file.store_line("[" + timestamp + "] " + message)
 	
-	var starter_message = "Level, Lives, Timer, Coin, Deaths"
-	var log_message = ""
+	if file.get_len() == 0:
+		var header = "Timestamp,Level,Lives,Timer,Coins,Deaths"
+		file.store_line(header)
+	
+	var log_message = timestamp + ","
 	
 	if current_level_path:
-		log_message += str(current_level_path) + ","
+		var level_parts = current_level_path.split("/")
+		var level_result = (level_parts[-1]).split(".")[0]
+		log_message += level_result + ","
 	else:
 		log_message += "null,"
 		
@@ -58,8 +70,5 @@ func write_log(message: String):
 	else:
 		log_message += str(0)
 
-	
-	file.store_line(starter_message)
-	file.store_line("[" + timestamp + "] " + log_message)
-	
+	file.store_line(log_message)
 	file.close()

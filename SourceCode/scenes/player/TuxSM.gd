@@ -28,12 +28,12 @@ func _ready():
 	add_state("win_inside_igloo")
 	add_state("riding")
 	set_logger(get_node("/root/Logger")) 
-	print("Log file absolute path: " + ProjectSettings.globalize_path(logger.log_file_path))
+	print("Log file absolute path: " + ProjectSettings.globalize_path(logger.frame_log_path))
 	call_deferred("set_state", "idle")
 
 func _state_logic(delta):
 	if logger != null:
-		logger.write_log("Entering state: %s" + state)
+		logger.log_frame()
 	
 	if "dead" in state:
 		host.stop_riding_entity()
@@ -115,8 +115,12 @@ func _enter_state(new_state, old_state):
 	match new_state:
 		"duck":
 			host.duck_hitbox(true)
+	if logger != null:
+		logger.log_event()
 
 func _exit_state(old_state, new_state):
 	match old_state:
 		"duck":
 			host.duck_hitbox(false)
+	if logger != null:
+		logger.log_event()

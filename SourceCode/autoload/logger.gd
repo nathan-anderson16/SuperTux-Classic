@@ -1,14 +1,18 @@
 extends Node
 
-var log_file_path: String = "" 
+var frame_log_path: String = "" 
+var event_log_path: String = "" 
 var tux_file: Node = null
+var previous_state = ""
+var init = false
 
 func _ready():
 	
-	#var tux_file = TuxGlobal
+	set_process(true)
 	var datetime = OS.get_datetime()
 	var log_title_timestamp = str(datetime.year) + "-" + str(datetime.month).pad_zeros(2) + "-" + str(datetime.day).pad_zeros(2) + "_" + str(datetime.hour).pad_zeros(2) + "-" + str(datetime.minute).pad_zeros(2) + "-" + str(datetime.second).pad_zeros(2)
-	log_file_path = OS.get_user_data_dir() + "/logs/log_" + log_title_timestamp + ".csv"
+	frame_log_path = OS.get_user_data_dir() + "/logs/frame_log_" + log_title_timestamp + ".csv"
+	event_log_path = OS.get_user_data_dir() + "/logs/event_log_" + log_title_timestamp + ".csv"
 	
 	var dir = Directory.new()
 	if !dir.dir_exists(OS.get_user_data_dir() + "/logs"):
@@ -16,59 +20,76 @@ func _ready():
 		if make_dir_result != OK:
 			print("Failed to create logs directory!")
 	
-func write_log(message: String):
+	initialize_logs()
+	init = true
 	
-	var current_level_path = $"/root/Global".current_level_path
-	var lives_text = $"/root/Scoreboard".lives_text
-	var timer_text = $"/root/Scoreboard".timer_text
-	var coins_text = $"/root/Scoreboard".coins_text
-	var number_of_deaths = $"/root/Scoreboard".number_of_deaths
+func initialize_logs():
+	create_log(frame_log_path, "Timestamp,Level,State,Timer,Coins,Lives,Deaths,X-Position,Y-Position,X-Velocity,Y-Velocity")
+	create_log(event_log_path, "Timestamp,Level,State,Timer,Coins,Lives,Deaths")
 	
+func create_log(path: String, header: String):
 	var file = File.new()
+	if file.open(path, File.WRITE) == OK:
+		file.store_line(header)
+	file.close()
 	
-	var error = file.open(log_file_path, File.READ_WRITE)
-	if error != OK:
-		file.open(log_file_path, File.WRITE)
-		print("No Log File Found, Creating A New One!")
+func log_frame():
+	if !init:
 		return
-	
-	file.seek_end()
+		
 	var datetime = OS.get_datetime()
 	var micro = str(Time.get_unix_time_from_system()).split(".")[1]
-	var timestamp = str(datetime.year) + "-" + str(datetime.month).pad_zeros(2) + "-" + str(datetime.day).pad_zeros(2) + " " + str(datetime.hour).pad_zeros(2) + ":" + str(datetime.minute).pad_zeros(2) + ":" + str(datetime.second).pad_zeros(2) + "." + micro
+	var timestamp =  str(datetime.hour).pad_zeros(2) + ":" + str(datetime.minute).pad_zeros(2) + ":" + str(datetime.second).pad_zeros(2) + "." + micro
+	var current_level_path = $"/root/Global".current_level_path
+	var level_parts = current_level_path.split("/")
+	var level_result = (level_parts[-1]).split(".")[0]
+	var state = Global.player.state_machine.state
+	var timer = str($"/root/Scoreboard".timer_text.text)
+	var coins = str($"/root/Scoreboard".coins_text.text)
+	var lives = str($"/root/Scoreboard".lives_text.text)
+	var deaths = str($"/root/Scoreboard".number_of_deaths)
+	var x_position = str(Global.player.get_position()).split("(")[1].split(",")[0]
+	var y_position = str(Global.player.get_position()).split(",")[1].split(")")[0].split(" ")[1]
+	var x_velocity = str(Global.player.velocity).split("(")[1].split(",")[0]
+	var y_velocity = str(Global.player.velocity).split(",")[1].split(")")[0].split(" ")[1]
+	var fps = str(Engine.get_frames_per_second())
+	var tick_rate = str(Engine.iterations_per_second)
 	
-	if file.get_len() == 0:
-		var header = "Timestamp,Level,Lives,Timer,Coins,Deaths"
-		file.store_line(header)
+	var frame_message = timestamp + "," + level_result + "," + state + "," + timer + "," + coins + "," + lives + "," + deaths + "," + x_position + "," + y_position + "," + x_velocity + "," + y_velocity + "," + fps + "," + tick_rate
+	write_to_file(frame_log_path, frame_message)
 	
-	var log_message = timestamp + ","
-	
-	if current_level_path:
-		var level_parts = current_level_path.split("/")
-		var level_result = (level_parts[-1]).split(".")[0]
-		log_message += level_result + ","
-	else:
-		log_message += "null,"
+func log_event():
+	if !init:
+		return
 		
-	if lives_text:
-		log_message += lives_text.text + ","
-	else:
-		log_message += "null,"
-		
-	if timer_text:
-		log_message += timer_text.text + ","
-	else:
-		log_message += "null,"
+	var datetime = OS.get_datetime()
+	var micro = str(Time.get_unix_time_from_system()).split(".")[1]
+	var timestamp =  str(datetime.hour).pad_zeros(2) + ":" + str(datetime.minute).pad_zeros(2) + ":" + str(datetime.second).pad_zeros(2) + "." + micro
+	var current_level_path = $"/root/Global".current_level_path
+	var level_parts = current_level_path.split("/")
+	var level_result = (level_parts[-1]).split(".")[0]
+	var state = Global.player.state_machine.state
+	var timer = str($"/root/Scoreboard".timer_text.text)
+	var coins = str($"/root/Scoreboard".coins_text.text)
+	var lives = str($"/root/Scoreboard".lives_text.text)
+	var deaths = str($"/root/Scoreboard".number_of_deaths)
 	
-	if coins_text:
-		log_message += coins_text.text + ","
-	else:
-		log_message += "null,"
+	var event_message = timestamp + "," + level_result + "," + state + "," + timer + "," + coins + "," + lives + "," + deaths
+	write_to_file(event_log_path, event_message)
 	
-	if number_of_deaths:
-		log_message += str(number_of_deaths)
-	else:
-		log_message += str(0)
-
-	file.store_line(log_message)
-	file.close()
+func write_to_file(path: String, message: String):
+		var file = File.new()
+		if file.open(path, File.READ_WRITE) == OK:
+			file.seek_end()
+			file.store_line(message)
+		file.close()
+	
+func _process(delta):
+	if is_instance_valid(Global.player):
+		var state_machine = Global.player.get_node("state_machine")
+		if state_machine != null:
+			var current_state = state_machine.state
+			log_frame()
+			if current_state != previous_state:
+				log_event()
+				previous_state = current_state

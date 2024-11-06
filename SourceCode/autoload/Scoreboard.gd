@@ -203,11 +203,22 @@ func game_over():
 	Global.spawn_position = null
 	Global.respawn_player()
 	
+func _set_paused(new_value):
+	# paused = new_value
+	get_tree().paused = new_value
+	Scoreboard.level_timer.paused = new_value
+
 func _on_LEVELTIMER_timeout():
 	if Global.player == null: return
 	
+	# Show the qoe popup and pause the game
+	$TestPopup/QoEPopup/QoeSlider.value = 3
 	test_popup.show()
+	_set_paused(true)
+	
+	# Once the qoe popup is complete, unpause the game
 	yield(test_popup, "test_popup_closed")
+	_set_paused(false)
 	
 	var player_state = Global.player.state_machine.state
 	if !["win", "dead"].has(player_state):

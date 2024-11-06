@@ -29,9 +29,12 @@ func _ready():
 	add_state("riding")
 	call_deferred("set_state", "idle")
 
+func duration_from_msec(value: float) :
+	return value / 1000.0
+	
 func apply_lag():
 	OS.delay_msec((randi() % int(Global.current_level.lag_max_magnitude - Global.current_level.lag_min_magnitude)) + Global.current_level.lag_min_magnitude)
-	host.lag_cooldown = 500 # 50 frame lag cooldown
+	host.lag_cooldown = duration_from_msec(500.0)
 	
 func _state_logic(delta):
 	if "dead" in state:
@@ -71,7 +74,7 @@ func _state_logic(delta):
 	if host.lag_cooldown <= 0 :
 		if ["walk", "jump"].has(state) :
 			if host.lag_delay > 0:
-				host.lag_delay = host.lag_delay - 1
+				host.lag_delay -= Engine.get_main_loop().root.get_physics_process_delta_time()
 			elif host.lag_queued:
 				#OS.delay_msec((randi() % int(Global.current_level.lag_max_magnitude - Global.current_level.lag_min_magnitude)) + Global.current_level.lag_min_magnitude)
 				apply_lag()
@@ -98,7 +101,7 @@ func _state_logic(delta):
 				host.has_entered_delay_field = true
 			else: 
 				if host.has_entered_delay_field:
-					host.lag_delay = (randi() % int(Global.current_level.lag_max_delay - Global.current_level.lag_min_delay)) + Global.current_level.lag_min_delay
+					host.lag_delay = duration_from_msec((randi() % int(Global.current_level.lag_max_delay - Global.current_level.lag_min_delay)) + Global.current_level.lag_min_delay)
 					host.lag_queued = true
 				host.has_entered_delay_field = false
 
@@ -108,7 +111,8 @@ func _state_logic(delta):
 				apply_lag()
 				host.lag_next_jump = false
 	else :
-		host.lag_cooldown -= 1
+		host.lag_cooldown -= Engine.get_main_loop().root.get_physics_process_delta_time()
+
 
 func _get_transition(delta):
 	match state:

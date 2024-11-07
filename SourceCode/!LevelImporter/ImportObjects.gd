@@ -43,6 +43,7 @@ var object_types = {
 
 	"point" : "!Checkpoint",
 	"level" : "level",
+	"checkpoint": "ResetCheckpoint"
 }
 
 var smart_enemies = {

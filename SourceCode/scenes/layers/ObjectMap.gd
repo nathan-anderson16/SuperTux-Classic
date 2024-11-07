@@ -35,6 +35,7 @@ var tile_entities = {
 	"!EndGoalIgloo" : "objects/EndGoalIgloo",
 	
 	"!Checkpoint" : "objects/Checkpoint",
+	"ResetCheckpoint": "objects/ResetCheckpoint",
 	
 	# Objects
 	"ObjCoin" : "objects/Coin",

@@ -57,6 +57,7 @@ var accepted_music_file_types = [".mp3", ".wav", ".ogg"]
 #var hovered_objects = []
 
 signal scene_loaded
+signal scene_reset
 signal player_loaded
 signal level_ready # EMITS AFTER THE LEVEL TITLE CARD HAS DISAPPEARED
 signal options_data_created
@@ -93,7 +94,7 @@ func _update_gravity(new_value):
 
 func respawn_player():
 	if current_level == current_scene:
-		goto_level(current_level_path)
+		reset_level()
 	else:
 		emit_signal("player_died")
 
@@ -104,6 +105,12 @@ func goto_level(path, reset_checkpoint = false):
 	if path != current_level_path: Scoreboard.number_of_deaths = 0
 	
 	goto_scene(path)
+
+func reset_level():
+	spawn_position = null
+	
+	call_deferred("_deferred_reset_scene")
+	yield(self, "scene_reset")
 
 func goto_title_screen():
 	goto_scene(title_screen_scene)
@@ -123,6 +130,29 @@ func goto_scene(path, loading_level = false):
 	
 	call_deferred("_deferred_goto_scene", path, loading_level)
 	yield(self, "scene_loaded")
+
+func _deferred_reset_scene():
+	get_tree().paused = true
+	Engine.time_scale = 1
+	
+	var preserved_time = Scoreboard.level_timer.time_left
+	
+	current_scene.free()
+	current_level = null
+	player = null
+	
+		# Load the new scene.
+	var s = ResourceLoader.load(self.current_level_path)
+	
+	# Instance the new scene.
+	current_scene = s.instance()
+	current_scene.time = preserved_time
+	
+	# Add it to the active scene, as child of root.
+	get_tree().get_root().add_child(current_scene)
+	
+	get_tree().paused = false
+	emit_signal("scene_reset")
 
 func _deferred_goto_scene(path, loading_level = false):
 	get_tree().paused = true

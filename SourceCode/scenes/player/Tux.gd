@@ -427,9 +427,9 @@ func die():
 	if !can_die: return
 	
 	Scoreboard.number_of_deaths += 1
-	Scoreboard.lives -= 1
+#	Scoreboard.lives -= 1
 	Scoreboard.player_initial_state = states.SMALL
-	Scoreboard.stop_level_timer()
+#	Scoreboard.stop_level_timer()
 	
 	sfx.play("Hurt")
 	self.invincible = false

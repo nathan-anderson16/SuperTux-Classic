@@ -36,6 +36,7 @@ func _get_object_icon(path : String, texture : Texture, user_data):
 	sprite.texture = texture
 
 func _on_TileButton_pressed():
+	print("Hello!")
 	emit_signal("object_button_pressed", object_resource)
 	set_preview_texture()
 

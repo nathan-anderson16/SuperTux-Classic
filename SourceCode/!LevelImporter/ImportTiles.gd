@@ -50,6 +50,9 @@ export var object_tiles = {
 	112: "ObjBonusInvisible",
 	
 	174 : "HazLavaHitbox",
+	296 : "RandomDelayLagHitbox",
+	297 : "ProbabilityLagHitbox",
+	298 : "NextSpaceInputLagHitbox",
 	
 	77: "ObjBrick",
 	78: "ObjSBrick",

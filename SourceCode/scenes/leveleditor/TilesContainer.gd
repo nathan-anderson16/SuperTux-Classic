@@ -53,7 +53,7 @@ func show_tiles_from_tilemap(tilemap : TileMap):
 	for tile in tile_ids:
 		
 		var tile_name = tileset.tile_get_name(tile)
-		
+		print(tile_name, tile)
 		# SuperTux Classic tilemaps have some custom properties, like groups of tiles and tiles to be ignored by the tiles editor
 		if tilemap.is_in_group("stc_tilemaps"):
 			# If the tile is in the ignored tiles list, don't add it to the list of tiles.

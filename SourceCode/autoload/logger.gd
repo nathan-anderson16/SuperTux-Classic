@@ -23,9 +23,12 @@ func _ready():
 	initialize_logs()
 	init = true
 	
+func get_event_log_path() -> String:
+	return event_log_path
+
 func initialize_logs():
 	create_log(frame_log_path, "Timestamp,Level,State,Timer,Coins,Lives,Deaths,X-Position,Y-Position,X-Velocity,Y-Velocity,FPS,TickRate")
-	create_log(event_log_path, "Timestamp,Level,State,Timer,Coins,Lives,Deaths")
+	create_log(event_log_path, "Timestamp,Level,State,Timer,Coins,Lives,Deaths,Message")
 	
 func create_log(path: String, header: String):
 	var file = File.new()
@@ -58,7 +61,7 @@ func log_frame():
 	var frame_message = timestamp + "," + level_result + "," + state + "," + timer + "," + coins + "," + lives + "," + deaths + "," + x_position + "," + y_position + "," + x_velocity + "," + y_velocity + "," + fps + "," + tick_rate
 	write_to_file(frame_log_path, frame_message)
 	
-func log_event():
+func log_event(message: String = ""):
 	if !init:
 		return
 		
@@ -74,7 +77,7 @@ func log_event():
 	var lives = str($"/root/Scoreboard".lives_text.text)
 	var deaths = str($"/root/Scoreboard".number_of_deaths)
 	
-	var event_message = timestamp + "," + level_result + "," + state + "," + timer + "," + coins + "," + lives + "," + deaths
+	var event_message = timestamp + "," + level_result + "," + state + "," + timer + "," + coins + "," + lives + "," + deaths + "," + message
 	write_to_file(event_log_path, event_message)
 	
 func write_to_file(path: String, message: String):

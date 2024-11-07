@@ -18,6 +18,7 @@ func _ready():
 
 func _on_SubmitButton_pressed():
 	print("QoE: ", qoe_slider.value)
+	Logger.log_event("QoE Score: " + str(qoe_slider.value))
 	qoe_popup.hide()
 	acceptable_popup.show()
 
@@ -29,6 +30,10 @@ func _on_QoeSlider_gui_input(event):
 
 func _on_AcceptableSubmitButton_pressed():
 	print("Acceptable: ", "No" if acceptable_no_button.pressed else "Yes")
+	if(acceptable_no_button.pressed):
+		Logger.log_event("Acceptable?: No")
+	else:
+		Logger.log_event("Acceptable?: Yes")
 	self.hide()
 	emit_signal("test_popup_closed")
 

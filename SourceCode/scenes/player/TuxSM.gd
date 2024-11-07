@@ -160,11 +160,11 @@ func _enter_state(new_state, old_state):
 		"duck":
 			host.duck_hitbox(true)
 	if logger != null:
-		logger.log_event()
+		logger.log_event("Entering New State")
 
 func _exit_state(old_state, new_state):
 	match old_state:
 		"duck":
 			host.duck_hitbox(false)
 	if logger != null:
-		logger.log_event()
+		logger.log_event("Exiting State")

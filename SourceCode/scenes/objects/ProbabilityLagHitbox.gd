@@ -12,6 +12,7 @@ func _on_Lava_body_entered(body):
 	print("Probability Lag Entered!")
 	if body.has_method("entered_lag_field"):
 		body.entered_lag_field()
+		Logger.log_event("Probability Lag Enter")
 		return
 
 func _on_Lava_body_exited(body):
@@ -21,4 +22,5 @@ func _on_Lava_body_exited(body):
 	print("Probability Lag Exited!")
 	if body.has_method("exited_lag_field"):
 		body.exited_lag_field()
+		Logger.log_event("Probability Lag Exit")
 		return

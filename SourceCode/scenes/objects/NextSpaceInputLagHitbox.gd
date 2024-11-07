@@ -11,5 +11,6 @@ func _on_Lava_body_entered(body):
 #		if body.invincible == true: return
 	print("Next Space Input Lag!")
 	if body.has_method("lag_space_input"):
+		Logger.log_event("Next Space Lag Enter")
 		body.lag_space_input()
 		return

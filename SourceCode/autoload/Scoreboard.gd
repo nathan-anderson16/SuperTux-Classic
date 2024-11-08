@@ -63,6 +63,7 @@ var number_of_deaths = 0
 var level_timer_enabled = false
 var tick_time = 999
 var message_text = "" setget update_message_text
+var score = 0
 
 var score_visible = true
 
@@ -94,7 +95,7 @@ func _draw():
 		var time_left = ceil(level_timer.time_left)
 		timer_text.text = str(time_left)
 	
-	coins_text.text = str(coins)
+	coins_text.text = str(score)
 	
 	lives_text.text = str( max(lives, 0) )
 
@@ -123,6 +124,9 @@ func set_level_timer(time):
 	level_timer.start(time)
 	timer_ui.show()
 
+func add_score(value):
+	score += value
+
 func _set_coin_count(new_value):
 	coins = new_value
 	if coins >= 100:
@@ -145,6 +149,7 @@ func show(include_lives_count = true):
 
 func reset_player_values(game_over = false, reset_state = true):
 	coins = initial_coins
+	score = 0
 	lives = game_over_lives if game_over else initial_lives
 	if reset_state: player_initial_state = initial_state
 

@@ -60,6 +60,11 @@ func _ready():
 	Global.current_level = self
 	set_pause_mode(PAUSE_MODE_STOP)
 	
+#	var default_spawn_position = spawn_position
+#	var spawn_offset = (randf() * 2.0) - 10.0
+#	spawn_position.x += spawn_offset
+#	print(spawn_position)
+#
 	# Only automatically start levels if the level is the root scene.
 	# This is not the case when we are in the level editor, because
 	# the level is a child of the LevelEditor scene.
@@ -75,9 +80,10 @@ func activate_objectmaps():
 func start_level(in_editor = false):
 	activate_objectmaps()
 	
-	yield(get_tree(), "idle_frame")
+	var spawn_offset = (randf() * 2.0) - 1.0
+	spawn_position.x += spawn_offset
 	
-	#print(spawn_position)
+	yield(get_tree(), "idle_frame")
 	
 	ResolutionManager.connect("window_resized", self, "window_resized")
 	Scoreboard.show(!in_editor)

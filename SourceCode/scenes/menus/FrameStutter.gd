@@ -20,6 +20,7 @@ func _on_Submit_focus_entered():
 
 func _on_Submit_pressed():
 	print("User ID: ", user_id.text)
+	Scoreboard.reset_player_values()
 	SaveManager.new_game("res://scenes/levels/framespike/playtest.tscn")
 
 func _on_UserID_text_changed():

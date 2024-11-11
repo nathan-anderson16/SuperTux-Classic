@@ -267,7 +267,8 @@ func _on_LEVELTIMER_timeout():
 			
 			# Done with all the rounds
 			if current_round >= len(round_paths):
-				Global.goto_title_screen()
+				self.hide()
+				Global.goto_scene("res://scenes/menus/ThankYou.tscn")
 				return
 			
 			Global.goto_level(round_paths[current_round])

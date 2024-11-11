@@ -58,6 +58,7 @@ onready var game_over_screen = $Control/GameOverScreen
 onready var sfx = $SFX
 onready var message_text_object = $Message
 onready var test_popup = $TestPopup
+onready var next_level_popup = $NextLevelPopup
 
 var number_of_deaths = 0
 var level_timer_enabled = false
@@ -245,12 +246,21 @@ func _on_LEVELTIMER_timeout():
 		
 		# Practice level 1 is over, send the player to practice level 2
 		LEVEL_TYPE.PRACTICE_1:
+			next_level_popup.show()
+			_set_paused(true)
+			yield(next_level_popup, "next_level_popup_closed")
+			_set_paused(false)
+			
 			Global.goto_level("res://scenes/levels/framespike/playtest_spike.tscn")
 			return
 		
 		# Practice level 2 is over, so start the rounds
 		LEVEL_TYPE.PRACTICE_2:
-			print("Starting rounds")
+			next_level_popup.show()
+			_set_paused(true)
+			yield(next_level_popup, "next_level_popup_closed")
+			_set_paused(false)
+			
 			Global.goto_level(round_paths[0])
 			return
 
@@ -263,6 +273,7 @@ func _on_LEVELTIMER_timeout():
 			# Once the qoe popup is complete, unpause the game
 			yield(test_popup, "test_popup_closed")
 			_set_paused(false)
+			
 			current_round += 1
 			
 			# Done with all the rounds
@@ -270,9 +281,14 @@ func _on_LEVELTIMER_timeout():
 				self.hide()
 				Global.goto_scene("res://scenes/menus/ThankYou.tscn")
 				return
-			
-			Global.goto_level(round_paths[current_round])
-			return
+			else:
+				# Wait for the user to click the "Next Level" button
+				next_level_popup.show()
+				_set_paused(true)
+				yield(next_level_popup, "next_level_popup_closed")
+				_set_paused(false)
+				Global.goto_level(round_paths[current_round])
+				return
 	
 	var player_state = Global.player.state_machine.state
 	if !["win", "dead"].has(player_state):

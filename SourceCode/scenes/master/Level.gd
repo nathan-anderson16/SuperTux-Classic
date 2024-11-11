@@ -106,9 +106,9 @@ func start_level(in_editor = false):
 	else: Scoreboard.disable_level_timer()
 	
 	# Display the level title card and wait until it disappears
-	if !is_worldmap and !in_editor: yield(_level_title_card(), "completed")
-	else:
-		Global.emit_signal("level_ready")
+#	if !is_worldmap and !in_editor: yield(_level_title_card(), "completed")
+#	else:
+	Global.emit_signal("level_ready")
 	
 	# Then we load the pause menu into the level so you can pause the game
 	if !in_editor: _load_pause_menu(in_editor)

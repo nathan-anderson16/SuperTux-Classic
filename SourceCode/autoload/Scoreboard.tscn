@@ -90,16 +90,15 @@ texture = ExtResource( 5 )
 [node name="Coins" type="Label" parent="Control/CoinCounter"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -124.0
+margin_left = -285.0
 margin_top = 20.0
 margin_right = -65.0
-margin_bottom = 45.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 50, 0 )
 custom_colors/font_color = Color( 1, 1, 0, 1 )
 custom_fonts/font = ExtResource( 7 )
 text = "100"
 align = 2
-clip_text = true
 
 [node name="GameOverScreen" parent="Control" instance=ExtResource( 8 )]
 mouse_filter = 2

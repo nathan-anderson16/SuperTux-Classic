@@ -1,7 +1,9 @@
 extends Node
 
 var frame_log_path: String = "" 
+var frame_logs: Array = [] 
 var event_log_path: String = "" 
+var event_logs: Array = []
 var tux_file: Node = null
 var previous_state = ""
 var init = false
@@ -23,6 +25,23 @@ func _ready():
 	initialize_logs()
 	init = true
 	
+func _input(event):
+	if event is InputEventKey and event.pressed:
+		var action_name = ""
+		
+		if Input.is_action_pressed("ui_left"):
+			action_name = "Pressed Move Left"
+			
+		if Input.is_action_pressed("ui_right"):
+			action_name = "Pressed Move Right"
+			
+		if Input.is_action_pressed("jump"):
+			action_name = "Pressed Jump"
+			
+		if action_name != "":
+			log_event("Player input: " + action_name)
+			print(action_name)
+
 func get_event_log_path() -> String:
 	return event_log_path
 
@@ -59,7 +78,7 @@ func log_frame():
 	var tick_rate = str(Engine.iterations_per_second)
 	
 	var frame_message = timestamp + "," + level_result + "," + state + "," + timer + "," + coins + "," + lives + "," + deaths + "," + x_position + "," + y_position + "," + x_velocity + "," + y_velocity + "," + fps + "," + tick_rate
-	write_to_file(frame_log_path, frame_message)
+	frame_logs.append(frame_message)
 	
 func log_event(message: String = ""):
 	if !init:
@@ -78,14 +97,22 @@ func log_event(message: String = ""):
 	var deaths = str($"/root/Scoreboard".number_of_deaths)
 	
 	var event_message = timestamp + "," + level_result + "," + state + "," + timer + "," + coins + "," + lives + "," + deaths + "," + message
-	write_to_file(event_log_path, event_message)
+	event_logs.append(event_message)
 	
-func write_to_file(path: String, message: String):
-		var file = File.new()
-		if file.open(path, File.READ_WRITE) == OK:
-			file.seek_end()
-			file.store_line(message)
-		file.close()
+func write_to_disk(path: String, message: String):
+	var file = File.new()
+	if file.open(frame_log_path, File.WRITE) == OK:
+		for frame_message in frame_logs:
+			file.store_line(frame_message)
+	file.close()
+	
+	if file.open(event_log_path, File.WRITE) == OK:
+		for event_message in event_logs:
+			file.store_line(event_message)
+	file.close()
+	
+	frame_logs.clear()
+	event_logs.clear()
 	
 func _process(delta):
 	if is_instance_valid(Global.player):

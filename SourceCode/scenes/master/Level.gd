@@ -59,11 +59,6 @@ signal music_changed
 func _ready():
 	Global.current_level = self
 	set_pause_mode(PAUSE_MODE_STOP)
-	
-#	var default_spawn_position = spawn_position
-#	var spawn_offset = (randf() * 2.0) - 10.0
-#	spawn_position.x += spawn_offset
-#	print(spawn_position)
 #
 	# Only automatically start levels if the level is the root scene.
 	# This is not the case when we are in the level editor, because
@@ -111,7 +106,7 @@ func start_level(in_editor = false):
 	Global.emit_signal("level_ready")
 	
 	# Then we load the pause menu into the level so you can pause the game
-	if !in_editor: _load_pause_menu(in_editor)
+	if !in_editor and self.level_type == LEVEL_TYPE.REGULAR: _load_pause_menu(in_editor)
 	
 	# If we're using a custom camera, make it override the player's camera
 	# (You can use custom cameras by adding a Camera2D node into the level)

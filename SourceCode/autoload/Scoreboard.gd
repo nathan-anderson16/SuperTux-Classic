@@ -39,7 +39,7 @@ var current_round = 0
 
 export var initial_coins = 0
 export var initial_lives = 3
-export var initial_state = 0
+export var initial_state = 1
 export var game_over_lives = 10 # How many lives we grant the player after getting a game over.
 
 onready var coins = initial_coins setget _set_coin_count

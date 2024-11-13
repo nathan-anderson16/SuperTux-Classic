@@ -40,7 +40,7 @@ func apply_lag():
 	
 func _state_logic(delta):
 	if logger != null:
-		logger.log_frame()
+		logger.log_frame(delta)
 	
 	if "dead" in state:
 		host.stop_riding_entity()

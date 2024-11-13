@@ -53,6 +53,10 @@ WAVAudioImporter="*res://autoload/WAVAudioImporter.gd"
 window/size/width=1280
 window/size/height=720
 
+[editor_plugins]
+
+enabled=PoolStringArray(  )
+
 [importer_defaults]
 
 texture={

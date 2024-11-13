@@ -73,6 +73,8 @@ signal quit_game_requested
 signal open_world_menu(world_folder_name)
 
 func _ready():
+	print(read_csv_data("res://harness/round_data.txt"))
+	
 	# Disable the game automatically quitting
 	get_tree().set_auto_accept_quit(false)
 	
@@ -88,6 +90,27 @@ func _ready():
 	var options_data : Dictionary = SaveManager.get_options_data()
 	apply_options(options_data)
 	SaveManager.load_current_controls()
+
+func read_csv_data(path: String):
+	var file = File.new()
+	file.open(path, File.READ)
+	
+	var headers = file.get_csv_line()
+	
+	var file_data = []
+	while not file.eof_reached():
+		var line = file.get_csv_line()
+		
+		# Make sure the line isn't empty
+		if not (line.size() == 1 and line[0] == ""):
+			var d = {}
+			var i = 0
+			for item in line:
+				d[headers[i]] = item
+				i += 1
+			file_data.append(d)
+		
+	return file_data
 
 func _update_gravity(new_value):
 	gravity = new_value * pow(60.0, 2.0) / 3.0

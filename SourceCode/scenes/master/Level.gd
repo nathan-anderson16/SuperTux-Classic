@@ -57,6 +57,7 @@ signal music_changed
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	print(Global.read_csv_data("res://harness/round_data.txt"))
 	Global.current_level = self
 	set_pause_mode(PAUSE_MODE_STOP)
 #

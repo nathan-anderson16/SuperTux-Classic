@@ -59,6 +59,7 @@ onready var sfx = $SFX
 onready var message_text_object = $Message
 onready var test_popup = $TestPopup
 onready var next_level_popup = $NextLevelPopup
+onready var round_counter = $Control/RoundCounter
 
 var number_of_deaths = 0
 var level_timer_enabled = false
@@ -98,6 +99,10 @@ func _draw():
 		timer_text.text = str(time_left)
 	
 	coins_text.text = str(score)
+	if Global.current_level != null and Global.current_level.level_type == LEVEL_TYPE.ROUND:
+		round_counter.text = str(current_round + 1) + "/" + str(len(round_data))
+	else:
+		round_counter.text = ""
 	
 	lives_text.text = str( max(lives, 0) )
 
@@ -174,6 +179,7 @@ func show(include_lives_count = true):
 func reset_player_values(game_over = false, reset_state = true):
 	coins = initial_coins
 	score = 0
+	current_round = 0
 	lives = game_over_lives if game_over else initial_lives
 	if reset_state: player_initial_state = initial_state
 

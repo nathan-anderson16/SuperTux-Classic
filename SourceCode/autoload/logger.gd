@@ -44,7 +44,7 @@ func get_event_log_path() -> String:
 	return event_log_path
 
 func initialize_logs():
-	create_log(frame_log_path, "Timestamp,Level,State,Timer,Coins,Lives,Deaths,X-Position,Y-Position,X-Velocity,Y-Velocity,FPS,TickRate")
+	create_log(frame_log_path, "DeltaFrames,Timestamp,Level,State,Timer,Coins,Lives,Deaths,X-Position,Y-Position,X-Velocity,Y-Velocity,FPS,TickRate")
 	create_log(event_log_path, "Timestamp,Level,State,Timer,Coins,Lives,Deaths,Event")
 	create_log(qoe_log_path, "Timestamp,Event")
 	

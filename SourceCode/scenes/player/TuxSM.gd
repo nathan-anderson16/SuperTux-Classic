@@ -35,8 +35,10 @@ func duration_from_msec(value: float) :
 	return value / 1000.0
 	
 func apply_lag():
-	OS.delay_msec((randi() % int(Global.current_level.lag_max_magnitude - Global.current_level.lag_min_magnitude)) + Global.current_level.lag_min_magnitude)
+	var lag_serverity = randi() % int(Global.current_level.lag_max_magnitude - Global.current_level.lag_min_magnitude) + Global.current_level.lag_min_magnitude
+	OS.delay_msec(lag_serverity)
 	host.lag_cooldown = duration_from_msec(500.0)
+	Logger.log_event("Lag Severity: " + str(lag_serverity))
 	
 func _state_logic(delta):
 	if logger != null:

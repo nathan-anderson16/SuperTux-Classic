@@ -100,7 +100,7 @@ func _draw():
 	
 	coins_text.text = str(score)
 	if Global.current_level != null and Global.current_level.level_type == LEVEL_TYPE.ROUND:
-		round_counter.text = str(current_round + 1) + "/" + str(len(round_data))
+		round_counter.text = "Round " + str(current_round + 1) + "/" + str(len(round_data))
 	else:
 		round_counter.text = ""
 	

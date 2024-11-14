@@ -45,13 +45,14 @@ func get_event_log_path() -> String:
 
 func initialize_logs():
 	create_log(frame_log_path, "Timestamp,Level,State,Timer,Coins,Lives,Deaths,X-Position,Y-Position,X-Velocity,Y-Velocity,FPS,TickRate")
-	create_log(event_log_path, "Timestamp,Level,State,Timer,Coins,Lives,Deaths,Message")
-	create_log(qoe_log_path, "Timestamp, Message")
+	create_log(event_log_path, "Timestamp,Level,State,Timer,Coins,Lives,Deaths,Event")
+	create_log(qoe_log_path, "Timestamp,Event")
 	
 func create_log(path: String, header: String):
 	var file = File.new()
 	if file.open(path, File.WRITE) == OK:
-		file.store_line(header)
+		if file.get_len() == 0:
+			file.store_line(header)
 	file.close()
 	
 func log_frame(delta):
@@ -113,17 +114,20 @@ func log_qoe(message: String = ""):
 
 func write_to_disk():
 	var file = File.new()
-	if file.open(frame_log_path, File.WRITE) == OK:
+	if file.open(frame_log_path, File.READ_WRITE) == OK:
+		file.seek_end()
 		for frame_message in frame_logs:
 			file.store_line(frame_message)
 	file.close()
 	
-	if file.open(event_log_path, File.WRITE) == OK:
+	if file.open(event_log_path, File.READ_WRITE) == OK:
+		file.seek_end()
 		for event_message in event_logs:
 			file.store_line(event_message)
 	file.close()
 	
-	if file.open(qoe_log_path, File.WRITE) == OK:
+	if file.open(qoe_log_path, File.READ_WRITE) == OK:
+		file.seek_end()
 		for qoe_message in qoe_logs:
 			file.store_line(qoe_message)
 	file.close()

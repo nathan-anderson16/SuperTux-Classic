@@ -24,12 +24,10 @@ enum LEVEL_TYPE {
 	ROUND = 3
 }
 
-var round_paths = [
-	"res://scenes/levels/framespike/rounds/round1.tscn",
-	"res://scenes/levels/framespike/rounds/round2.tscn",
-	"res://scenes/levels/framespike/rounds/round3.tscn"
-]
+var player_id = 0
 
+var round_data_path = "res://harness/round_data.txt"
+var round_paths = []
 var current_round = 0
 
 # This node keeps track of all player variables which persist between levels,
@@ -69,6 +67,7 @@ var score = 0
 var score_visible = true
 
 func _ready():
+	load_round_data()
 	self.message_text = ""
 	stop_level_timer()
 
@@ -99,6 +98,11 @@ func _draw():
 	coins_text.text = str(score)
 	
 	lives_text.text = str( max(lives, 0) )
+
+func load_round_data():
+	var csv_data = Global.read_csv_data(round_data_path)
+	for item in csv_data:
+		round_paths.append(item["path"])
 
 func start_level_timer():
 	level_timer.paused = false

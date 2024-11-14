@@ -4,6 +4,7 @@
 [ext_resource path="res://scenes/menus/FrameStutter.gd" type="Script" id=2]
 
 [node name="FrameStutterMenu" type="Popup"]
+visible = true
 margin_right = 960.0
 margin_bottom = 520.0
 script = ExtResource( 2 )
@@ -29,7 +30,7 @@ margin_right = 848.0
 margin_bottom = 30.0
 custom_colors/font_color = Color( 1, 1, 0, 1 )
 custom_fonts/font = ExtResource( 1 )
-text = "Enter User ID"
+text = "Ready?"
 align = 1
 valign = 2
 
@@ -38,33 +39,21 @@ margin_top = 34.0
 margin_right = 848.0
 margin_bottom = 38.0
 
-[node name="UserID" type="TextEdit" parent="Panel/VBoxContainer"]
+[node name="Submit" type="Button" parent="Panel/VBoxContainer"]
 margin_top = 42.0
 margin_right = 848.0
-margin_bottom = 92.0
-rect_min_size = Vector2( 200, 50 )
-
-[node name="HSeparator2" type="HSeparator" parent="Panel/VBoxContainer"]
-margin_top = 96.0
-margin_right = 848.0
-margin_bottom = 100.0
-
-[node name="Submit" type="Button" parent="Panel/VBoxContainer"]
-margin_top = 104.0
-margin_right = 848.0
-margin_bottom = 146.0
+margin_bottom = 84.0
 rect_min_size = Vector2( 0, 42 )
-text = "Submit"
+text = "Yes"
 
 [node name="Back" type="Button" parent="Panel/VBoxContainer"]
-margin_top = 150.0
+margin_top = 88.0
 margin_right = 848.0
-margin_bottom = 192.0
+margin_bottom = 130.0
 rect_min_size = Vector2( 0, 42 )
 text = "Back"
 
 [connection signal="about_to_show" from="." to="." method="_on_FrameStutterMenu_about_to_show"]
-[connection signal="text_changed" from="Panel/VBoxContainer/UserID" to="." method="_on_UserID_text_changed"]
 [connection signal="focus_entered" from="Panel/VBoxContainer/Submit" to="." method="_on_Submit_focus_entered"]
 [connection signal="pressed" from="Panel/VBoxContainer/Submit" to="." method="_on_Submit_pressed"]
 [connection signal="focus_entered" from="Panel/VBoxContainer/Back" to="." method="_on_Back_focus_entered"]

@@ -28,29 +28,6 @@ func _ready():
 			print("Failed to create logs directory!")
 	initialize_logs()
 	init = true
-	
-#func _input(event):
-#	print("Is Global.player valid?", is_instance_valid(Global.player))
-#	if is_instance_valid(Global.player):
-#		print("Does Global.player have state_machine?", Global.player.has_node("state_machine"))
-#		if event is InputEventKey and event.pressed:
-#			var action_name = ""
-#
-#			if Input.is_action_pressed("ui_left"):
-#				action_name = "Pressed Move Left"
-#
-#			if Input.is_action_pressed("ui_right"):
-#				action_name = "Pressed Move Right"
-#
-#			if Input.is_action_pressed("jump"):
-#				action_name = "Pressed Jump"
-#
-#			if is_instance_valid(Global.player):
-#				if action_name != "":
-#					log_event("Player input: " + action_name)
-#					print(action_name)
-#			else:
-#				print("no valud instance")
 
 func get_event_log_path() -> String:
 	return event_log_path

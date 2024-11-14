@@ -185,6 +185,13 @@ func apply_gravity(delta, gravity_set = Global.gravity):
 
 func move_input():
 	var input = -int(Input.is_action_pressed("move_left")) + int(Input.is_action_pressed("move_right"))
+	
+	if Input.is_action_pressed("move_left"):
+		Logger.log_event("Input: Move Left")
+		
+	elif Input.is_action_pressed("move_right"):
+		Logger.log_event("Input: Move Right")
+		
 	return input
 
 func horizontal_movement():
@@ -242,6 +249,7 @@ func _set_grounded_state(new_value):
 func jump_input(running = abs(velocity.x) > walk_max):
 	if Input.is_action_just_pressed("jump"):
 		jump_buffer.start()
+		Logger.log_event("Input: Jump")
 	
 	var exit_riding = riding_entity and Input.is_action_pressed("move_up")
 	var jump_velocity = run_jump_height if running else jump_height

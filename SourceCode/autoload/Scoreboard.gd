@@ -27,7 +27,9 @@ enum LEVEL_TYPE {
 var player_id = 0
 
 var round_data_path = "res://harness/round_data.txt"
-var round_paths = []
+var round_orders_path = "res://harness/round_orders.txt"
+var round_data = []
+var round_orders = []
 var current_round = 0
 
 # This node keeps track of all player variables which persist between levels,
@@ -100,9 +102,26 @@ func _draw():
 	lives_text.text = str( max(lives, 0) )
 
 func load_round_data():
-	var csv_data = Global.read_csv_data(round_data_path)
-	for item in csv_data:
-		round_paths.append(item["path"])
+	var rounds_data = Global.read_csv_data(round_data_path)
+	for item in rounds_data:
+		round_data.append(item)
+		
+	var rounds_orders = Global.read_csv_data(round_orders_path)
+	for item in rounds_orders:
+		var n_rounds = len(item.keys())
+		var curr_order = []
+		for i in range(1, n_rounds + 1):
+			curr_order.append(int(item[str(i)]))
+		round_orders.append(curr_order)
+
+func get_round_data(idx: int) -> Dictionary:
+	return round_data[round_orders[player_id % len(round_orders)][idx]]
+
+func load_round(idx: int):
+	print("Loading round ", idx, " (idx: ", round_orders[player_id % len(round_orders)][idx], ")")
+	var next_round_data = get_round_data(idx)
+	Global.goto_level(next_round_data["path"])
+	Global.current_scene.time = next_round_data["level_time"]
 
 func start_level_timer():
 	level_timer.paused = false
@@ -265,7 +284,7 @@ func _on_LEVELTIMER_timeout():
 			yield(next_level_popup, "next_level_popup_closed")
 			_set_paused(false)
 			
-			Global.goto_level(round_paths[0])
+			load_round(0)
 			return
 
 		LEVEL_TYPE.ROUND:
@@ -281,7 +300,7 @@ func _on_LEVELTIMER_timeout():
 			current_round += 1
 			
 			# Done with all the rounds
-			if current_round >= len(round_paths):
+			if current_round >= len(round_data):
 				self.hide()
 				Global.goto_scene("res://scenes/menus/ThankYou.tscn")
 				return
@@ -291,7 +310,7 @@ func _on_LEVELTIMER_timeout():
 				_set_paused(true)
 				yield(next_level_popup, "next_level_popup_closed")
 				_set_paused(false)
-				Global.goto_level(round_paths[current_round])
+				load_round(current_round)
 				return
 	
 	var player_state = Global.player.state_machine.state

@@ -73,7 +73,7 @@ signal quit_game_requested
 signal open_world_menu(world_folder_name)
 
 func _ready():
-	print(read_csv_data("res://harness/round_data.txt"))
+#	print(read_csv_data("res://harness/round_data.txt"))
 	
 	# Disable the game automatically quitting
 	get_tree().set_auto_accept_quit(false)

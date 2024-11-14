@@ -63,7 +63,11 @@ func apply_movement(delta, solid):
 		
 		grounded = is_on_floor()
 		touching_wall = is_on_wall()
-	else: position += velocity * delta
+	else: 
+		position += velocity * delta
+	
+	if position.y > 500.0 :
+		Global.reset_level()
 
 func bounce():
 	if grounded:
@@ -75,14 +79,15 @@ func _on_Area2D_body_entered(body):
 	if intangibility_timer > 0: return
 	
 	if body.is_in_group("players"):
-		match type:
-			"Powerup":
-				if body.state < state_to_grant:
-					body.state = state_to_grant
-			"Star":
-				body.get_star()
-			"1up":
-				Scoreboard.lives += 1
+		Scoreboard.score += 100
+		#match type:
+		#	"Powerup":
+		#		if body.state < state_to_grant:
+		#			body.state = state_to_grant
+		#	"Star":
+		#		body.get_star()
+		#	"1up":
+		#		Scoreboard.lives += 1
 		queue_free()
 
 func _on_SpawnTimer_timeout():

@@ -46,6 +46,7 @@ var invisible_shimmer_bodies = []
 func _ready():
 	if invisible: animation_player.play("invisible")
 	sprite.play(initial_animation)
+	_spawn_contents(null)
 
 func be_hit_from_above(body):
 	if body.is_in_group("players"):

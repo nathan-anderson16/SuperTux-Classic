@@ -126,7 +126,12 @@ func load_round(idx: int):
 	print("Loading round ", idx, " (idx: ", round_orders[player_id % len(round_orders)][idx], ")")
 	var next_round_data = get_round_data(idx)
 	Global.goto_level(next_round_data["path"])
-	Global.current_scene.time = next_round_data["level_time"]
+	
+	var level_time = float(next_round_data["level_time"])
+	print("Level time: ", level_time)
+	yield(Global, "level_ready")
+	Global.current_level.time = level_time
+	Scoreboard.set_level_timer(level_time)
 
 func start_level_timer():
 	level_timer.paused = false

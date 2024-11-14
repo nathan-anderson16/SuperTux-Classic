@@ -11,6 +11,10 @@ onready var level_timer_enabled = level_properties.get_node("EditLevelTimer/Time
 onready var level_time = level_properties.get_node("EditLevelTimer/Time")
 onready var level_gravity = level_properties.get_node("EditLevelGravity/Gravity")
 onready var level_autoscroll_speed = level_properties.get_node("EditLevelAutoscroll/AutoscrollSpeed")
+onready var level_lag_min_delay = level_properties.get_node("EditLevelLagMinDelay/LagMinDelay")
+onready var level_lag_max_delay = level_properties.get_node("EditLevelLagMaxDelay/LagMaxDelay")
+onready var level_lag_min_magnitude = level_properties.get_node("EditLevelLagMinMagnitude/LagMinMagnitude")
+onready var level_lag_max_magnitude = level_properties.get_node("EditLevelLagMaxMagnitude/LagMaxMagnitude")
 
 onready var custom_music_controls = get_node("VBoxContainer/PanelContainer/ScrollContainer/LevelProperties/CustomMusicControls")
 onready var custom_music_loop_offset = get_node("VBoxContainer/PanelContainer/ScrollContainer/LevelProperties/CustomMusicControls/EditLevelMusicLoopOffset/CustomMusicLoopOffset")
@@ -33,6 +37,10 @@ func _on_LevelPropertiesDialog_about_to_show():
 		level_time.editable = level_timer_enabled.pressed
 		level_gravity.value = level.gravity
 		level_autoscroll_speed.value = level.autoscroll_speed
+		level_lag_min_delay.value = level.lag_min_delay
+		level_lag_max_delay.value = level.lag_max_delay
+		level_lag_min_magnitude.value = level.lag_min_magnitude
+		level_lag_max_magnitude.value = level.lag_max_magnitude
 		custom_music_loop_offset.value = level.custom_music_loop_offset
 
 func _update_music_list():
@@ -161,6 +169,18 @@ func _on_Gravity_value_changed(value):
 func _on_AutoscrollSpeed_value_changed(value):
 	if level: level.autoscroll_speed = value
 
+func _on_LagMinDelay_value_changed(value):
+	if level: level.lag_min_delay = value
+
+func _on_LagMaxDelay_value_changed(value):
+	if level: level.lag_max_delay = value
+	
+func _on_LagMinMagnitude_value_changed(value):
+	if level: level.lag_min_magnitude = value
+	
+func _on_LagMaxMagnitude_value_changed(value):
+	if level: level.lag_max_magnitude = value
+	
 func _on_CustomMusicLoopOffset_value_changed(value):
 	if level:
 		level.custom_music_loop_offset = value

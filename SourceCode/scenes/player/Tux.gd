@@ -72,10 +72,14 @@ var can_die = true
 
 var lag_queued = false
 var lag_delay = 0
+var lag_cooldown = 0
 
 var lag_next_jump = false
 
 var intersecting_probability_fields = 0
+var intersecting_lag_fields = 0
+var has_entered_delay_field = false
+
 var lag_chance = 0
 var has_probability_lagged = false
 var has_entered_field = false
@@ -181,6 +185,13 @@ func apply_gravity(delta, gravity_set = Global.gravity):
 
 func move_input():
 	var input = -int(Input.is_action_pressed("move_left")) + int(Input.is_action_pressed("move_right"))
+	
+	if Input.is_action_pressed("move_left"):
+		Logger.log_event("Input: Move Left")
+		
+	elif Input.is_action_pressed("move_right"):
+		Logger.log_event("Input: Move Right")
+		
 	return input
 
 func horizontal_movement():
@@ -238,6 +249,7 @@ func _set_grounded_state(new_value):
 func jump_input(running = abs(velocity.x) > walk_max):
 	if Input.is_action_just_pressed("jump"):
 		jump_buffer.start()
+		Logger.log_event("Input: Jump")
 	
 	var exit_riding = riding_entity and Input.is_action_pressed("move_up")
 	var jump_velocity = run_jump_height if running else jump_height
@@ -410,9 +422,13 @@ func hurt(hurting_body):
 			self.state -= 1
 			set_invincible()
 
-func lag_random_delay(count) :
-	lag_delay = count
-	lag_queued = true
+func enter_delay_lag_field() :
+	intersecting_lag_fields += 1
+	print(intersecting_lag_fields)
+
+func exit_delay_lag_field() :
+	intersecting_lag_fields -= 1
+	print(intersecting_lag_fields)
 
 func entered_lag_field() :
 	intersecting_probability_fields += 1

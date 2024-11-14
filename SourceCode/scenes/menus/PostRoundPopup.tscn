@@ -5,6 +5,7 @@
 [sub_resource type="ButtonGroup" id=1]
 
 [node name="TestPopup" type="Popup"]
+visible = true
 margin_right = 601.0
 margin_bottom = 113.0
 rect_scale = Vector2( 1.25, 1.25 )
@@ -40,42 +41,47 @@ tick_count = 5
 ticks_on_borders = true
 
 [node name="1" type="Label" parent="QoEPopup"]
-margin_left = 18.6
+margin_left = 29.8
 margin_top = 47.0
-margin_right = 58.6
+margin_right = 69.8
 margin_bottom = 61.0
+rect_scale = Vector2( 1.25, 1.25 )
 rect_pivot_offset = Vector2( 48, 22 )
 text = "1"
 
 [node name="2" type="Label" parent="QoEPopup"]
-margin_left = 146.6
+margin_left = 157.8
 margin_top = 48.0
-margin_right = 186.6
+margin_right = 197.8
 margin_bottom = 62.0
+rect_scale = Vector2( 1.25, 1.25 )
 rect_pivot_offset = Vector2( 48, 22 )
 text = "2"
 
 [node name="3" type="Label" parent="QoEPopup"]
-margin_left = 276.6
+margin_left = 287.8
 margin_top = 46.0
-margin_right = 316.6
+margin_right = 327.8
 margin_bottom = 60.0
+rect_scale = Vector2( 1.25, 1.25 )
 rect_pivot_offset = Vector2( 48, 22 )
 text = "3"
 
 [node name="4" type="Label" parent="QoEPopup"]
-margin_left = 534.6
+margin_left = 545.0
 margin_top = 48.0
-margin_right = 574.6
+margin_right = 585.0
 margin_bottom = 62.0
+rect_scale = Vector2( 1.25, 1.25 )
 rect_pivot_offset = Vector2( 48, 22 )
 text = "5"
 
 [node name="5" type="Label" parent="QoEPopup"]
-margin_left = 404.6
-margin_top = 47.0
-margin_right = 444.6
-margin_bottom = 61.0
+margin_left = 414.6
+margin_top = 47.2
+margin_right = 454.6
+margin_bottom = 61.2
+rect_scale = Vector2( 1.25, 1.25 )
 rect_pivot_offset = Vector2( 48, 22 )
 text = "4"
 
@@ -87,18 +93,20 @@ margin_bottom = 129.6
 text = "Submit"
 
 [node name="Low" type="Label" parent="QoEPopup"]
-margin_left = 11.4
+margin_left = 21.8
 margin_top = 86.4
-margin_right = 51.4
+margin_right = 61.8
 margin_bottom = 100.4
+rect_scale = Vector2( 1.25, 1.25 )
 rect_pivot_offset = Vector2( 47.2, 14.4 )
 text = "Low"
 
 [node name="High" type="Label" parent="QoEPopup"]
-margin_left = 522.6
+margin_left = 531.4
 margin_top = 87.2
-margin_right = 562.6
+margin_right = 571.4
 margin_bottom = 101.2
+rect_scale = Vector2( 1.25, 1.25 )
 rect_pivot_offset = Vector2( 47.2, 14.4 )
 text = "High"
 

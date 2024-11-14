@@ -33,4 +33,5 @@ func set_active(new_value):
 		Global.spawn_position = position
 		sfx.play("Checkpoint")
 		$Flash.emitting = true
+		Logger.log_event("Success: Checkpoint Reached")
 	active = new_value

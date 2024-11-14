@@ -22,11 +22,15 @@
 extends Node
 class_name StateMachine
 
+var logger = null  # Reference to the Logger instance
 var state = null setget set_state
 var previous_state = null
 var states = []
 
 onready var host = get_parent()
+
+func set_logger(log_instance):
+	logger = log_instance  # Set the logger instance
 
 func _physics_process(delta):
 	if host.has_node("VisibilityEnabler2D"): # Disable node functioning if it has VisibilityEnabler2D

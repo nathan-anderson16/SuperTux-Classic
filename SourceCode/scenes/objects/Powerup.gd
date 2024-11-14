@@ -79,11 +79,14 @@ func _on_Area2D_body_entered(body):
 			"Powerup":
 				if body.state < state_to_grant:
 					body.state = state_to_grant
+					Logger.log_event("Success: Egg Power-Up")
 			"Star":
 				body.get_star()
+				Logger.log_event("Success: Star Power-Up")
 			"1up":
 				Scoreboard.lives += 1
 		queue_free()
+		
 
 func _on_SpawnTimer_timeout():
 	if can_move:

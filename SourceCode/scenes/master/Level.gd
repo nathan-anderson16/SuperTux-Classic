@@ -127,6 +127,7 @@ func start_level(in_editor = false):
 	# If we're using the level timer, start the clock!
 	if uses_timer:
 		Scoreboard.set_level_timer(time)
+		Scoreboard.stop_level_timer()
 	
 	# And play the level music!
 	if music == "" or !music:

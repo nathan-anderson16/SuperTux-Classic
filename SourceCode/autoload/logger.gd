@@ -17,15 +17,26 @@ func _ready():
 	
 	var datetime = OS.get_datetime()
 	var log_title_timestamp = str(datetime.year) + "-" + str(datetime.month).pad_zeros(2) + "-" + str(datetime.day).pad_zeros(2) + "_" + str(datetime.hour).pad_zeros(2) + "-" + str(datetime.minute).pad_zeros(2) + "-" + str(datetime.second).pad_zeros(2)
-	frame_log_path = OS.get_user_data_dir() + "/logs/frame_log_" + log_title_timestamp + ".csv"
-	event_log_path = OS.get_user_data_dir() + "/logs/event_log_" + log_title_timestamp + ".csv"
-	qoe_log_path = OS.get_user_data_dir() + "/logs/qoe_log_" + log_title_timestamp + ".csv"
+	
+	var logs_base_dir = OS.get_user_data_dir() + "/logs"
+	var frame_logs_dir = logs_base_dir + "/frame_logs"
+	var event_logs_dir = logs_base_dir + "/event_logs"
+	var qoe_logs_dir = logs_base_dir + "/qoe_logs"
+	
+	frame_log_path = frame_logs_dir + "/frame_log_" + log_title_timestamp + ".csv"
+	event_log_path = event_logs_dir + "/event_log_" + log_title_timestamp + ".csv"
+	qoe_log_path = qoe_logs_dir + "/qoe_log_" + log_title_timestamp + ".csv"
 	
 	var dir = Directory.new()
-	if !dir.dir_exists(OS.get_user_data_dir() + "/logs"):
-		var make_dir_result = dir.make_dir(OS.get_user_data_dir() + "/logs")
-		if make_dir_result != OK:
-			print("Failed to create logs directory!")
+	if !dir.dir_exists(logs_base_dir):
+		dir.make_dir(logs_base_dir)
+	if !dir.dir_exists(frame_logs_dir):
+		dir.make_dir(frame_logs_dir)
+	if !dir.dir_exists(event_logs_dir):
+		dir.make_dir(event_logs_dir)
+	if !dir.dir_exists(qoe_logs_dir):
+		dir.make_dir(qoe_logs_dir)
+	
 	initialize_logs()
 	init = true
 

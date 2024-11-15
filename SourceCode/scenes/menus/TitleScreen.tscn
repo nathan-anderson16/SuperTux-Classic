@@ -113,26 +113,47 @@ focus_neighbour_bottom = NodePath("../Options")
 text = "Frame Stutter"
 script = null
 
-[node name="Options" type="Button" parent="TitleContent/Menu/VBoxContainer"]
+[node name="one_two_two" parent="TitleContent/Menu/VBoxContainer" instance=ExtResource( 9 )]
 margin_top = 70.0
-margin_right = 350.0
 margin_bottom = 100.0
+focus_neighbour_bottom = NodePath("../Options")
+text = "[1, 2, 2]"
+script = null
+
+[node name="three_three_five" parent="TitleContent/Menu/VBoxContainer" instance=ExtResource( 9 )]
+margin_top = 105.0
+margin_bottom = 135.0
+focus_neighbour_bottom = NodePath("../Options")
+text = "[3, 3, 5]"
+script = null
+
+[node name="two_five_five" parent="TitleContent/Menu/VBoxContainer" instance=ExtResource( 9 )]
+margin_top = 140.0
+margin_bottom = 170.0
+focus_neighbour_bottom = NodePath("../Options")
+text = "[2, 5, 5]"
+script = null
+
+[node name="Options" type="Button" parent="TitleContent/Menu/VBoxContainer"]
+margin_top = 175.0
+margin_right = 350.0
+margin_bottom = 205.0
 focus_neighbour_top = NodePath("../StartGame")
 focus_neighbour_bottom = NodePath("../LevelEditor")
 text = "Options"
 
 [node name="LevelEditor" type="Button" parent="TitleContent/Menu/VBoxContainer"]
-margin_top = 105.0
+margin_top = 210.0
 margin_right = 350.0
-margin_bottom = 135.0
+margin_bottom = 240.0
 focus_neighbour_top = NodePath("../Options")
 focus_neighbour_bottom = NodePath("../Credits")
 text = "Level Editor"
 
 [node name="Credits" type="Button" parent="TitleContent/Menu/VBoxContainer"]
-margin_top = 140.0
+margin_top = 245.0
 margin_right = 350.0
-margin_bottom = 170.0
+margin_bottom = 275.0
 focus_neighbour_top = NodePath("../LevelEditor")
 focus_neighbour_bottom = NodePath("../Quit")
 text = "Credits"
@@ -152,9 +173,9 @@ margin_bottom = 205.0
 text = "Boss Battle (DEBUG)"
 
 [node name="Quit" type="Button" parent="TitleContent/Menu/VBoxContainer"]
-margin_top = 175.0
+margin_top = 280.0
 margin_right = 350.0
-margin_bottom = 205.0
+margin_bottom = 310.0
 focus_neighbour_top = NodePath("../Credits")
 text = "Quit Game"
 
@@ -221,6 +242,12 @@ mode = 0
 [connection signal="pressed" from="TitleContent/Menu/VBoxContainer/StartGame" to="." method="_on_StartGame_pressed"]
 [connection signal="mouse_entered" from="TitleContent/Menu/VBoxContainer/FrameStutter" to="." method="_on_FrameStutter_mouse_entered"]
 [connection signal="pressed" from="TitleContent/Menu/VBoxContainer/FrameStutter" to="." method="_on_FrameStutter_pressed"]
+[connection signal="mouse_entered" from="TitleContent/Menu/VBoxContainer/one_two_two" to="." method="_on_one_two_two_mouse_entered"]
+[connection signal="pressed" from="TitleContent/Menu/VBoxContainer/one_two_two" to="." method="_on_one_two_two_pressed"]
+[connection signal="mouse_entered" from="TitleContent/Menu/VBoxContainer/three_three_five" to="." method="_on_three_three_five_mouse_entered"]
+[connection signal="pressed" from="TitleContent/Menu/VBoxContainer/three_three_five" to="." method="_on_three_three_five_pressed"]
+[connection signal="mouse_entered" from="TitleContent/Menu/VBoxContainer/two_five_five" to="." method="_on_two_five_five_mouse_entered"]
+[connection signal="pressed" from="TitleContent/Menu/VBoxContainer/two_five_five" to="." method="_on_two_five_five_pressed"]
 [connection signal="mouse_entered" from="TitleContent/Menu/VBoxContainer/Options" to="." method="_on_Options_mouse_entered"]
 [connection signal="pressed" from="TitleContent/Menu/VBoxContainer/Options" to="." method="_on_Options_pressed"]
 [connection signal="mouse_entered" from="TitleContent/Menu/VBoxContainer/LevelEditor" to="." method="_on_LevelEditor_mouse_entered"]

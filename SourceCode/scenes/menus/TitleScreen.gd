@@ -24,6 +24,9 @@ onready var title_content = $TitleContent
 
 onready var start_game_button = $TitleContent/Menu/VBoxContainer/StartGame
 onready var frame_stutter_button = $TitleContent/Menu/VBoxContainer/FrameStutter
+onready var one_two_two_button = $TitleContent/Menu/VBoxContainer/one_two_two
+onready var three_three_five_button = $TitleContent/Menu/VBoxContainer/three_three_five
+onready var two_five_five_button = $TitleContent/Menu/VBoxContainer/two_five_five
 onready var options_button = $TitleContent/Menu/VBoxContainer/Options
 onready var level_editor_button = $TitleContent/Menu/VBoxContainer/LevelEditor
 onready var credits_button = $TitleContent/Menu/VBoxContainer/Credits
@@ -121,3 +124,23 @@ func _on_FrameStutter_pressed():
 func _on_FrameStutterMenu_popup_hide():
 	title_content.show()
 	frame_stutter_button.grab_focus()
+
+func _on_one_two_two_pressed():
+	Global.goto_level("res://scenes/levels/test_rounds/one_two_two_level.tscn")
+
+
+func _on_one_two_two_mouse_entered():
+	one_two_two_button.grab_focus()
+
+func _on_three_three_five_pressed():
+			Global.goto_level("res://scenes/levels/test_rounds/three_three_five_level.tscn")
+
+func _on_three_three_five_mouse_entered():
+	three_three_five_button.grab_focus()
+
+func _on_two_five_five_pressed():
+		Global.goto_level("res://scenes/levels/test_rounds/two_five_five_level.tscn")
+
+
+func _on_two_five_five_mouse_entered():
+	two_five_five_button.grab_focus()

@@ -66,7 +66,7 @@ func apply_movement(delta, solid):
 	else: 
 		position += velocity * delta
 	
-	if position.y > 500.0 :
+	if position.y > Global.current_level.level_height * Global.TILE_SIZE :
 		Global.reset_level()
 
 func bounce():
@@ -80,6 +80,7 @@ func _on_Area2D_body_entered(body):
 	
 	if body.is_in_group("players"):
 		Scoreboard.score += 100
+		Global.reset_level()
 		#match type:
 		#	"Powerup":
 		#		if body.state < state_to_grant:

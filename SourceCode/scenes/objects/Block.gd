@@ -45,7 +45,7 @@ var invisible_shimmer_bodies = []
 
 func _ready():
 	if invisible: animation_player.play("invisible")
-	sprite.play(initial_animation)
+	#sprite.play(initial_animation)
 	_spawn_contents(null)
 
 func be_hit_from_above(body):
@@ -88,8 +88,8 @@ func _make_box_empty():
 		invisible_shimmer_bodies = []
 		invisible = false
 		sprite.modulate.a = 1
-		animation_player.play("default")
-	sprite.play("Empty")
+		#animation_player.play("default")
+	#sprite.play("Empty")
 	hit = true
 
 func _brick_smash():

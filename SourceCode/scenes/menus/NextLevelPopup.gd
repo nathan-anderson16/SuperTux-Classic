@@ -3,8 +3,8 @@ extends Popup
 signal next_level_popup_closed
 
 func _process(delta):
-	if !self.visible:
-		return
+#	if !self.visible:
+#		return
 	
 	# Is there a better way to do this?
 	if (

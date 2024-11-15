@@ -102,7 +102,7 @@ func _draw():
 	
 	coins_text.text = str(score)
 	if Global.current_level != null and Global.current_level.level_type == LEVEL_TYPE.ROUND:
-		round_counter.text = "Round " + str(current_round + 1) + "/" + str(len(round_data))
+		round_counter.text = "Round " + str(current_round + 1) + "/" + str(len(round_orders[0]))
 	else:
 		round_counter.text = ""
 	
@@ -311,7 +311,7 @@ func _on_LEVELTIMER_timeout():
 			current_round += 1
 			
 			# Done with all the rounds
-			if current_round >= len(round_data):
+			if current_round >= len(round_orders[0]):
 				self.hide()
 				Global.goto_scene("res://scenes/menus/ThankYou.tscn")
 				return

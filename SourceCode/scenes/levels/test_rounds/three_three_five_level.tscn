@@ -36,8 +36,9 @@ shader_param/overlay_color = Plane( 0.4, 0.5, 0.7, 0.5 )
 [node name="Level" type="Node2D"]
 script = ExtResource( 1 )
 level_title = "Playtest 1 (No Spikes)"
-uses_timer = false
 time = 60
+lag_min_delay = 10.0
+lag_max_delay = 69.0
 level_type = 1
 
 [node name="SnowBG" parent="." instance=ExtResource( 4 )]

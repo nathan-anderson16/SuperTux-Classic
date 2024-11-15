@@ -59,7 +59,7 @@ func log_frame(delta):
 	if !init:
 		return
 		
-	var delta_ms = str(int(delta * 1000))
+	var delta_ms = "%.6f" % (delta * 1000)
 		
 	var datetime = OS.get_datetime()
 	var micro = str(Time.get_unix_time_from_system()).split(".")[1]

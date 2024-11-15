@@ -388,7 +388,7 @@ scroll_horizontal_enabled = false
 
 [node name="LevelProperties" type="VBoxContainer" parent="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/PanelContainer/ScrollContainer"]
 margin_right = 882.0
-margin_bottom = 364.0
+margin_bottom = 538.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
@@ -574,6 +574,91 @@ margin_bottom = 31.0
 size_flags_vertical = 3
 max_value = 5.0
 step = 0.5
+
+[node name="HSeparator5" type="HSeparator" parent="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/PanelContainer/ScrollContainer/LevelProperties"]
+margin_top = 264.0
+margin_right = 870.0
+margin_bottom = 294.0
+
+[node name="EditLevelLagMinDelay" type="HSplitContainer" parent="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/PanelContainer/ScrollContainer/LevelProperties"]
+margin_top = 333.0
+margin_right = 870.0
+margin_bottom = 364.0
+
+[node name="Label" type="Label" parent="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/PanelContainer/ScrollContainer/LevelProperties/EditLevelLagMinDelay"]
+margin_top = 5.0
+margin_right = 744.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Lag Min Delay"
+
+[node name="LagMinDelay" type="SpinBox" parent="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/PanelContainer/ScrollContainer/LevelProperties/EditLevelLagMinDelay"]
+margin_left = 756.0
+margin_right = 870.0
+margin_bottom = 31.0
+size_flags_vertical = 3
+max_value = 1000.0
+
+[node name="EditLevelLagMaxDelay" type="HSplitContainer" parent="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/PanelContainer/ScrollContainer/LevelProperties"]
+margin_top = 333.0
+margin_right = 870.0
+margin_bottom = 364.0
+
+[node name="Label" type="Label" parent="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/PanelContainer/ScrollContainer/LevelProperties/EditLevelLagMaxDelay"]
+margin_top = 5.0
+margin_right = 744.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Lag Max Delay"
+
+[node name="LagMaxDelay" type="SpinBox" parent="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/PanelContainer/ScrollContainer/LevelProperties/EditLevelLagMaxDelay"]
+margin_left = 756.0
+margin_right = 870.0
+margin_bottom = 31.0
+size_flags_vertical = 3
+max_value = 1000.0
+
+[node name="EditLevelLagMinMagnitude" type="HSplitContainer" parent="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/PanelContainer/ScrollContainer/LevelProperties"]
+margin_top = 333.0
+margin_right = 870.0
+margin_bottom = 364.0
+
+[node name="Label" type="Label" parent="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/PanelContainer/ScrollContainer/LevelProperties/EditLevelLagMinMagnitude"]
+margin_top = 5.0
+margin_right = 744.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Lag Min Magnitude"
+
+[node name="LagMinMagnitude" type="SpinBox" parent="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/PanelContainer/ScrollContainer/LevelProperties/EditLevelLagMinMagnitude"]
+margin_left = 756.0
+margin_right = 870.0
+margin_bottom = 31.0
+size_flags_vertical = 3
+max_value = 2000.0
+
+[node name="EditLevelLagMaxMagnitude" type="HSplitContainer" parent="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/PanelContainer/ScrollContainer/LevelProperties"]
+margin_top = 333.0
+margin_right = 870.0
+margin_bottom = 364.0
+
+[node name="Label" type="Label" parent="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/PanelContainer/ScrollContainer/LevelProperties/EditLevelLagMaxMagnitude"]
+margin_top = 5.0
+margin_right = 744.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Lag Max Magnitude"
+
+[node name="LagMaxMagnitude" type="SpinBox" parent="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/PanelContainer/ScrollContainer/LevelProperties/EditLevelLagMaxMagnitude"]
+margin_left = 756.0
+margin_right = 870.0
+margin_bottom = 31.0
+size_flags_vertical = 3
+max_value = 2000.0
 
 [node name="HSeparator2" type="HSeparator" parent="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer"]
 margin_top = 428.0
@@ -1083,6 +1168,10 @@ volume_db = -8.0
 [connection signal="value_changed" from="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/PanelContainer/ScrollContainer/LevelProperties/EditLevelTimer/Time" to="UI/Scale/EditorUI/LevelPropertiesDialog" method="_on_Time_value_changed"]
 [connection signal="value_changed" from="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/PanelContainer/ScrollContainer/LevelProperties/EditLevelGravity/Gravity" to="UI/Scale/EditorUI/LevelPropertiesDialog" method="_on_Gravity_value_changed"]
 [connection signal="value_changed" from="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/PanelContainer/ScrollContainer/LevelProperties/EditLevelAutoscroll/AutoscrollSpeed" to="UI/Scale/EditorUI/LevelPropertiesDialog" method="_on_AutoscrollSpeed_value_changed"]
+[connection signal="value_changed" from="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/PanelContainer/ScrollContainer/LevelProperties/EditLevelLagMinDelay/LagMinDelay" to="UI/Scale/EditorUI/LevelPropertiesDialog" method="_on_LagMinDelay_value_changed"]
+[connection signal="value_changed" from="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/PanelContainer/ScrollContainer/LevelProperties/EditLevelLagMaxDelay/LagMaxDelay" to="UI/Scale/EditorUI/LevelPropertiesDialog" method="_on_LagMaxDelay_value_changed"]
+[connection signal="value_changed" from="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/PanelContainer/ScrollContainer/LevelProperties/EditLevelLagMinMagnitude/LagMinMagnitude" to="UI/Scale/EditorUI/LevelPropertiesDialog" method="_on_LagMinMagnitude_value_changed"]
+[connection signal="value_changed" from="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/PanelContainer/ScrollContainer/LevelProperties/EditLevelLagMaxMagnitude/LagMaxMagnitude" to="UI/Scale/EditorUI/LevelPropertiesDialog" method="_on_LagMaxMagnitude_value_changed"]
 [connection signal="pressed" from="UI/Scale/EditorUI/LevelPropertiesDialog/VBoxContainer/HideLevelProperties" to="UI/Scale/EditorUI/LevelPropertiesDialog" method="_on_HideLevelProperties_pressed"]
 [connection signal="pressed" from="UI/Scale/EditorUI/LayersPanelOffset/LayersPanel/RetractTab" to="UI/Scale/EditorUI/LayersPanelOffset" method="_on_RetractTab_pressed"]
 [connection signal="pressed" from="UI/Scale/EditorUI/LayersPanelOffset/LayersPanel/AddLayerButton" to="UI/Scale/EditorUI/LayersPanelOffset" method="_on_AddLayerButton_pressed"]

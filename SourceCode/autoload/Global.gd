@@ -73,7 +73,7 @@ signal quit_game_requested
 signal open_world_menu(world_folder_name)
 
 func _ready():
-	print(read_csv_data("res://harness/round_data.txt"))
+#	print(read_csv_data("res://harness/round_data.txt"))
 	
 	# Disable the game automatically quitting
 	get_tree().set_auto_accept_quit(false)
@@ -111,6 +111,16 @@ func read_csv_data(path: String):
 			file_data.append(d)
 		
 	return file_data
+
+func increment_player_id():
+	var file = File.new()
+	file.open("res://harness/player_id.txt", File.READ_WRITE)
+	
+	var curr_id = int(file.get_line())
+	curr_id += 1
+	Scoreboard.player_id = curr_id
+	file.seek(0)
+	file.store_string(str(curr_id))
 
 func _update_gravity(new_value):
 	gravity = new_value * pow(60.0, 2.0) / 3.0

@@ -24,12 +24,12 @@ enum LEVEL_TYPE {
 	ROUND = 3
 }
 
-var round_paths = [
-	"res://scenes/levels/framespike/rounds/round1.tscn",
-	"res://scenes/levels/framespike/rounds/round2.tscn",
-	"res://scenes/levels/framespike/rounds/round3.tscn"
-]
+var player_id = 0
 
+var round_data_path = "res://harness/round_data.txt"
+var round_orders_path = "res://harness/round_orders.txt"
+var round_data = []
+var round_orders = []
 var current_round = 0
 
 # This node keeps track of all player variables which persist between levels,
@@ -59,6 +59,7 @@ onready var sfx = $SFX
 onready var message_text_object = $Message
 onready var test_popup = $TestPopup
 onready var next_level_popup = $NextLevelPopup
+onready var round_counter = $Control/RoundCounter
 
 var number_of_deaths = 0
 var level_timer_enabled = false
@@ -69,6 +70,7 @@ var score = 0
 var score_visible = true
 
 func _ready():
+	load_round_data()
 	self.message_text = ""
 	stop_level_timer()
 
@@ -97,8 +99,39 @@ func _draw():
 		timer_text.text = str(time_left)
 	
 	coins_text.text = str(score)
+	if Global.current_level != null and Global.current_level.level_type == LEVEL_TYPE.ROUND:
+		round_counter.text = "Round " + str(current_round + 1) + "/" + str(len(round_data))
+	else:
+		round_counter.text = ""
 	
 	lives_text.text = str( max(lives, 0) )
+
+func load_round_data():
+	var rounds_data = Global.read_csv_data(round_data_path)
+	for item in rounds_data:
+		round_data.append(item)
+		
+	var rounds_orders = Global.read_csv_data(round_orders_path)
+	for item in rounds_orders:
+		var n_rounds = len(item.keys())
+		var curr_order = []
+		for i in range(1, n_rounds + 1):
+			curr_order.append(int(item[str(i)]))
+		round_orders.append(curr_order)
+
+func get_round_data(idx: int) -> Dictionary:
+	return round_data[round_orders[player_id % len(round_orders)][idx]]
+
+func load_round(idx: int):
+	print("Loading round ", idx, " (idx: ", round_orders[player_id % len(round_orders)][idx], ")")
+	var next_round_data = get_round_data(idx)
+	Global.goto_level(next_round_data["path"])
+	
+	var level_time = float(next_round_data["level_time"])
+	print("Level time: ", level_time)
+	yield(Global, "level_ready")
+	Global.current_level.time = level_time
+	Scoreboard.set_level_timer(level_time)
 
 func start_level_timer():
 	level_timer.paused = false
@@ -151,6 +184,7 @@ func show(include_lives_count = true):
 func reset_player_values(game_over = false, reset_state = true):
 	coins = initial_coins
 	score = 0
+	current_round = 0
 	lives = game_over_lives if game_over else initial_lives
 	if reset_state: player_initial_state = initial_state
 
@@ -261,7 +295,7 @@ func _on_LEVELTIMER_timeout():
 			yield(next_level_popup, "next_level_popup_closed")
 			_set_paused(false)
 			
-			Global.goto_level(round_paths[0])
+			load_round(0)
 			return
 
 		LEVEL_TYPE.ROUND:
@@ -277,7 +311,7 @@ func _on_LEVELTIMER_timeout():
 			current_round += 1
 			
 			# Done with all the rounds
-			if current_round >= len(round_paths):
+			if current_round >= len(round_data):
 				self.hide()
 				Global.goto_scene("res://scenes/menus/ThankYou.tscn")
 				return
@@ -287,7 +321,7 @@ func _on_LEVELTIMER_timeout():
 				_set_paused(true)
 				yield(next_level_popup, "next_level_popup_closed")
 				_set_paused(false)
-				Global.goto_level(round_paths[current_round])
+				load_round(current_round)
 				return
 	
 	var player_state = Global.player.state_machine.state

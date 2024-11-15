@@ -8,7 +8,22 @@ margin_bottom = 113.0
 rect_scale = Vector2( 1.25, 1.25 )
 script = ExtResource( 1 )
 
+[node name="Panel" type="Panel" parent="."]
+margin_left = 114.0
+margin_top = 58.0
+margin_right = 439.0
+margin_bottom = 108.0
+
+[node name="Label" type="Label" parent="."]
+margin_left = 116.8
+margin_top = 64.0
+margin_right = 223.8
+margin_bottom = 78.0
+rect_scale = Vector2( 3, 3 )
+text = "Press any button"
+
 [node name="NextLevelButton" type="Button" parent="."]
+visible = false
 margin_left = 204.0
 margin_top = 45.6
 margin_right = 284.0

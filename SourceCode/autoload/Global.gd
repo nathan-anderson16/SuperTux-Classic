@@ -144,6 +144,8 @@ func reset_level():
 	
 	call_deferred("_deferred_reset_scene")
 	yield(self, "scene_reset")
+	Scoreboard.show_next_level_popup()
+	get_tree().paused = false
 
 func goto_title_screen():
 	goto_scene(title_screen_scene)

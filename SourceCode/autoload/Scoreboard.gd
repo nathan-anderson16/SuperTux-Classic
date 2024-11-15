@@ -17,6 +17,8 @@
 
 extends CanvasLayer
 
+signal round_loaded
+
 enum LEVEL_TYPE {
 	REGULAR = 0,
 	PRACTICE_1 = 1,
@@ -132,6 +134,7 @@ func load_round(idx: int):
 	yield(Global, "level_ready")
 	Global.current_level.time = level_time
 	Scoreboard.set_level_timer(level_time)
+	emit_signal("round_loaded")
 
 func start_level_timer():
 	level_timer.paused = false
@@ -260,9 +263,14 @@ func game_over():
 	Global.respawn_player()
 	
 func _set_paused(new_value):
-	# paused = new_value
 	get_tree().paused = new_value
-	Scoreboard.level_timer.paused = new_value
+	level_timer.paused = new_value
+
+func show_next_level_popup():
+	_set_paused(true)
+	next_level_popup.show()
+	yield(next_level_popup, "next_level_popup_closed")
+	_set_paused(false)
 
 func _on_LEVELTIMER_timeout():
 	if Global.player == null or Global.current_level == null: return
@@ -280,22 +288,14 @@ func _on_LEVELTIMER_timeout():
 		
 		# Practice level 1 is over, send the player to practice level 2
 		LEVEL_TYPE.PRACTICE_1:
-			next_level_popup.show()
-			_set_paused(true)
-			yield(next_level_popup, "next_level_popup_closed")
-			_set_paused(false)
-			
 			Global.goto_level("res://scenes/levels/framespike/playtest_spike.tscn")
+			self.show_next_level_popup()
 			return
 		
 		# Practice level 2 is over, so start the rounds
 		LEVEL_TYPE.PRACTICE_2:
-			next_level_popup.show()
-			_set_paused(true)
-			yield(next_level_popup, "next_level_popup_closed")
-			_set_paused(false)
-			
 			load_round(0)
+			self.show_next_level_popup()
 			return
 
 		LEVEL_TYPE.ROUND:
@@ -317,11 +317,8 @@ func _on_LEVELTIMER_timeout():
 				return
 			else:
 				# Wait for the user to click the "Next Level" button
-				next_level_popup.show()
-				_set_paused(true)
-				yield(next_level_popup, "next_level_popup_closed")
-				_set_paused(false)
 				load_round(current_round)
+				self.show_next_level_popup()
 				return
 	
 	var player_state = Global.player.state_machine.state

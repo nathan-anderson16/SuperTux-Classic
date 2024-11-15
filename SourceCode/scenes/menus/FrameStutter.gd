@@ -19,3 +19,4 @@ func _on_Submit_pressed():
 	print("New player ID: ", Scoreboard.player_id)
 	Scoreboard.reset_player_values()
 	SaveManager.new_game("res://scenes/levels/framespike/playtest.tscn")
+	Scoreboard.next_level_popup.show()

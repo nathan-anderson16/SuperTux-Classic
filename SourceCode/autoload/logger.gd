@@ -58,7 +58,7 @@ func get_event_log_path() -> String:
 func initialize_logs():
 	create_log(frame_log_path, "PlayerID,DeltaFrames,Timestamp,Level,State,Timer,Coins,Lives,Deaths,X-Position,Y-Position,X-Velocity,Y-Velocity,FPS,TickRate")
 	create_log(event_log_path, "PlayerID,Timestamp,Level,State,Timer,Coins,Lives,Deaths,Event")
-	create_log(qoe_log_path, "PlayerID,Timestamp,Event")
+	create_log(qoe_log_path, "PlayerID,Timestamp,Level,Event")
 	
 func create_log(path: String, header: String):
 	var file = File.new()
@@ -121,10 +121,13 @@ func log_qoe(message: String = ""):
 		return
 	
 	var player_id = read_int_from_file(player_id_path)
+	var current_level_path = $"/root/Global".current_level_path
+	var level_parts = current_level_path.split("/")
+	var level_result = (level_parts[-1]).split(".")[0]
 	var datetime = OS.get_datetime()
 	var micro = str(Time.get_unix_time_from_system()).split(".")[1]
 	var timestamp =  str(datetime.hour).pad_zeros(2) + ":" + str(datetime.minute).pad_zeros(2) + ":" + str(datetime.second).pad_zeros(2) + "." + micro
-	var qoe_message = str(player_id) + "," + timestamp + "," + message
+	var qoe_message = str(player_id) + "," + timestamp + "," + level_result + "," + message
 	qoe_logs.append(qoe_message)
 	
 

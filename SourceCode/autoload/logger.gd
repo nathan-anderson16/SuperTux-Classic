@@ -6,6 +6,7 @@ var event_log_path: String = ""
 var event_logs: Array = []
 var qoe_log_path: String = "" 
 var qoe_logs: Array = []
+var player_id_path: String = "" 
 var tux_file: Node = null
 var previous_state = ""
 var init = false
@@ -26,6 +27,7 @@ func _ready():
 	frame_log_path = frame_logs_dir + "/frame_log_" + log_title_timestamp + ".csv"
 	event_log_path = event_logs_dir + "/event_log_" + log_title_timestamp + ".csv"
 	qoe_log_path = qoe_logs_dir + "/qoe_log_" + log_title_timestamp + ".csv"
+	player_id_path = "res://harness/player_id.txt"
 	
 	var dir = Directory.new()
 	if !dir.dir_exists(logs_base_dir):
@@ -39,14 +41,24 @@ func _ready():
 	
 	initialize_logs()
 	init = true
+	
+func read_int_from_file(file_path: String) -> int:
+	var file = File.new()
+	if file.open(file_path, File.READ) == OK:
+		var content = file.get_line().strip_edges()
+		file.close()
+		return int(content)
+	else:
+		print("Failed to open file: ", file_path)
+		return 0
 
 func get_event_log_path() -> String:
 	return event_log_path
 
 func initialize_logs():
-	create_log(frame_log_path, "DeltaFrames,Timestamp,Level,State,Timer,Coins,Lives,Deaths,X-Position,Y-Position,X-Velocity,Y-Velocity,FPS,TickRate")
-	create_log(event_log_path, "Timestamp,Level,State,Timer,Coins,Lives,Deaths,Event")
-	create_log(qoe_log_path, "Timestamp,Event")
+	create_log(frame_log_path, "PlayerID,DeltaFrames,Timestamp,Level,State,Timer,Coins,Lives,Deaths,X-Position,Y-Position,X-Velocity,Y-Velocity,FPS,TickRate")
+	create_log(event_log_path, "PlayerID,Timestamp,Level,State,Timer,Coins,Lives,Deaths,Event")
+	create_log(qoe_log_path, "PlayerID,Timestamp,Event")
 	
 func create_log(path: String, header: String):
 	var file = File.new()
@@ -61,6 +73,7 @@ func log_frame(delta):
 		
 	var delta_ms = "%.6f" % (delta * 1000)
 		
+	var player_id = read_int_from_file(player_id_path)
 	var datetime = OS.get_datetime()
 	var micro = str(Time.get_unix_time_from_system()).split(".")[1]
 	var timestamp =  str(datetime.hour).pad_zeros(2) + ":" + str(datetime.minute).pad_zeros(2) + ":" + str(datetime.second).pad_zeros(2) + "." + micro
@@ -79,13 +92,14 @@ func log_frame(delta):
 	var fps = str(Engine.get_frames_per_second())
 	var tick_rate = str(Engine.iterations_per_second)
 	
-	var frame_message = delta_ms + "," + timestamp + "," + level_result + "," + state + "," + timer + "," + coins + "," + lives + "," + deaths + "," + x_position + "," + y_position + "," + x_velocity + "," + y_velocity + "," + fps + "," + tick_rate
+	var frame_message = str(player_id) + "," + delta_ms + "," + timestamp + "," + level_result + "," + state + "," + timer + "," + coins + "," + lives + "," + deaths + "," + x_position + "," + y_position + "," + x_velocity + "," + y_velocity + "," + fps + "," + tick_rate
 	frame_logs.append(frame_message)
 	
 func log_event(message: String = ""):
 	if !init:
 		return
 	
+	var player_id = read_int_from_file(player_id_path)
 	var datetime = OS.get_datetime()
 	var micro = str(Time.get_unix_time_from_system()).split(".")[1]
 	var timestamp =  str(datetime.hour).pad_zeros(2) + ":" + str(datetime.minute).pad_zeros(2) + ":" + str(datetime.second).pad_zeros(2) + "." + micro
@@ -99,16 +113,18 @@ func log_event(message: String = ""):
 	var lives = str($"/root/Scoreboard".lives_text.text)
 	var deaths = str($"/root/Scoreboard".number_of_deaths)
 	
-	var event_message = timestamp + "," + level_result + "," + state + "," + timer + "," + coins + "," + lives + "," + deaths + "," + message
+	var event_message = str(player_id) + "," + timestamp + "," + level_result + "," + state + "," + timer + "," + coins + "," + lives + "," + deaths + "," + message
 	event_logs.append(event_message)
 	
 func log_qoe(message: String = ""):
 	if !init:
 		return
+	
+	var player_id = read_int_from_file(player_id_path)
 	var datetime = OS.get_datetime()
 	var micro = str(Time.get_unix_time_from_system()).split(".")[1]
 	var timestamp =  str(datetime.hour).pad_zeros(2) + ":" + str(datetime.minute).pad_zeros(2) + ":" + str(datetime.second).pad_zeros(2) + "." + micro
-	var qoe_message = timestamp + "," + message
+	var qoe_message = str(player_id) + "," + timestamp + "," + message
 	qoe_logs.append(qoe_message)
 	
 

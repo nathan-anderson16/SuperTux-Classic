@@ -269,8 +269,6 @@ func _set_paused(new_value):
 func show_next_level_popup():
 	_set_paused(true)
 	next_level_popup.show()
-	yield(next_level_popup, "next_level_popup_closed")
-	_set_paused(false)
 
 func _on_LEVELTIMER_timeout():
 	if Global.player == null or Global.current_level == null: return
@@ -289,13 +287,11 @@ func _on_LEVELTIMER_timeout():
 		# Practice level 1 is over, send the player to practice level 2
 		LEVEL_TYPE.PRACTICE_1:
 			Global.goto_level("res://scenes/levels/framespike/playtest_spike.tscn")
-			self.show_next_level_popup()
 			return
 		
 		# Practice level 2 is over, so start the rounds
 		LEVEL_TYPE.PRACTICE_2:
 			load_round(0)
-			self.show_next_level_popup()
 			return
 
 		LEVEL_TYPE.ROUND:
@@ -318,7 +314,6 @@ func _on_LEVELTIMER_timeout():
 			else:
 				# Wait for the user to click the "Next Level" button
 				load_round(current_round)
-				self.show_next_level_popup()
 				return
 	
 	var player_state = Global.player.state_machine.state

@@ -137,6 +137,8 @@ func start_level(in_editor = false):
 		
 		if !in_editor: Music.set_editor_music(false)
 	
+	yield(get_tree(), "idle_frame")
+	Scoreboard.show_next_level_popup()
 	emit_signal("level_ready")
 
 func _process(delta):

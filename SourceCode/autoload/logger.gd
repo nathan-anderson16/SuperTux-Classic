@@ -62,7 +62,8 @@ func log_frame(delta):
 	var delta_ms = str(int(delta * 1000))
 		
 	var datetime = OS.get_datetime()
-	var micro = str(Time.get_unix_time_from_system()).split(".")[1]
+	var time = str(Time.get_unix_time_from_system()).split(".")
+	var micro = "0" if len(time) == 1 else time[1]
 	var timestamp =  str(datetime.hour).pad_zeros(2) + ":" + str(datetime.minute).pad_zeros(2) + ":" + str(datetime.second).pad_zeros(2) + "." + micro
 	var current_level_path = $"/root/Global".current_level_path
 	var level_parts = current_level_path.split("/")

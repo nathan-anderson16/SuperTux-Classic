@@ -7,6 +7,7 @@ var event_logs: Array = []
 var qoe_log_path: String = "" 
 var qoe_logs: Array = []
 var player_id_path: String = "" 
+var summary_log_path: String = "" 
 var tux_file: Node = null
 var previous_state = ""
 var init = false
@@ -23,10 +24,12 @@ func _ready():
 	var frame_logs_dir = logs_base_dir + "/frame_logs"
 	var event_logs_dir = logs_base_dir + "/event_logs"
 	var qoe_logs_dir = logs_base_dir + "/qoe_logs"
+	var summary_logs_dir = logs_base_dir + "/summary_logs"
 	
 	frame_log_path = frame_logs_dir + "/frame_log_" + log_title_timestamp + ".csv"
 	event_log_path = event_logs_dir + "/event_log_" + log_title_timestamp + ".csv"
 	qoe_log_path = qoe_logs_dir + "/qoe_log_" + log_title_timestamp + ".csv"
+	summary_log_path = qoe_logs_dir + "/summary_log_" + log_title_timestamp + ".csv"
 	player_id_path = "res://harness/player_id.txt"
 	
 	var dir = Directory.new()
@@ -38,10 +41,19 @@ func _ready():
 		dir.make_dir(event_logs_dir)
 	if !dir.dir_exists(qoe_logs_dir):
 		dir.make_dir(qoe_logs_dir)
+	if !dir.dir_exists(summary_logs_dir):
+		dir.make_dir(summary_logs_dir)
 	
 	initialize_logs()
 	init = true
 	
+func _notification(what):
+	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
+		write_to_disk()  # Ensure all logs are saved to disk
+		create_summary_log()  # Generate the summary log
+		print("Game is closing. Summary log created.")
+		get_tree().quit()  # Exit the application
+
 func read_int_from_file(file_path: String) -> int:
 	var file = File.new()
 	if file.open(file_path, File.READ) == OK:
@@ -59,6 +71,7 @@ func initialize_logs():
 	create_log(frame_log_path, "PlayerID,DeltaFrames,Timestamp,Level,State,Timer,Coins,Lives,Deaths,X-Position,Y-Position,X-Velocity,Y-Velocity,FPS,TickRate")
 	create_log(event_log_path, "PlayerID,Timestamp,Level,State,Timer,Coins,Lives,Deaths,Event")
 	create_log(qoe_log_path, "PlayerID,Timestamp,Level,Event")
+	create_log(summary_log_path, "MyHeader")
 	
 func create_log(path: String, header: String):
 	var file = File.new()
@@ -95,6 +108,18 @@ func log_frame(delta):
 	var frame_message = str(player_id) + "," + delta_ms + "," + timestamp + "," + level_result + "," + state + "," + timer + "," + coins + "," + lives + "," + deaths + "," + x_position + "," + y_position + "," + x_velocity + "," + y_velocity + "," + fps + "," + tick_rate
 	frame_logs.append(frame_message)
 	
+func summarize_frame_log(data: Array) -> Dictionary:
+	var total_frames = data.size()
+	var total_fps = 0
+	var total_tick_rate = 0
+	for line in data:
+		total_fps += float(line[12]) 
+		total_tick_rate += float(line[13]) 
+	return {
+		"average_fps": total_fps / total_frames,
+		"average_tick_rate": total_tick_rate / total_frames
+		}
+
 func log_event(message: String = ""):
 	if !init:
 		return
@@ -116,6 +141,13 @@ func log_event(message: String = ""):
 	var event_message = str(player_id) + "," + timestamp + "," + level_result + "," + state + "," + timer + "," + coins + "," + lives + "," + deaths + "," + message
 	event_logs.append(event_message)
 	
+func summarize_event_log(data: Array) -> Dictionary:
+	var total_events = data.size()
+	return {
+		"total_events": total_events,
+		}
+
+	
 func log_qoe(message: String = ""):
 	if !init:
 		return
@@ -129,7 +161,63 @@ func log_qoe(message: String = ""):
 	var timestamp =  str(datetime.hour).pad_zeros(2) + ":" + str(datetime.minute).pad_zeros(2) + ":" + str(datetime.second).pad_zeros(2) + "." + micro
 	var qoe_message = str(player_id) + "," + timestamp + "," + level_result + "," + message
 	qoe_logs.append(qoe_message)
+
+func summarize_qoe_log(data: Array) -> Dictionary:
+	var total_entries = data.size()
+	var total_qoe_score = 0
+	var acceptable_count = 0
+	for line in data:
+		if line[3].begins_with("QoE Score:"):
+			total_qoe_score += float(line[3].split(":")[1].strip_edges())
+		elif line[3].begins_with("Acceptable?: Yes"):
+			acceptable_count += 1
+	return {
+		"total_entries": total_entries,
+		"average_qoe_score": total_qoe_score / total_entries,
+		"acceptable_count": acceptable_count
+		}
+		
+func log_summary(output_path: String, frame_summary: Dictionary, event_summary: Dictionary, qoe_summary: Dictionary):
+	var file = File.new()
+	if file.open(output_path, File.WRITE) == OK:
+		file.store_line("Summary Log")
+		file.store_line("Frame Log Summary")
+		file.store_line("Total Frames: " + str(frame_summary["total_frames"]))
+		file.store_line("Average FPS: " + str(frame_summary["average_fps"]))
+		file.store_line("Average Tick Rate: " + str(frame_summary["average_tick_rate"]))
+		file.store_line("X Position Range: " + str(frame_summary["min_x_position"]) + " - " + str(frame_summary["max_x_position"]))
+		file.store_line("Y Position Range: " + str(frame_summary["min_y_position"]) + " - " + str(frame_summary["max_y_position"]))
+		file.store_line("\nEvent Log Summary")
+		file.store_line("Total Events: " + str(event_summary["total_events"]))
+		for state in event_summary["state_transitions"].keys():
+			file.store_line("State " + state + ": " + str(event_summary["state_transitions"][state]) + " transitions")
+		file.store_line("\nQoE Log Summary")
+		file.store_line("Total Entries: " + str(qoe_summary["total_entries"]))
+		file.store_line("Average QoE Score: " + str(qoe_summary["average_qoe_score"]))
+		file.store_line("Acceptable Count: " + str(qoe_summary["acceptable_count"]))
+		file.close()
+		
+func create_summary_log():
+	var frame_data = parse_csv(frame_log_path)
+	var event_data = parse_csv(event_log_path)
+	var qoe_data = parse_csv(qoe_log_path)
 	
+	var frame_summary = summarize_frame_log(frame_data)
+	var event_summary = summarize_event_log(event_data)
+	var qoe_summary = summarize_qoe_log(qoe_data)
+	log_summary(summary_log_path, frame_summary, event_summary, qoe_summary)
+
+func parse_csv(file_path: String) -> Array:
+	var data = []
+	var file = File.new()
+	if file.open(file_path, File.READ) == OK:
+		file.get_line() # Skip header
+		while not file.eof_reached():
+			var line = file.get_line()
+			if line.strip_edges() != "":
+				data.append(line.split(","))
+		file.close()
+	return data
 
 func write_to_disk():
 	var file = File.new()

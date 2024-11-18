@@ -1,5 +1,5 @@
 path,level_time,spike_time
-res://scenes/levels/framespike/rounds/round1.tscn,5.0,250.0
-res://scenes/levels/framespike/rounds/round2.tscn,5.0,250.0
-res://scenes/levels/framespike/rounds/round3.tscn,5.0,250.0
+res://scenes/levels/framespike/rounds/round1.tscn,30.0,250.0
+res://scenes/levels/framespike/rounds/round2.tscn,30.0,250.0
+res://scenes/levels/framespike/rounds/round3.tscn,30.0,250.0
 

@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://theme/default_theme.tres" type="Theme" id=1]
+[ext_resource path="res://scenes/menus/ThankYou.gd" type="Script" id=2]
+[ext_resource path="res://scenes/layers/Background/IceMountains.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/menus/WorldButton.tscn" type="PackedScene" id=9]
+
+[node name="TitleScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="TitleContent" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Panel" type="Panel" parent="TitleContent"]
+margin_left = 390.0
+margin_top = 292.0
+margin_right = 863.0
+margin_bottom = 438.0
+
+[node name="ThankYou" type="Label" parent="TitleContent/Panel"]
+margin_left = 38.0
+margin_top = 14.0
+margin_right = 435.0
+margin_bottom = 35.0
+text = "Thank you for participating!"
+
+[node name="Score" type="Label" parent="TitleContent/Panel"]
+margin_left = 160.0
+margin_top = 58.0
+margin_right = 259.0
+margin_bottom = 79.0
+text = "Score: "
+
+[node name="CloseButton" parent="TitleContent/Panel" instance=ExtResource( 9 )]
+margin_left = 20.0
+margin_top = 102.0
+margin_right = 453.0
+margin_bottom = 132.0
+text = "Close"
+script = null
+
+[node name="IceMountainsBackground" parent="." instance=ExtResource( 4 )]
+
+[connection signal="pressed" from="TitleContent/Panel/CloseButton" to="." method="_on_CloseButton_pressed"]

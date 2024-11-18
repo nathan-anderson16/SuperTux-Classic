@@ -17,6 +17,8 @@
 
 extends Node2D
 
+const LEVEL_TYPE = preload("res://autoload/Scoreboard.gd").LEVEL_TYPE
+
 var level_intro = preload("res://scenes/menus/LevelIntroduction.tscn")
 
 var player_object = preload("res://scenes/player/Tux.tscn")
@@ -33,16 +35,17 @@ export var level_author = ""
 export var music = "ChipDisko" setget _set_level_music
 export var particle_system = ""
 export var uses_timer = true
-export var time = 10
+export var time = 300
 export var gravity = 10
 export var autoscroll_speed = 0.0
+export var starting_powerup = 1
 export var lag_min_delay = 5.0
 export var lag_max_delay = 15.0
 export var lag_min_magnitude = 150.0
 export var lag_max_magnitude = 250.0
-export var starting_powerup = 0
 export var spawn_position = Vector2()
 export var level_height = 15
+export var level_type = LEVEL_TYPE.REGULAR
 
 # If the level uses custom music, this variable specifies
 # the time (in seconds) at which the custom music stream
@@ -58,9 +61,10 @@ signal music_changed
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	print(Global.read_csv_data("res://harness/round_data.txt"))
 	Global.current_level = self
 	set_pause_mode(PAUSE_MODE_STOP)
-	
+#
 	# Only automatically start levels if the level is the root scene.
 	# This is not the case when we are in the level editor, because
 	# the level is a child of the LevelEditor scene.
@@ -76,9 +80,10 @@ func activate_objectmaps():
 func start_level(in_editor = false):
 	activate_objectmaps()
 	
-	yield(get_tree(), "idle_frame")
+	var spawn_offset = (randf() * 2.0) - 1.0
+	spawn_position.x += spawn_offset
 	
-	#print(spawn_position)
+	yield(get_tree(), "idle_frame")
 	
 	ResolutionManager.connect("window_resized", self, "window_resized")
 	Scoreboard.show(!in_editor)
@@ -101,12 +106,12 @@ func start_level(in_editor = false):
 	else: Scoreboard.disable_level_timer()
 	
 	# Display the level title card and wait until it disappears
-	if !is_worldmap and !in_editor: yield(_level_title_card(), "completed")
-	else:
-		Global.emit_signal("level_ready")
+#	if !is_worldmap and !in_editor: yield(_level_title_card(), "completed")
+#	else:
+	Global.emit_signal("level_ready")
 	
 	# Then we load the pause menu into the level so you can pause the game
-	if !in_editor: _load_pause_menu(in_editor)
+	if !in_editor and self.level_type == LEVEL_TYPE.REGULAR: _load_pause_menu(in_editor)
 	
 	# If we're using a custom camera, make it override the player's camera
 	# (You can use custom cameras by adding a Camera2D node into the level)
@@ -122,6 +127,7 @@ func start_level(in_editor = false):
 	# If we're using the level timer, start the clock!
 	if uses_timer:
 		Scoreboard.set_level_timer(time)
+		Scoreboard.stop_level_timer()
 	
 	# And play the level music!
 	if music == "" or !music:

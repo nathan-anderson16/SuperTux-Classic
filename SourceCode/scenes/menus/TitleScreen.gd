@@ -23,6 +23,7 @@ export var credits_scene = ""
 onready var title_content = $TitleContent
 
 onready var start_game_button = $TitleContent/Menu/VBoxContainer/StartGame
+onready var frame_stutter_button = $TitleContent/Menu/VBoxContainer/FrameStutter
 onready var options_button = $TitleContent/Menu/VBoxContainer/Options
 onready var level_editor_button = $TitleContent/Menu/VBoxContainer/LevelEditor
 onready var credits_button = $TitleContent/Menu/VBoxContainer/Credits
@@ -31,6 +32,7 @@ onready var quit_button = $TitleContent/Menu/VBoxContainer/Quit
 onready var new_game_warning = $TitleContent/Menu/NewGameWarning
 onready var options_menu = $OptionsMenu
 onready var start_game_menu = $StartGameMenu
+onready var frame_stutter_menu = $FrameStutterMenu
 
 export var default_world = "world1"
 
@@ -106,3 +108,16 @@ func _on_LevelEditor_mouse_entered():
 
 func _on_LevelEditor_pressed():
 	Global.goto_level_editor_main_menu()
+
+# Frame stutters
+
+func _on_FrameStutter_mouse_entered():
+	frame_stutter_button.grab_focus()
+	
+func _on_FrameStutter_pressed():
+	title_content.hide()
+	frame_stutter_menu.popup()
+
+func _on_FrameStutterMenu_popup_hide():
+	title_content.show()
+	frame_stutter_button.grab_focus()

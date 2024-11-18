@@ -79,7 +79,8 @@ func _state_logic(delta):
 	host.update_sprite()
 	host.update_grab_position()
 	if host.lag_cooldown <= 0 :
-		if ["walk", "jump"].has(state) :
+		var velocity = Global.player.velocity
+		if velocity.x + velocity.y > 0 :
 			if host.lag_delay > 0:
 				host.lag_delay -= Engine.get_main_loop().root.get_physics_process_delta_time()
 			elif host.lag_queued:

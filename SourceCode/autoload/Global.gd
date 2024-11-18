@@ -57,6 +57,7 @@ var accepted_music_file_types = [".mp3", ".wav", ".ogg"]
 #var hovered_objects = []
 
 signal scene_loaded
+signal scene_reset
 signal player_loaded
 signal level_ready # EMITS AFTER THE LEVEL TITLE CARD HAS DISAPPEARED
 signal options_data_created
@@ -72,6 +73,8 @@ signal quit_game_requested
 signal open_world_menu(world_folder_name)
 
 func _ready():
+#	print(read_csv_data("res://harness/round_data.txt"))
+	
 	# Disable the game automatically quitting
 	get_tree().set_auto_accept_quit(false)
 	
@@ -88,12 +91,43 @@ func _ready():
 	apply_options(options_data)
 	SaveManager.load_current_controls()
 
+func read_csv_data(path: String):
+	var file = File.new()
+	file.open(path, File.READ)
+	
+	var headers = file.get_csv_line()
+	
+	var file_data = []
+	while not file.eof_reached():
+		var line = file.get_csv_line()
+		
+		# Make sure the line isn't empty
+		if not (line.size() == 1 and line[0] == ""):
+			var d = {}
+			var i = 0
+			for item in line:
+				d[headers[i]] = item
+				i += 1
+			file_data.append(d)
+		
+	return file_data
+
+func increment_player_id():
+	var file = File.new()
+	file.open("res://harness/player_id.txt", File.READ_WRITE)
+	
+	var curr_id = int(file.get_line())
+	curr_id += 1
+	Scoreboard.player_id = curr_id
+	file.seek(0)
+	file.store_string(str(curr_id))
+
 func _update_gravity(new_value):
 	gravity = new_value * pow(60.0, 2.0) / 3.0
 
 func respawn_player():
 	if current_level == current_scene:
-		goto_level(current_level_path)
+		reset_level()
 	else:
 		emit_signal("player_died")
 
@@ -104,6 +138,14 @@ func goto_level(path, reset_checkpoint = false):
 	if path != current_level_path: Scoreboard.number_of_deaths = 0
 	
 	goto_scene(path)
+
+func reset_level():
+	spawn_position = null
+	
+	call_deferred("_deferred_reset_scene")
+	yield(self, "scene_reset")
+	Scoreboard.show_next_level_popup()
+	get_tree().paused = false
 
 func goto_title_screen():
 	goto_scene(title_screen_scene)
@@ -123,6 +165,29 @@ func goto_scene(path, loading_level = false):
 	
 	call_deferred("_deferred_goto_scene", path, loading_level)
 	yield(self, "scene_loaded")
+
+func _deferred_reset_scene():
+	get_tree().paused = true
+	Engine.time_scale = 1
+	
+	var preserved_time = Scoreboard.level_timer.time_left
+	
+	current_scene.free()
+	current_level = null
+	player = null
+	
+		# Load the new scene.
+	var s = ResourceLoader.load(self.current_level_path)
+	
+	# Instance the new scene.
+	current_scene = s.instance()
+	current_scene.time = preserved_time
+	
+	# Add it to the active scene, as child of root.
+	get_tree().get_root().add_child(current_scene)
+	
+	get_tree().paused = false
+	emit_signal("scene_reset")
 
 func _deferred_goto_scene(path, loading_level = false):
 	get_tree().paused = true

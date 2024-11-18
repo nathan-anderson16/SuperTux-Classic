@@ -16,6 +16,24 @@
 
 
 extends CanvasLayer
+
+signal round_loaded
+
+enum LEVEL_TYPE {
+	REGULAR = 0,
+	PRACTICE_1 = 1,
+	PRACTICE_2 = 2,
+	ROUND = 3
+}
+
+var player_id = 0
+
+var round_data_path = "res://harness/round_data.txt"
+var round_orders_path = "res://harness/round_orders.txt"
+var round_data = []
+var round_orders = []
+var current_round = 0
+
 # This node keeps track of all player variables which persist between levels,
 # such as the coin counter, lives, etc.
 
@@ -23,7 +41,7 @@ extends CanvasLayer
 
 export var initial_coins = 0
 export var initial_lives = 3
-export var initial_state = 0
+export var initial_state = 1
 export var game_over_lives = 10 # How many lives we grant the player after getting a game over.
 
 onready var coins = initial_coins setget _set_coin_count
@@ -42,15 +60,19 @@ onready var game_over_screen = $Control/GameOverScreen
 onready var sfx = $SFX
 onready var message_text_object = $Message
 onready var test_popup = $TestPopup
+onready var next_level_popup = $NextLevelPopup
+onready var round_counter = $Control/RoundCounter
 
 var number_of_deaths = 0
 var level_timer_enabled = false
 var tick_time = 999
 var message_text = "" setget update_message_text
+var score = 0
 
 var score_visible = true
 
 func _ready():
+	load_round_data()
 	self.message_text = ""
 	stop_level_timer()
 
@@ -78,9 +100,41 @@ func _draw():
 		var time_left = ceil(level_timer.time_left)
 		timer_text.text = str(time_left)
 	
-	coins_text.text = str(coins)
+	coins_text.text = str(score)
+	if Global.current_level != null and Global.current_level.level_type == LEVEL_TYPE.ROUND:
+		round_counter.text = "Round " + str(current_round + 1) + "/" + str(len(round_orders[0]))
+	else:
+		round_counter.text = ""
 	
 	lives_text.text = str( max(lives, 0) )
+
+func load_round_data():
+	var rounds_data = Global.read_csv_data(round_data_path)
+	for item in rounds_data:
+		round_data.append(item)
+		
+	var rounds_orders = Global.read_csv_data(round_orders_path)
+	for item in rounds_orders:
+		var n_rounds = len(item.keys())
+		var curr_order = []
+		for i in range(1, n_rounds + 1):
+			curr_order.append(int(item[str(i)]))
+		round_orders.append(curr_order)
+
+func get_round_data(idx: int) -> Dictionary:
+	return round_data[round_orders[player_id % len(round_orders)][idx]]
+
+func load_round(idx: int):
+	print("Loading round ", idx, " (idx: ", round_orders[player_id % len(round_orders)][idx], ")")
+	var next_round_data = get_round_data(idx)
+	Global.goto_level(next_round_data["path"])
+	
+	var level_time = float(next_round_data["level_time"])
+	print("Level time: ", level_time)
+	yield(Global, "level_ready")
+	Global.current_level.time = level_time
+	Scoreboard.set_level_timer(level_time)
+	emit_signal("round_loaded")
 
 func start_level_timer():
 	level_timer.paused = false
@@ -107,6 +161,9 @@ func set_level_timer(time):
 	level_timer.start(time)
 	timer_ui.show()
 
+func add_score(value):
+	score += value
+
 func _set_coin_count(new_value):
 	coins = new_value
 	if coins >= 100:
@@ -129,6 +186,8 @@ func show(include_lives_count = true):
 
 func reset_player_values(game_over = false, reset_state = true):
 	coins = initial_coins
+	score = 0
+	current_round = 0
 	lives = game_over_lives if game_over else initial_lives
 	if reset_state: player_initial_state = initial_state
 
@@ -204,21 +263,63 @@ func game_over():
 	Global.respawn_player()
 	
 func _set_paused(new_value):
-	# paused = new_value
 	get_tree().paused = new_value
-	Scoreboard.level_timer.paused = new_value
+	level_timer.paused = new_value
+
+func show_next_level_popup():
+	_set_paused(true)
+	next_level_popup.show()
+	yield(next_level_popup, "next_level_popup_closed")
+	_set_paused(false)
 
 func _on_LEVELTIMER_timeout():
-	if Global.player == null: return
+	if Global.player == null or Global.current_level == null: return
 	
-	# Show the qoe popup and pause the game
-	$TestPopup/QoEPopup/QoeSlider.value = 3
-	test_popup.show()
-	_set_paused(true)
+	var a = Global.current_level.level_type
+	var b = LEVEL_TYPE.REGULAR
 	
-	# Once the qoe popup is complete, unpause the game
-	yield(test_popup, "test_popup_closed")
-	_set_paused(false)
+	match Global.current_level.level_type:
+		# Regular level, just kill the player
+		LEVEL_TYPE.REGULAR:
+			var player_state = Global.player.state_machine.state
+			if !["win", "dead"].has(player_state):
+				Global.player.die()
+			return
+		
+		# Practice level 1 is over, send the player to practice level 2
+		LEVEL_TYPE.PRACTICE_1:
+			Global.goto_level("res://scenes/levels/framespike/playtest_spike.tscn")
+			self.show_next_level_popup()
+			return
+		
+		# Practice level 2 is over, so start the rounds
+		LEVEL_TYPE.PRACTICE_2:
+			load_round(0)
+			self.show_next_level_popup()
+			return
+
+		LEVEL_TYPE.ROUND:
+			# Show the qoe popup and pause the game
+			test_popup.reset()
+			test_popup.show()
+			_set_paused(true)
+			
+			# Once the qoe popup is complete, unpause the game
+			yield(test_popup, "test_popup_closed")
+			_set_paused(false)
+			
+			current_round += 1
+			
+			# Done with all the rounds
+			if current_round >= len(round_orders[0]):
+				self.hide()
+				Global.goto_scene("res://scenes/menus/ThankYou.tscn")
+				return
+			else:
+				# Wait for the user to click the "Next Level" button
+				load_round(current_round)
+				self.show_next_level_popup()
+				return
 	
 	var player_state = Global.player.state_machine.state
 	if !["win", "dead"].has(player_state):

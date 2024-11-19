@@ -36,8 +36,9 @@ func duration_from_msec(value: float) :
 	
 func apply_lag():
 #	OS.delay_msec((randi() % int(Global.current_level.lag_max_magnitude - Global.current_level.lag_min_magnitude)) + Global.current_level.lag_min_magnitude)
-	print("Lagging for ", Scoreboard.current_level_lag_time, " ms")
-	OS.delay_msec(Scoreboard.current_level_lag_time)
+	var ms_delay = Scoreboard.current_level_lag_time if Global.current_level.level_type == Scoreboard.LEVEL_TYPE.ROUND else Global.current_level.lag_max_magnitude
+	print("Lagging for ", ms_delay, " ms")
+	OS.delay_msec(ms_delay)
 	host.lag_cooldown = duration_from_msec(500.0)
 	
 func _state_logic(delta):

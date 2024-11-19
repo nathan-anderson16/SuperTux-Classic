@@ -116,6 +116,7 @@ func _on_FrameStutter_mouse_entered():
 	
 func _on_FrameStutter_pressed():
 	title_content.hide()
+	Global.increment_player_id()
 	Global.goto_level("res://scenes/levels/framespike/playtest.tscn")
 
 func _on_FrameStutterMenu_popup_hide():

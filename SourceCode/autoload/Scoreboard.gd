@@ -34,6 +34,8 @@ var round_data = []
 var round_orders = []
 var current_round = 0
 
+var current_level_lag_time = 0
+
 # This node keeps track of all player variables which persist between levels,
 # such as the coin counter, lives, etc.
 
@@ -125,15 +127,21 @@ func get_round_data(idx: int) -> Dictionary:
 	return round_data[round_orders[player_id % len(round_orders)][idx]]
 
 func load_round(idx: int):
+	print("Current player ID: ", player_id)
 	print("Loading round ", idx, " (idx: ", round_orders[player_id % len(round_orders)][idx], ")")
 	var next_round_data = get_round_data(idx)
+	print(next_round_data)
 	Global.goto_level(next_round_data["path"])
 	
 	var level_time = float(next_round_data["level_time"])
+	var lag_time = float(next_round_data["spike_time"])
+	
 	print("Level time: ", level_time)
+	print("Lag time: ", lag_time)
 	yield(Global, "level_ready")
 	Global.current_level.time = level_time
 	Scoreboard.set_level_timer(level_time)
+	Scoreboard.current_level_lag_time = lag_time
 	emit_signal("round_loaded")
 
 func start_level_timer():

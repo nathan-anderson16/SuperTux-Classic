@@ -92,10 +92,10 @@ func _process(delta):
 				
 				tick_time = time_left
 				
-				if time_left == 0:
-					sfx.play("TimeOver")
-				else:
-					sfx.play("Tick")
+#				if time_left == 0:
+#					sfx.play("TimeOver")
+#				else:
+#					sfx.play("Tick")
 
 func _draw():
 	if level_timer_enabled:

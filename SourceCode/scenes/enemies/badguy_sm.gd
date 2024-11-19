@@ -104,6 +104,7 @@ func _enter_state(new_state, old_state):
 			host.disable_bounce_area(false)
 		"squished":
 			Scoreboard.score += 100
+			Global.reset_level()
 
 
 func _exit_state(old_state, new_state):

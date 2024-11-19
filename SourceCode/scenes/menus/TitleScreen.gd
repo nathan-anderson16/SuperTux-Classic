@@ -116,7 +116,7 @@ func _on_FrameStutter_mouse_entered():
 	
 func _on_FrameStutter_pressed():
 	title_content.hide()
-	frame_stutter_menu.popup()
+	Global.goto_level("res://scenes/levels/framespike/playtest.tscn")
 
 func _on_FrameStutterMenu_popup_hide():
 	title_content.show()

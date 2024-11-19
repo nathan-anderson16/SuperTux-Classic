@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://theme/default_theme.tres" type="Theme" id=1]
 [ext_resource path="res://scenes/menus/TitleScreen.gd" type="Script" id=2]
@@ -10,7 +10,6 @@
 [ext_resource path="res://scenes/menus/BonusLevels.tscn" type="PackedScene" id=8]
 [ext_resource path="res://scenes/menus/WorldButton.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/menus/StartGame.tscn" type="PackedScene" id=10]
-[ext_resource path="res://scenes/menus/FrameStutter.tscn" type="PackedScene" id=11]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 blend_mode = 3
@@ -206,8 +205,6 @@ text = " Delete "
 
 [node name="OptionsMenu" parent="." instance=ExtResource( 7 )]
 
-[node name="FrameStutterMenu" parent="." instance=ExtResource( 11 )]
-
 [node name="FileDialog" type="FileDialog" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -235,5 +232,4 @@ mode = 0
 [connection signal="popup_hide" from="StartGameMenu" to="." method="_on_StartGameMenu_popup_hide"]
 [connection signal="popup_hide" from="BonusLevelsMenu" to="." method="_on_BonusLevelsMenu_popup_hide"]
 [connection signal="popup_hide" from="OptionsMenu" to="." method="_on_OptionsMenu_popup_hide"]
-[connection signal="popup_hide" from="FrameStutterMenu" to="." method="_on_FrameStutterMenu_popup_hide"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_FileDialog_file_selected"]

@@ -3,6 +3,7 @@
 [ext_resource path="res://scenes/menus/NextLevelPopup.gd" type="Script" id=1]
 
 [node name="TestPopup" type="Popup"]
+visible = true
 margin_right = 601.0
 margin_bottom = 113.0
 rect_scale = Vector2( 1.25, 1.25 )
@@ -21,6 +22,22 @@ margin_right = 223.8
 margin_bottom = 78.0
 rect_scale = Vector2( 3, 3 )
 text = "Press any button"
+
+[node name="Panel2" type="Panel" parent="."]
+margin_left = 114.0
+margin_top = -19.0
+margin_right = 439.0
+margin_bottom = 59.0
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 114.4
+margin_top = -8.0
+margin_right = 277.4
+margin_bottom = 23.0
+rect_scale = Vector2( 2, 2 )
+text = "Arrow keys to move
+Space to jump"
+align = 1
 
 [node name="NextLevelButton" type="Button" parent="."]
 visible = false

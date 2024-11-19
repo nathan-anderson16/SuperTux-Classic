@@ -6,6 +6,15 @@ func _process(delta):
 	pass
 	if !self.visible:
 		return
+	
+	if (Global.current_level.level_type == Scoreboard.LEVEL_TYPE.PRACTICE_1 or
+		Global.current_level.level_type == Scoreboard.LEVEL_TYPE.PRACTICE_2):
+			$Panel2.show()
+			$Label2.show()
+	
+	else:
+		$Panel2.hide()
+		$Label2.hide()
 
 	# Is there a better way to do this?
 	if (

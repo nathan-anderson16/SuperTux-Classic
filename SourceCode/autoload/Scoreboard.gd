@@ -286,11 +286,29 @@ func _on_LEVELTIMER_timeout():
 		
 		# Practice level 1 is over, send the player to practice level 2
 		LEVEL_TYPE.PRACTICE_1:
+			# Show the qoe popup and pause the game
+			test_popup.reset()
+			test_popup.show()
+			_set_paused(true)
+			
+			# Once the qoe popup is complete, unpause the game
+			yield(test_popup, "test_popup_closed")
+			_set_paused(false)
+			
 			Global.goto_level("res://scenes/levels/framespike/playtest_spike.tscn")
 			return
 		
 		# Practice level 2 is over, so start the rounds
 		LEVEL_TYPE.PRACTICE_2:
+			# Show the qoe popup and pause the game
+			test_popup.reset()
+			test_popup.show()
+			_set_paused(true)
+			
+			# Once the qoe popup is complete, unpause the game
+			yield(test_popup, "test_popup_closed")
+			_set_paused(false)
+			
 			load_round(0)
 			return
 

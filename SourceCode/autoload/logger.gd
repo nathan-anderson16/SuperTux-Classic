@@ -32,7 +32,7 @@ func _ready():
 	frame_log_path = frame_logs_dir + "/frame_log_" + log_title_timestamp + ".csv"
 	event_log_path = event_logs_dir + "/event_log_" + log_title_timestamp + ".csv"
 	qoe_log_path = qoe_logs_dir + "/qoe_log_" + log_title_timestamp + ".csv"
-	summary_log_path = qoe_logs_dir + "/summary_log_" + log_title_timestamp + ".csv"
+	summary_log_path = summary_logs_dir + "/summary_log_" + log_title_timestamp + ".csv"
 	player_id_path = "res://harness/player_id.txt"
 	
 	var dir = Directory.new()
@@ -50,12 +50,22 @@ func _ready():
 	initialize_logs()
 	init = true
 	
+func _process(delta):
+	if is_instance_valid(Global.player) and Global.player.has_node("state_machine"):
+		var state_machine = Global.player.get_node("state_machine") if Global.player.has_node("state_machine") else null
+		if state_machine != null:
+			var current_state = state_machine.state
+			log_frame(delta)
+			if current_state != previous_state:
+				log_event()
+				previous_state = current_state
+	
 func _notification(what):
 	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
-		write_to_disk()  # Ensure all logs are saved to disk
-		create_summary_log()  # Generate the summary log
+		write_to_disk() 
+		create_summary_log() 
 		print("Game is closing. Summary log created.")
-		get_tree().quit()  # Exit the application
+		get_tree().quit()  
 
 func read_int_from_file(file_path: String) -> int:
 	var file = File.new()
@@ -66,6 +76,18 @@ func read_int_from_file(file_path: String) -> int:
 	else:
 		print("Failed to open file: ", file_path)
 		return 0
+		
+func parse_csv(file_path: String) -> Array:
+	var data = []
+	var file = File.new()
+	if file.open(file_path, File.READ) == OK:
+		file.get_line() # Skip header
+		while not file.eof_reached():
+			var line = file.get_line()
+			if line.strip_edges() != "":
+				data.append(line.split(","))
+		file.close()
+	return data
 
 func get_event_log_path() -> String:
 	return event_log_path
@@ -152,7 +174,6 @@ func summarize_event_log(data: Array) -> Dictionary:
 	return {
 		"total_events": total_events,
 		}
-
 	
 func log_qoe(message: String = ""):
 	if !init:
@@ -209,18 +230,6 @@ func create_summary_log():
 	var qoe_summary = summarize_qoe_log(qoe_data)
 	log_summary(summary_log_path, frame_summary, event_summary, qoe_summary)
 
-func parse_csv(file_path: String) -> Array:
-	var data = []
-	var file = File.new()
-	if file.open(file_path, File.READ) == OK:
-		file.get_line() # Skip header
-		while not file.eof_reached():
-			var line = file.get_line()
-			if line.strip_edges() != "":
-				data.append(line.split(","))
-		file.close()
-	return data
-
 func write_to_disk():
 	var file = File.new()
 	if file.open(frame_log_path, File.READ_WRITE) == OK:
@@ -245,12 +254,3 @@ func write_to_disk():
 	event_logs.clear()
 	qoe_logs.clear()
 	
-func _process(delta):
-	if is_instance_valid(Global.player) and Global.player.has_node("state_machine"):
-		var state_machine = Global.player.get_node("state_machine") if Global.player.has_node("state_machine") else null
-		if state_machine != null:
-			var current_state = state_machine.state
-			log_frame(delta)
-			if current_state != previous_state:
-				log_event()
-				previous_state = current_state

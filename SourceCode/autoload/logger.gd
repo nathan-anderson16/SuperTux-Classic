@@ -7,6 +7,8 @@ var event_logs: Array = []
 var qoe_log_path: String = "" 
 var qoe_logs: Array = []
 var player_id_path: String = "" 
+var round_data_path: String = ""
+var level_data = {}
 var summary_log_path: String = "" 
 var frame_summary: Array = []
 var event_summary: Array = []
@@ -34,6 +36,8 @@ func _ready():
 	qoe_log_path = qoe_logs_dir + "/qoe_log_" + log_title_timestamp + ".csv"
 	summary_log_path = summary_logs_dir + "/summary_log_" + log_title_timestamp + ".csv"
 	player_id_path = "res://harness/player_id.txt"
+	round_data_path = "res://harness/round_data.txt"
+	load_level_data(round_data_path)
 	
 	var dir = Directory.new()
 	if !dir.dir_exists(logs_base_dir):
@@ -77,6 +81,25 @@ func read_int_from_file(file_path: String) -> int:
 		print("Failed to open file: ", file_path)
 		return 0
 		
+func load_level_data(file_path: String):
+	var file = File.new()
+	if file.open(file_path, File.READ) == OK:
+		file.get_line()
+		while not file.eof_reached():
+			var line = file.get_line().strip_edges()
+			if line != "":
+				var parts = line.split(",")
+				if parts.size() == 3:
+					var path = parts[0]
+					var level_time = float(parts[1])
+					var spike_time = float(parts[2])
+					level_data[path] = {
+						"level_time": level_time,
+						"spike_time": spike_time
+					}
+		print("Loaded Level Data: ", level_data)
+		file.close()
+
 func parse_csv(file_path: String) -> Array:
 	var data = []
 	var file = File.new()
@@ -217,6 +240,7 @@ func log_summary(output_path: String, frame_summary: Dictionary, event_summary: 
 		file.store_line("Total Entries: " + str(qoe_summary["total_entries"]))
 		file.store_line("Average QoE Score: " + str(qoe_summary["average_qoe_score"]))
 		file.store_line("Acceptable Count: " + str(qoe_summary["acceptable_count"]))
+		file.store_line("Round Data: " + str(level_data))
 		file.close()
 		
 func create_summary_log():

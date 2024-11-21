@@ -200,7 +200,7 @@ func summarize_qoe_log(data: Array) -> Dictionary:
 			acceptable_count += 1
 	return {
 		"total_entries": total_entries,
-		"average_qoe_score": total_qoe_score / total_entries,
+		"average_qoe_score": total_entries if total_entries == 0 else total_qoe_score / total_entries,
 		"acceptable_count": acceptable_count
 		}
 		

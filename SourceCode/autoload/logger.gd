@@ -240,7 +240,7 @@ func log_summary(output_path: String, frame_summary: Dictionary, event_summary: 
 		file.store_line("Total Entries: " + str(qoe_summary["total_entries"]))
 		file.store_line("Average QoE Score: " + str(qoe_summary["average_qoe_score"]))
 		file.store_line("Acceptable Count: " + str(qoe_summary["acceptable_count"]))
-		file.store_line("Round Time: " + str(level_data))
+		file.store_line("Round Data: " + str(level_data))
 		file.close()
 		
 func create_summary_log():

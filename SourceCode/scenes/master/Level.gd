@@ -77,6 +77,9 @@ func activate_objectmaps():
 				node.tiles_to_objects()
 
 func start_level(in_editor = false):
+	
+	self.lag_magnitude = Global.next_level_lag
+	
 	activate_objectmaps()
 	
 	var spawn_offset = (randf() * 2.0) - 1.0

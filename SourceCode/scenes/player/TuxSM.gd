@@ -39,6 +39,7 @@ func apply_lag():
 #	var ms_delay = Scoreboard.current_level_lag_time if Global.current_level.level_type == Scoreboard.LEVEL_TYPE.ROUND else Global.current_level.lag_max_magnitude
 #	print("Lagging for ", ms_delay, " ms")
 #	OS.delay_msec(ms_delay)
+	print("Lagging for %s ms" % Global.current_level.lag_magnitude)
 	OS.delay_msec(Global.current_level.lag_magnitude)
 	host.lag_cooldown = duration_from_msec(500.0)
 	

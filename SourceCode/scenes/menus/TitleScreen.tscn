@@ -100,25 +100,23 @@ __meta__ = {
 
 [node name="StartGame" parent="TitleContent/Menu/VBoxContainer" instance=ExtResource( 9 )]
 margin_top = 0.0
-margin_right = 407.0
 margin_bottom = 30.0
 focus_neighbour_bottom = NodePath("../Options")
 text = "Start Game"
 script = null
 
 [node name="FrameStutter" parent="TitleContent/Menu/VBoxContainer" instance=ExtResource( 9 )]
-visible = false
 margin_top = 35.0
-margin_right = 383.0
 margin_bottom = 65.0
 focus_neighbour_bottom = NodePath("../Options")
 text = "Frame Stutter"
 script = null
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TitleContent/Menu/VBoxContainer"]
-margin_top = 35.0
-margin_right = 407.0
-margin_bottom = 65.0
+visible = false
+margin_top = 70.0
+margin_right = 383.0
+margin_bottom = 100.0
 
 [node name="one_two_two" parent="TitleContent/Menu/VBoxContainer/HBoxContainer" instance=ExtResource( 9 )]
 margin_top = 0.0
@@ -147,9 +145,10 @@ text = "[1, 2, 2]"
 script = null
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="TitleContent/Menu/VBoxContainer"]
-margin_top = 70.0
+visible = false
+margin_top = 105.0
 margin_right = 407.0
-margin_bottom = 100.0
+margin_bottom = 135.0
 
 [node name="three_three_five" parent="TitleContent/Menu/VBoxContainer/HBoxContainer2" instance=ExtResource( 9 )]
 margin_top = 0.0
@@ -178,6 +177,7 @@ text = "[3, 3, 5]"
 script = null
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="TitleContent/Menu/VBoxContainer"]
+visible = false
 margin_top = 105.0
 margin_right = 407.0
 margin_bottom = 135.0
@@ -209,25 +209,25 @@ text = "[2, 5, 5]"
 script = null
 
 [node name="Options" type="Button" parent="TitleContent/Menu/VBoxContainer"]
-margin_top = 140.0
-margin_right = 407.0
-margin_bottom = 170.0
+margin_top = 70.0
+margin_right = 350.0
+margin_bottom = 100.0
 focus_neighbour_top = NodePath("../StartGame")
 focus_neighbour_bottom = NodePath("../LevelEditor")
 text = "Options"
 
 [node name="LevelEditor" type="Button" parent="TitleContent/Menu/VBoxContainer"]
-margin_top = 175.0
-margin_right = 407.0
-margin_bottom = 205.0
+margin_top = 105.0
+margin_right = 350.0
+margin_bottom = 135.0
 focus_neighbour_top = NodePath("../Options")
 focus_neighbour_bottom = NodePath("../Credits")
 text = "Level Editor"
 
 [node name="Credits" type="Button" parent="TitleContent/Menu/VBoxContainer"]
-margin_top = 210.0
-margin_right = 407.0
-margin_bottom = 240.0
+margin_top = 140.0
+margin_right = 350.0
+margin_bottom = 170.0
 focus_neighbour_top = NodePath("../LevelEditor")
 focus_neighbour_bottom = NodePath("../Quit")
 text = "Credits"
@@ -247,9 +247,9 @@ margin_bottom = 205.0
 text = "Boss Battle (DEBUG)"
 
 [node name="Quit" type="Button" parent="TitleContent/Menu/VBoxContainer"]
-margin_top = 245.0
-margin_right = 407.0
-margin_bottom = 275.0
+margin_top = 175.0
+margin_right = 350.0
+margin_bottom = 205.0
 focus_neighbour_top = NodePath("../Credits")
 text = "Quit Game"
 

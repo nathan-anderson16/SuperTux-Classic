@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/RandomDelayLaGHitbox.png-378f29f49a3bade4d2c40ebc98e6f96a.stex"
+path="res://.import/RandomDelayLagHitbox.png-c27ed59345d75a15da9e48128125d749.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/editor/RandomDelayLaGHitbox.png"
-dest_files=[ "res://.import/RandomDelayLaGHitbox.png-378f29f49a3bade4d2c40ebc98e6f96a.stex" ]
+source_file="res://images/editor/RandomDelayLagHitbox.png"
+dest_files=[ "res://.import/RandomDelayLagHitbox.png-c27ed59345d75a15da9e48128125d749.stex" ]
 
 [params]
 

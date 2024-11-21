@@ -130,11 +130,13 @@ func load_round(idx: int):
 	print("Current player ID: ", player_id)
 	print("Loading round ", idx, " (idx: ", round_orders[player_id % len(round_orders)][idx], ")")
 	var next_round_data = get_round_data(idx)
-	print(next_round_data)
-	Global.goto_level(next_round_data["path"])
-	
 	var level_time = float(next_round_data["level_time"])
 	var lag_time = float(next_round_data["spike_time"])
+	
+	print("Lag time: ", lag_time)
+	
+	Global.next_level_lag = lag_time
+	Global.goto_level(next_round_data["path"])
 	
 	print("Level time: ", level_time)
 	print("Lag time: ", lag_time)
@@ -303,6 +305,7 @@ func _on_LEVELTIMER_timeout():
 			yield(test_popup, "test_popup_closed")
 			_set_paused(false)
 			
+			Global.next_level_lag = 225
 			Global.goto_level("res://scenes/levels/framespike/playtest_spike.tscn")
 			return
 		

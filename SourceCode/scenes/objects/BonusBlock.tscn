@@ -376,7 +376,6 @@ radius = 128.0
 z_index = 1
 script = ExtResource( 6 )
 type = "Bonus"
-initial_animation = "Bonus"
 contains_powerup = true
 contents_small = ExtResource( 8 )
 contents_big = ExtResource( 7 )

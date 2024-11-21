@@ -41,8 +41,7 @@ export var autoscroll_speed = 0.0
 export var starting_powerup = 1
 export var lag_min_delay = 5.0
 export var lag_max_delay = 15.0
-export var lag_min_magnitude = 150.0
-export var lag_max_magnitude = 250.0
+var lag_magnitude = Global.next_level_lag
 export var spawn_position = Vector2()
 export var level_height = 15
 export var level_type = LEVEL_TYPE.REGULAR
@@ -61,7 +60,7 @@ signal music_changed
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print(Global.read_csv_data("res://harness/round_data.txt"))
+
 	Global.current_level = self
 	set_pause_mode(PAUSE_MODE_STOP)
 #

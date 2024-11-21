@@ -63,7 +63,11 @@ func apply_movement(delta, solid):
 		
 		grounded = is_on_floor()
 		touching_wall = is_on_wall()
-	else: position += velocity * delta
+	else: 
+		position += velocity * delta
+	
+	if position.y > Global.current_level.level_height * Global.TILE_SIZE :
+		Global.reset_level()
 
 func bounce():
 	if grounded:
@@ -75,16 +79,16 @@ func _on_Area2D_body_entered(body):
 	if intangibility_timer > 0: return
 	
 	if body.is_in_group("players"):
-		match type:
-			"Powerup":
-				if body.state < state_to_grant:
-					body.state = state_to_grant
-					Logger.log_event("Success: Egg Power-Up")
-			"Star":
-				body.get_star()
-				Logger.log_event("Success: Star Power-Up")
-			"1up":
-				Scoreboard.lives += 1
+		Scoreboard.score += 100
+		Global.reset_level()
+		#match type:
+		#	"Powerup":
+		#		if body.state < state_to_grant:
+		#			body.state = state_to_grant
+		#	"Star":
+		#		body.get_star()
+		#	"1up":
+		#		Scoreboard.lives += 1
 		queue_free()
 		
 

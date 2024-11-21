@@ -138,8 +138,8 @@ func summarize_frame_log(data: Array) -> Dictionary:
 	var total_fps = 0
 	var total_tick_rate = 0
 	for line in data:
-		total_fps += float(line[14]) 
-		total_tick_rate += float(line[15]) 
+		total_fps += float(line[13]) 
+		total_tick_rate += float(line[14]) 
 	return {
 		"total_frames": total_frames,
 		"average_fps": total_fps / total_frames,

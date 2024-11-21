@@ -81,7 +81,7 @@ func parse_csv(file_path: String) -> Array:
 	var data = []
 	var file = File.new()
 	if file.open(file_path, File.READ) == OK:
-		file.get_line() # Skip header
+		file.get_line()
 		while not file.eof_reached():
 			var line = file.get_line()
 			if line.strip_edges() != "":
@@ -110,7 +110,6 @@ func log_frame(delta):
 		return
 		
 	var delta_ms = "%.6f" % (delta * 1000)
-		
 	var player_id = read_int_from_file(player_id_path)
 	var datetime = OS.get_datetime()
 	var micro = str(Time.get_unix_time_from_system()).split(".")
@@ -139,8 +138,8 @@ func summarize_frame_log(data: Array) -> Dictionary:
 	var total_fps = 0
 	var total_tick_rate = 0
 	for line in data:
-		total_fps += float(line[12]) 
-		total_tick_rate += float(line[13]) 
+		total_fps += float(line[14]) 
+		total_tick_rate += float(line[15]) 
 	return {
 		"total_frames": total_frames,
 		"average_fps": total_fps / total_frames,
@@ -191,7 +190,7 @@ func log_qoe(message: String = ""):
 	qoe_logs.append(qoe_message)
 
 func summarize_qoe_log(data: Array) -> Dictionary:
-	var total_entries = data.size()
+	var total_entries = data.size() / 2
 	var total_qoe_score = 0
 	var acceptable_count = 0
 	for line in data:

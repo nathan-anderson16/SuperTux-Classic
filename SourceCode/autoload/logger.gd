@@ -8,6 +8,9 @@ var qoe_log_path: String = ""
 var qoe_logs: Array = []
 var player_id_path: String = "" 
 var summary_log_path: String = "" 
+var frame_summary: Array = []
+var event_summary: Array = []
+var qoe_summary: Array = []
 var tux_file: Node = null
 var previous_state = ""
 var init = false
@@ -71,7 +74,7 @@ func initialize_logs():
 	create_log(frame_log_path, "PlayerID,DeltaFrames,Timestamp,Level,State,Timer,Coins,Lives,Deaths,X-Position,Y-Position,X-Velocity,Y-Velocity,FPS,TickRate")
 	create_log(event_log_path, "PlayerID,Timestamp,Level,State,Timer,Coins,Lives,Deaths,Event")
 	create_log(qoe_log_path, "PlayerID,Timestamp,Level,Event")
-	create_log(summary_log_path, "MyHeader")
+	create_log(summary_log_path, "Summary Log")
 	
 func create_log(path: String, header: String):
 	var file = File.new()
@@ -88,7 +91,8 @@ func log_frame(delta):
 		
 	var player_id = read_int_from_file(player_id_path)
 	var datetime = OS.get_datetime()
-	var micro = str(Time.get_unix_time_from_system()).split(".")[1]
+	var micro = str(Time.get_unix_time_from_system()).split(".")
+	micro = "0" if len(micro) == 1 else micro[1]
 	var timestamp =  str(datetime.hour).pad_zeros(2) + ":" + str(datetime.minute).pad_zeros(2) + ":" + str(datetime.second).pad_zeros(2) + "." + micro
 	var current_level_path = $"/root/Global".current_level_path
 	var level_parts = current_level_path.split("/")
@@ -116,6 +120,7 @@ func summarize_frame_log(data: Array) -> Dictionary:
 		total_fps += float(line[12]) 
 		total_tick_rate += float(line[13]) 
 	return {
+		"total_frames": total_frames,
 		"average_fps": total_fps / total_frames,
 		"average_tick_rate": total_tick_rate / total_frames
 		}
@@ -126,7 +131,8 @@ func log_event(message: String = ""):
 	
 	var player_id = read_int_from_file(player_id_path)
 	var datetime = OS.get_datetime()
-	var micro = str(Time.get_unix_time_from_system()).split(".")[1]
+	var micro = str(Time.get_unix_time_from_system()).split(".")
+	micro = "0" if len(micro) == 1 else micro[1]
 	var timestamp =  str(datetime.hour).pad_zeros(2) + ":" + str(datetime.minute).pad_zeros(2) + ":" + str(datetime.second).pad_zeros(2) + "." + micro
 	var current_level_path = $"/root/Global".current_level_path
 	var level_parts = current_level_path.split("/")
@@ -157,7 +163,8 @@ func log_qoe(message: String = ""):
 	var level_parts = current_level_path.split("/")
 	var level_result = (level_parts[-1]).split(".")[0]
 	var datetime = OS.get_datetime()
-	var micro = str(Time.get_unix_time_from_system()).split(".")[1]
+	var micro = str(Time.get_unix_time_from_system()).split(".")
+	micro = "0" if len(micro) == 1 else micro[1]
 	var timestamp =  str(datetime.hour).pad_zeros(2) + ":" + str(datetime.minute).pad_zeros(2) + ":" + str(datetime.second).pad_zeros(2) + "." + micro
 	var qoe_message = str(player_id) + "," + timestamp + "," + level_result + "," + message
 	qoe_logs.append(qoe_message)
@@ -180,17 +187,12 @@ func summarize_qoe_log(data: Array) -> Dictionary:
 func log_summary(output_path: String, frame_summary: Dictionary, event_summary: Dictionary, qoe_summary: Dictionary):
 	var file = File.new()
 	if file.open(output_path, File.WRITE) == OK:
-		file.store_line("Summary Log")
 		file.store_line("Frame Log Summary")
 		file.store_line("Total Frames: " + str(frame_summary["total_frames"]))
 		file.store_line("Average FPS: " + str(frame_summary["average_fps"]))
 		file.store_line("Average Tick Rate: " + str(frame_summary["average_tick_rate"]))
-		file.store_line("X Position Range: " + str(frame_summary["min_x_position"]) + " - " + str(frame_summary["max_x_position"]))
-		file.store_line("Y Position Range: " + str(frame_summary["min_y_position"]) + " - " + str(frame_summary["max_y_position"]))
 		file.store_line("\nEvent Log Summary")
 		file.store_line("Total Events: " + str(event_summary["total_events"]))
-		for state in event_summary["state_transitions"].keys():
-			file.store_line("State " + state + ": " + str(event_summary["state_transitions"][state]) + " transitions")
 		file.store_line("\nQoE Log Summary")
 		file.store_line("Total Entries: " + str(qoe_summary["total_entries"]))
 		file.store_line("Average QoE Score: " + str(qoe_summary["average_qoe_score"]))

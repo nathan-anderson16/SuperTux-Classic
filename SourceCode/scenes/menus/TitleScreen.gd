@@ -40,7 +40,7 @@ func _ready():
 	Music.play("Title")
 	
 	Music.set_editor_music(false)
-	ResolutionManager.enable_zoom_in = true
+	ResolutionManager.enable_zoom_in = false
 	
 	Scoreboard.hide()
 	WorldmapManager.reset()

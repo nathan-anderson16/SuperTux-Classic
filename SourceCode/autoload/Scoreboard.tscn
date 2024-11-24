@@ -165,7 +165,6 @@ margin_right = 720.0
 margin_bottom = 314.0
 
 [node name="NextLevelPopup" parent="." instance=ExtResource( 14 )]
-visible = false
 margin_left = 121.0
 margin_top = 196.0
 margin_right = 722.0

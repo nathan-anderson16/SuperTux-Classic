@@ -6,6 +6,14 @@ func _process(delta):
 	if !self.visible:
 		return
 	
+	if Global.current_level != null:
+		$ObjectiveLabel.show()
+		$ObjectivePanel.show()
+		$ObjectiveLabel.text = "Objective: " + Global.current_level.level_objective
+	else:
+		$ObjectiveLabel.hide()
+		$ObjectivePanel.hide()
+	
 	if (Global.current_level.level_type == Scoreboard.LEVEL_TYPE.PRACTICE_1 or
 		Global.current_level.level_type == Scoreboard.LEVEL_TYPE.PRACTICE_2):
 			$Panel2.show()

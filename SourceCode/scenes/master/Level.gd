@@ -45,6 +45,7 @@ var lag_magnitude = Global.next_level_lag
 export var spawn_position = Vector2()
 export var level_height = 15
 export var level_type = LEVEL_TYPE.REGULAR
+export var level_objective = "N/A"
 
 # If the level uses custom music, this variable specifies
 # the time (in seconds) at which the custom music stream

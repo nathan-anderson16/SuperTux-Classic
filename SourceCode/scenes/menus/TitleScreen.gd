@@ -117,7 +117,9 @@ func _on_FrameStutter_mouse_entered():
 func _on_FrameStutter_pressed():
 	title_content.hide()
 	Global.increment_player_id()
-	Global.goto_level("res://scenes/levels/framespike/playtest.tscn")
+	Scoreboard.goto_practice(0)
+#	Global.goto_level(Scoreboard.practice_data[0].path)
+#	Global.goto_level("res://scenes/levels/framespike/playtest.tscn")
 
 func _on_FrameStutterMenu_popup_hide():
 	title_content.show()

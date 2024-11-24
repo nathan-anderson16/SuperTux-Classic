@@ -28,6 +28,9 @@ enum LEVEL_TYPE {
 
 var player_id = 0
 
+var practice_data_path = "res://harness/practice_data.txt"
+var practice_data = []
+
 var round_data_path = "res://harness/round_data.txt"
 var round_orders_path = "res://harness/round_orders.txt"
 var round_data = []
@@ -111,6 +114,10 @@ func _draw():
 	lives_text.text = str( max(lives, 0) )
 
 func load_round_data():
+	var practices_data = Global.read_csv_data(practice_data_path)
+	for item in practices_data:
+		practice_data.append(item)
+	
 	var rounds_data = Global.read_csv_data(round_data_path)
 	for item in rounds_data:
 		round_data.append(item)
@@ -280,6 +287,17 @@ func show_next_level_popup():
 	_set_paused(true)
 	next_level_popup.show()
 
+func goto_practice(idx):
+	var spike_time = float(practice_data[idx].spike_time)
+	var level_time = float(practice_data[idx].level_time)
+	var path = practice_data[idx].path
+	Global.next_level_lag = spike_time
+	Global.goto_level(path)
+	yield(Global, "level_ready")
+	Global.current_level.time = level_time
+	Scoreboard.set_level_timer(level_time)
+	Scoreboard.current_level_lag_time = spike_time
+
 func _on_LEVELTIMER_timeout():
 	if Global.player == null or Global.current_level == null: return
 	
@@ -305,8 +323,7 @@ func _on_LEVELTIMER_timeout():
 			yield(test_popup, "test_popup_closed")
 			_set_paused(false)
 			
-			Global.next_level_lag = 225
-			Global.goto_level("res://scenes/levels/framespike/playtest_spike.tscn")
+			goto_practice(1)
 			return
 		
 		# Practice level 2 is over, so start the rounds

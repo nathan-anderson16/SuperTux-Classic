@@ -5,7 +5,6 @@
 [sub_resource type="ButtonGroup" id=1]
 
 [node name="TestPopup" type="Popup"]
-visible = true
 margin_right = 601.0
 margin_bottom = 113.0
 rect_scale = Vector2( 1.25, 1.25 )

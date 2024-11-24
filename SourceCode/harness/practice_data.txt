@@ -1,0 +1,4 @@
+path,level_time,spike_time
+res://scenes/levels/framespike/playtest.tscn,2.0,0
+res://scenes/levels/framespike/playtest_spike.tscn,2.0,225
+

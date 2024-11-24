@@ -55,6 +55,8 @@ var is_in_editor = false setget , _get_is_in_editor
 
 var accepted_music_file_types = [".mp3", ".wav", ".ogg"]
 
+var is_first_load = false
+
 #var hovered_objects = []
 
 signal scene_loaded
@@ -145,8 +147,6 @@ func reset_level():
 	
 	call_deferred("_deferred_reset_scene")
 	yield(self, "scene_reset")
-	Scoreboard.show_next_level_popup()
-	get_tree().paused = false
 
 func goto_title_screen():
 	goto_scene(title_screen_scene)
@@ -177,7 +177,9 @@ func _deferred_reset_scene():
 	current_level = null
 	player = null
 	
-		# Load the new scene.
+	is_first_load = false
+	
+	# Load the new scene.
 	var s = ResourceLoader.load(self.current_level_path)
 	
 	# Instance the new scene.
@@ -197,6 +199,8 @@ func _deferred_goto_scene(path, loading_level = false):
 	current_scene.free()
 	current_level = null
 	player = null
+	
+	is_first_load = true
 	
 	# Load the new scene.
 	var s = ResourceLoader.load(path)

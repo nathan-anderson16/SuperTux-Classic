@@ -3,7 +3,6 @@ extends Popup
 signal next_level_popup_closed
 
 func _process(delta):
-	pass
 	if !self.visible:
 		return
 	

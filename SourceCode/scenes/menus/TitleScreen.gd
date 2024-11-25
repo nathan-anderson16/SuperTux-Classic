@@ -62,7 +62,7 @@ func _on_StartGame_mouse_entered():
 
 func _on_StartGame_pressed():
 	Global.next_level_lag = 225
-	Global.goto_level("res://scenes/levels/test_rounds/five_five_five_level.tscn")
+	Global.goto_level("res://scenes/levels/test_rounds/three_three_three_level.tscn")
 
 func _on_StartGameMenu_popup_hide():
 	title_content.show()

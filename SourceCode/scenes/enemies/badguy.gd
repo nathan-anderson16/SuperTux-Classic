@@ -259,7 +259,7 @@ func _on_DamageArea_body_entered(body):
 			# EXCEPT for if the player has a star, in which case die
 			if body.invincible and body.invincible_type == body.invincible_types.STAR:
 				die(true)
-			else: body.hurt(self)
+			else: body.die()
 	
 	if body.is_in_group("enemies"):
 		if body.has_method("take_damage"):

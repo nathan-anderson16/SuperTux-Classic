@@ -35,10 +35,11 @@ func duration_from_msec(value: float) :
 	return value / 1000.0
 	
 func apply_lag():
-	print("Lagging for %s ms" % Global.current_level.lag_magnitude)
+	#print("Lagging for %s ms" % Global.current_level.lag_magnitude)
+	Logger.log_event("Lag Severity (start): " + str(Global.current_level.lag_magnitude))
 	OS.delay_msec(Global.current_level.lag_magnitude)
-	host.lag_cooldown = duration_from_msec(500.0)
-	Logger.log_event("Lag Severity: " + str(Global.current_level.lag_magnitude))
+	Logger.log_event("Lag Severity (end): " + str(Global.current_level.lag_magnitude))
+	host.lag_cooldown = duration_from_msec(50.0)
 	
 func _state_logic(delta):
 	if logger != null:

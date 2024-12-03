@@ -3,6 +3,7 @@
 [ext_resource path="res://scenes/menus/NextLevelPopup.gd" type="Script" id=1]
 
 [node name="TestPopup" type="Popup"]
+visible = true
 margin_right = 601.0
 margin_bottom = 113.0
 rect_scale = Vector2( 1.25, 1.25 )
@@ -20,7 +21,7 @@ margin_top = 256.0
 margin_right = 647.6
 margin_bottom = 270.0
 rect_scale = Vector2( 2, 2 )
-text = "Press any button to start"
+text = "Press arrow keys or space to start"
 align = 1
 
 [node name="Panel2" type="Panel" parent="."]

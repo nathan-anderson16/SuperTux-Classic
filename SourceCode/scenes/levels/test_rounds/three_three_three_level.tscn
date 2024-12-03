@@ -40,7 +40,7 @@ time = 60
 lag_min_delay = 10.0
 lag_max_delay = 400.0
 level_type = 3
-level_objective = "Squish the enemy"
+level_objective = "Jump on top of the enemy"
 
 [node name="SnowBG" parent="." instance=ExtResource( 2 )]
 

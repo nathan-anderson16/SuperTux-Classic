@@ -106,6 +106,12 @@ func read_csv_data(path: String):
 		
 		# Make sure the line isn't empty
 		if not (line.size() == 1 and line[0] == ""):
+			
+			# Comments
+			var s = line.join("").strip_edges(true, false)
+			if not s.empty() and s[0] == "#":
+				continue
+			
 			var d = {}
 			var i = 0
 			for item in line:

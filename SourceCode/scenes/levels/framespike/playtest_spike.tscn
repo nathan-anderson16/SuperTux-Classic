@@ -38,7 +38,7 @@ script = ExtResource( 4 )
 level_title = "Playtest 1 (Spikes)"
 time = 5
 level_type = 2
-level_objective = "Complete the level"
+level_objective = "Reach the end"
 
 [node name="SnowBG" parent="." instance=ExtResource( 1 )]
 

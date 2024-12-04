@@ -16,6 +16,8 @@
 
 
 extends StateMachine
+var last_frame_time: float = 0.0
+var frame_time: float = 0.0
 
 func _ready():
 	add_state("idle")
@@ -41,8 +43,13 @@ func apply_lag():
 	Logger.log_event("Lag Severity: " + str(Global.current_level.lag_magnitude))
 	
 func _state_logic(delta):
-	if logger != null:
-		logger.log_frame(delta)
+	last_frame_time = OS.get_ticks_usec() / 1000.0
+	var current_time = OS.get_ticks_usec() / 1000.0
+	frame_time = current_time - last_frame_time
+	last_frame_time = current_time
+	
+	if Logger != null:
+		Logger.log_frame(delta, frame_time)
 	
 	if "dead" in state:
 		host.stop_riding_entity()

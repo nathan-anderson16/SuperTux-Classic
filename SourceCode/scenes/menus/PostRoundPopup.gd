@@ -51,6 +51,7 @@ func _on_AcceptableSubmitButton_pressed():
 	self.hide()
 	emit_signal("test_popup_closed")
 	Logger.write_to_disk()
+	Logger.start_new_round()
 
 
 func _on_NoButton_pressed():

@@ -443,6 +443,7 @@ func die():
 	if !can_die: return
 	
 	Scoreboard.number_of_deaths += 1
+	Logger.log_event("Death")
 #	Scoreboard.lives -= 1
 	Scoreboard.player_initial_state = states.BIG
 #	Scoreboard.stop_level_timer()

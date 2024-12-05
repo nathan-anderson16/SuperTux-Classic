@@ -295,6 +295,7 @@ func goto_practice(idx):
 	Global.goto_level(path)
 	yield(Global, "level_ready")
 	Global.current_level.time = level_time
+	Global.current_level.level_type = idx + 1
 	Scoreboard.set_level_timer(level_time)
 	Scoreboard.current_level_lag_time = spike_time
 
@@ -337,6 +338,8 @@ func _on_LEVELTIMER_timeout():
 			yield(test_popup, "test_popup_closed")
 			_set_paused(false)
 			
+			# Reset the score after the practice levels
+			score = 0
 			load_round(0)
 			return
 

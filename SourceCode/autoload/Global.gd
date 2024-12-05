@@ -178,6 +178,7 @@ func _deferred_reset_scene():
 	Engine.time_scale = 1
 	
 	var preserved_time = Scoreboard.level_timer.time_left
+	var preserved_level_type = current_level.level_type
 	
 	current_scene.free()
 	current_level = null
@@ -191,6 +192,7 @@ func _deferred_reset_scene():
 	# Instance the new scene.
 	current_scene = s.instance()
 	current_scene.time = preserved_time
+	current_scene.level_type = preserved_level_type
 	
 	# Add it to the active scene, as child of root.
 	get_tree().get_root().add_child(current_scene)

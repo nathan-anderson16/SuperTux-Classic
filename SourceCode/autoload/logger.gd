@@ -23,6 +23,11 @@ var previous_state = ""
 var init = false
 var last_frame_time: float = 0.0
 var frame_time: float = 0.0
+var cumulative_time: float = 0.0
+var frame_count: int = 0
+var start_time: int = OS.get_ticks_msec() 
+var tick_rate: float = 0.0 
+const TICK_RATE_INTERVAL: float = 1.0 
 
 func _ready():
 	
@@ -62,15 +67,24 @@ func _ready():
 	init = true
 	
 func _process(delta):
-	var current_time = OS.get_ticks_usec() / 1000.0
-	frame_time = current_time - last_frame_time
-	last_frame_time = current_time
+	cumulative_time += delta 
+	frame_count += 1
+	
+	var current_time = OS.get_ticks_msec()
+	var elapsed_time = (current_time - start_time) / 1000.0 
+
+	if elapsed_time >= TICK_RATE_INTERVAL:
+		tick_rate = frame_count / elapsed_time
+		print("Tick Rate:", tick_rate)
+
+		start_time = current_time
+		frame_count = 0
 	
 	if is_instance_valid(Global.player) and Global.player.has_node("state_machine"):
 		var state_machine = Global.player.get_node("state_machine") if Global.player.has_node("state_machine") else null
 		if state_machine != null:
 			var current_state = state_machine.state
-			log_frame(delta, frame_time)
+			log_frame(delta, cumulative_time)
 			if current_state != previous_state:
 				log_event()
 				previous_state = current_state
@@ -136,7 +150,7 @@ func get_event_log_path() -> String:
 	return event_log_path
 
 func initialize_logs():
-	create_log(frame_log_path, "Time,PlayerID,DeltaFrames,Timestamp,Level,State,Timer,Coins,Lives,Deaths,X-Position,Y-Position,X-Velocity,Y-Velocity")
+	create_log(frame_log_path, "Time,PlayerID,DeltaFrames,Timestamp,Level,State,Timer,Coins,Lives,Deaths,X-Position,Y-Position,X-Velocity,Y-Velocity,TickRate")
 	create_log(event_log_path, "PlayerID,Timestamp,Level,State,Timer,Coins,Lives,Deaths,Event")
 	create_log(qoe_log_path, "PlayerID,Timestamp,Level,Event")
 	create_log(summary_log_path, "Summary Log")
@@ -152,6 +166,8 @@ func log_frame(delta, frame_time):
 	if !init:
 		return
 		
+	var cumulative_ms = "%.6f" % (cumulative_time * 1000)
+	var tick_rate_formatted = "%.2f" % tick_rate
 	var delta_ms = "%.6f" % (delta * 1000)
 	var player_id = read_int_from_file(player_id_path)
 	var datetime = OS.get_datetime()
@@ -172,7 +188,7 @@ func log_frame(delta, frame_time):
 	var y_velocity = str(Global.player.velocity).split(",")[1].split(")")[0].split(" ")[1]
 	var tick_rate = str(Engine.iterations_per_second)
 	
-	var frame_message = str(frame_time) + "," + str(player_id) + "," + delta_ms + "," + timestamp + "," + level_result + "," + state + "," + timer + "," + coins + "," + lives + "," + deaths + "," + x_position + "," + y_position + "," + x_velocity + "," + y_velocity
+	var frame_message = str(cumulative_time) + "," + str(player_id) + "," + delta_ms + "," + timestamp + "," + level_result + "," + state + "," + timer + "," + coins + "," + lives + "," + deaths + "," + x_position + "," + y_position + "," + x_velocity + "," + y_velocity + "," + tick_rate_formatted
 	frame_logs.append(frame_message)
 	if !frame_logs_by_round.has(current_round):
 		frame_logs_by_round[current_round] = []
@@ -291,9 +307,12 @@ func get_round_events(event_log, current_round):
 	return round_events
 	
 func get_round_qoe_score(qoe_entries: Array) -> float:
+	var key = "QoE Score:"
 	for entry in qoe_entries:
-		if entry.split(",")[3].begins_with("QoE Score:"):
-			return float(entry.split(":")[1].strip_edges())
+		var index = entry.find(key)
+		print(entry)
+		if index != -1:
+			return float(entry.substr(index + key.length(), entry.length()).strip_edges())
 	return 0.0
 	
 func calculate_min_fps(frames: Array) -> float:

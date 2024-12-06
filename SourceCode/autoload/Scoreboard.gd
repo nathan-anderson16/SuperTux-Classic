@@ -121,6 +121,8 @@ func load_round_data():
 	var rounds_data = Global.read_csv_data(round_data_path)
 	for item in rounds_data:
 		round_data.append(item)
+	
+	print("Round data: ", round_data)
 		
 	var rounds_orders = Global.read_csv_data(round_orders_path)
 	for item in rounds_orders:

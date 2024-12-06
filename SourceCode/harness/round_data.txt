@@ -11,7 +11,7 @@ res://scenes/levels/test_rounds/one_two_two_level.tscn,15.0,225,Collect the bell
 # Medium gap, small landing platform
 res://scenes/levels/test_rounds/three_four_five_level.tscn,30.0,0,Jump over the gap and hit the bell
 res://scenes/levels/test_rounds/three_four_five_level.tscn,30.0,225,Jump over the gap and hit the bell
-Small gap, medium landing platform
+# Small gap, medium landing platform
 res://scenes/levels/test_rounds/three_three_five_level.tscn,30.0,0,Jump over the gap and hit the bell
 res://scenes/levels/test_rounds/three_three_five_level.tscn,30.0,225,Jump over the gap and hit the bell
 # Squish enemy

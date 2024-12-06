@@ -139,16 +139,19 @@ func load_round(idx: int):
 	var next_round_data = get_round_data(idx)
 	var level_time = float(next_round_data["level_time"])
 	var lag_time = float(next_round_data["spike_time"])
-	
-	print("Lag time: ", lag_time)
+	var objective_text = next_round_data["objective_text"]
 	
 	Global.next_level_lag = lag_time
 	Global.goto_level(next_round_data["path"])
 	
 	print("Level time: ", level_time)
 	print("Lag time: ", lag_time)
+	
 	yield(Global, "level_ready")
+	
 	Global.current_level.time = level_time
+	Global.current_level.level_objective = objective_text
+	
 	Scoreboard.set_level_timer(level_time)
 	Scoreboard.current_level_lag_time = lag_time
 	emit_signal("round_loaded")
@@ -290,12 +293,17 @@ func show_next_level_popup():
 func goto_practice(idx):
 	var spike_time = float(practice_data[idx].spike_time)
 	var level_time = float(practice_data[idx].level_time)
+	var objective_text = practice_data[idx].objective_text
 	var path = practice_data[idx].path
+	
 	Global.next_level_lag = spike_time
 	Global.goto_level(path)
 	yield(Global, "level_ready")
+	
 	Global.current_level.time = level_time
 	Global.current_level.level_type = idx + 1
+	Global.current_level.level_objective = objective_text
+	
 	Scoreboard.set_level_timer(level_time)
 	Scoreboard.current_level_lag_time = spike_time
 

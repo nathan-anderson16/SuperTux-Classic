@@ -103,8 +103,9 @@ func _enter_state(new_state, old_state):
 		"fall":
 			host.disable_bounce_area(false)
 		"squished":
-			Scoreboard.score += 100
-			Global.reset_level()
+			if Global.current_level.level_type == Scoreboard.LEVEL_TYPE.ROUND:
+				Scoreboard.score += 100
+				Global.reset_level()
 
 
 func _exit_state(old_state, new_state):

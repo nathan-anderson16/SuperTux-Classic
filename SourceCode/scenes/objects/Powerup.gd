@@ -79,9 +79,10 @@ func _on_Area2D_body_entered(body):
 	if intangibility_timer > 0: return
 	
 	if body.is_in_group("players"):
-		Scoreboard.score += 100
-		Logger.log_event("Success: Reset Checkpoint Reached")
-		Global.reset_level()
+		if Global.current_level.level_type == Scoreboard.LEVEL_TYPE.ROUND:
+			Scoreboard.score += 100
+			Logger.log_event("Success: Power-up Collected")
+			Global.reset_level()
 		#match type:
 		#	"Powerup":
 		#		if body.state < state_to_grant:

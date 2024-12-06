@@ -3,6 +3,7 @@
 [ext_resource path="res://scenes/menus/NextLevelPopup.gd" type="Script" id=1]
 
 [node name="TestPopup" type="Popup"]
+visible = true
 margin_right = 601.0
 margin_bottom = 113.0
 rect_scale = Vector2( 1.25, 1.25 )
@@ -30,12 +31,12 @@ margin_right = 950.0
 margin_bottom = 201.0
 
 [node name="Label2" type="Label" parent="."]
-margin_left = 378.4
-margin_top = 106.4
-margin_right = 628.4
-margin_bottom = 154.4
+margin_left = 403.2
+margin_top = 109.6
+margin_right = 653.2
+margin_bottom = 157.6
 rect_scale = Vector2( 2, 2 )
-text = "This is a practice level
+text = "This is a practice round
 Arrow keys to move
 Space to jump"
 align = 1

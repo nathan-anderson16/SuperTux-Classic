@@ -121,8 +121,6 @@ func load_round_data():
 	var rounds_data = Global.read_csv_data(round_data_path)
 	for item in rounds_data:
 		round_data.append(item)
-	
-	print("Round data: ", round_data)
 		
 	var rounds_orders = Global.read_csv_data(round_orders_path)
 	for item in rounds_orders:
@@ -195,6 +193,9 @@ func _set_coin_count(new_value):
 func _set_lives_count(new_value):
 	if new_value > lives: sfx.play("1up")
 	lives = clamp(new_value, -1, 99)
+
+func play_reset_checkpoint():
+	sfx.play("Checkpoint")
 
 func hide():
 	score_visible = false

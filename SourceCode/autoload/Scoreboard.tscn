@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://autoload/Scoreboard.gd" type="Script" id=1]
 [ext_resource path="res://theme/default_theme.tres" type="Theme" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://theme/FontButton.tres" type="DynamicFont" id=12]
 [ext_resource path="res://scenes/menus/PostRoundPopup.tscn" type="PackedScene" id=13]
 [ext_resource path="res://scenes/menus/NextLevelPopup.tscn" type="PackedScene" id=14]
+[ext_resource path="res://sounds/objects/checkpoint.wav" type="AudioStream" id=15]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 0.678431 )
@@ -155,10 +156,12 @@ pitch_scale = 1.5
 [node name="TimeOver" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource( 11 )
 
+[node name="Checkpoint" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource( 15 )
+
 [node name="Tween" type="Tween" parent="."]
 
 [node name="TestPopup" parent="." instance=ExtResource( 13 )]
-visible = false
 margin_left = 600.0
 margin_top = 400.0
 margin_right = 1199.0

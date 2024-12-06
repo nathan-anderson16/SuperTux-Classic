@@ -149,7 +149,7 @@ func goto_level(path, reset_checkpoint = false):
 	goto_scene(path)
 
 func reset_level():
-	spawn_position = null
+#	spawn_position = null
 	
 	call_deferred("_deferred_reset_scene")
 	yield(self, "scene_reset")
@@ -193,6 +193,7 @@ func _deferred_reset_scene():
 	current_scene = s.instance()
 	current_scene.time = preserved_time
 	current_scene.level_type = preserved_level_type
+	current_scene.spawn_position = spawn_position
 	
 	# Add it to the active scene, as child of root.
 	get_tree().get_root().add_child(current_scene)
@@ -205,6 +206,7 @@ func _deferred_goto_scene(path, loading_level = false):
 	Engine.time_scale = 1;
 	# It is now safe to remove the current scene
 	current_scene.free()
+	spawn_position = null
 	current_level = null
 	player = null
 	

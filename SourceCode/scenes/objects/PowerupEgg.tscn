@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scenes/objects/Powerup.gd" type="Script" id=1]
-[ext_resource path="res://images/powerups/egg.png" type="Texture" id=2]
+[ext_resource path="res://images/objects/checkpoint/bell-m.png" type="Texture" id=2]
 
 [sub_resource type="Animation" id=7]
 resource_name = "appear"
@@ -112,6 +112,7 @@ rect_pivot_offset = Vector2( 16, 32 )
 rect_clip_content = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Control"]
+position = Vector2( -7.4958, 0 )
 frames = SubResource( 2 )
 centered = false
 

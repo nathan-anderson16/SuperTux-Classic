@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scenes/objects/Powerup.gd" type="Script" id=1]
-[ext_resource path="res://images/powerups/star.png" type="Texture" id=2]
+[ext_resource path="res://images/objects/checkpoint/bell-m.png" type="Texture" id=2]
 [ext_resource path="res://images/particles/invincible_sparkle.png" type="Texture" id=3]
 [ext_resource path="res://scenes/particles/InvincibleParticlesSmall.tres" type="Material" id=4]
 

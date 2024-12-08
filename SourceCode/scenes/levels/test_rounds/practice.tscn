@@ -61,3 +61,41 @@ collision_mask = 0
 
 [node name="ObjectMap" parent="." instance=ExtResource( 3 )]
 tile_data = PoolIntArray( 196736, 30, 0, 196782, 30, 0, 327813, 37, 0, 327814, 37, 0, 327815, 37, 0, 327816, 37, 0, 327817, 37, 0, 327859, 37, 0, 327860, 37, 0, 327861, 37, 0, 327862, 37, 0, 524309, 30, 0, 786473, 30, 0, 786496, 30, 0, 786521, 30, 0, 851973, 5, 0, 851993, 12, 0, 917512, 14, 0, 917514, 15, 0, 1048760, 37, 0, 1048761, 37, 0, 1048762, 37, 0, 1048763, 37, 0, 1048764, 37, 0, 1048765, 37, 0, 1048766, 37, 0, 1441922, 30, 0, 1572998, 37, 0, 1572999, 37, 0, 1573000, 37, 0, 1573001, 37, 0, 1573002, 37, 0, 1573003, 37, 0, 1573004, 37, 0, 1573005, 37, 0, 1573006, 37, 0, 1573007, 37, 0, 1704120, 41, 0, 1835187, 37, 0, 1835188, 37, 0, 1835189, 37, 0, 1835190, 37, 0 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 155.0
+margin_top = 238.0
+margin_right = 310.0
+margin_bottom = 252.0
+rect_scale = Vector2( 2, 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Collect the moving bells"
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 731.0
+margin_top = 251.0
+margin_right = 897.0
+margin_bottom = 265.0
+rect_scale = Vector2( 2, 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Jump on top of the enemy"
+
+[node name="Label3" type="Label" parent="."]
+margin_left = 1904.0
+margin_top = 307.0
+margin_right = 2060.0
+margin_bottom = 321.0
+rect_scale = Vector2( 2, 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Bells save your progress"
+
+[node name="Label4" type="Label" parent="."]
+margin_left = 5714.0
+margin_top = 353.0
+margin_right = 5912.0
+margin_bottom = 384.0
+rect_scale = Vector2( 2, 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "The bell at the end
+resets the level"
+align = 1

@@ -99,3 +99,13 @@ custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "The bell at the end
 resets the level"
 align = 1
+
+[node name="Label5" type="Label" parent="."]
+margin_left = 4214.0
+margin_top = 75.0
+margin_right = 4412.0
+margin_bottom = 106.0
+rect_scale = Vector2( 2, 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Lava (the red stuff) kills you"
+align = 1

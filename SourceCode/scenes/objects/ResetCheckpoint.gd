@@ -12,6 +12,7 @@ func _process(delta):
 			Scoreboard.play_reset_checkpoint()
 			Scoreboard.add_score(100)
 			print("Score: ", Scoreboard.score)
+			Global.spawn_position = null
 			Global.reset_level()
 
 func _on_Area2D_body_entered(body):

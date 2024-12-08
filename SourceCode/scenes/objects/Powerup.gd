@@ -66,8 +66,9 @@ func apply_movement(delta, solid):
 	else: 
 		position += velocity * delta
 	
-	if position.y > Global.current_level.level_height * Global.TILE_SIZE :
-		Global.reset_level()
+	if Global.current_level.level_type == Scoreboard.LEVEL_TYPE.ROUND:
+		if position.y > Global.current_level.level_height * Global.TILE_SIZE :
+			Global.reset_level()
 
 func bounce():
 	if grounded:

@@ -118,11 +118,13 @@ align = 2
 mouse_filter = 2
 
 [node name="LifeCounter" type="Control" parent="Control"]
+visible = false
 anchor_top = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="TuxIcon" type="TextureRect" parent="Control/LifeCounter"]
+visible = false
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = -18.0
@@ -133,6 +135,7 @@ mouse_filter = 2
 texture = ExtResource( 6 )
 
 [node name="Lives" type="Label" parent="Control/LifeCounter"]
+visible = false
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 63.0

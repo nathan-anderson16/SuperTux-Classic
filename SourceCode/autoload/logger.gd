@@ -187,7 +187,7 @@ func log_frame(delta, total_time):
 	var timer_text = $"/root/Scoreboard".timer_text.text
 	var timer_float = "%.6f" % (float(timer_text) - float(cumulative_time))
 	
-	print("Timer Text:", $"/root/Scoreboard".timer_text.text)
+#	print("Timer Text:", $"/root/Scoreboard".timer_text.text)
 
 	var coins = str($"/root/Scoreboard".coins_text.text)
 	var lives = str($"/root/Scoreboard".lives_text.text)
@@ -356,8 +356,8 @@ func calculate_average_frame_rate_for_round(round_number: int) -> float:
 	
 	for frame in round_frames:
 		var frame_parts = frame.split(",")
-		if frame_parts.size() > 2:  
-			total_delta_time += float(frame_parts[2]) / 1000.0 
+		if frame_parts.size() > 2:
+			total_delta_time += float(frame_parts[2])
 
 	if total_delta_time == 0.0:
 		return 0.0
@@ -381,7 +381,7 @@ func create_round_summary(round_number: int):
 	
 	var frame_summary = summarize_frame_log(round_frames)
 	
-	var data = frame_logs_by_round[round_number][0].strip_edges()
+	var data = frame_logs_by_round[round_number][10].strip_edges()
 	var data_array = data.split(",")
 	level = data_array[4]
 

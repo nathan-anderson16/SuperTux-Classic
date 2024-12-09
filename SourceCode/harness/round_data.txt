@@ -15,8 +15,8 @@ res://scenes/levels/test_rounds/three_four_five_level.tscn,30.0,225,Jump over th
 res://scenes/levels/test_rounds/three_three_five_level.tscn,30.0,0,Jump over the gap and hit the bell
 res://scenes/levels/test_rounds/three_three_five_level.tscn,30.0,225,Jump over the gap and hit the bell
 # Squish enemy
-res://scenes/levels/test_rounds/three_three_three_level.tscn,30.0,0,Jump on top of the enemy
-res://scenes/levels/test_rounds/three_three_three_level.tscn,30.0,225,Jump on top of the enemy
+res://scenes/levels/test_rounds/three_three_three_level.tscn,15.0,0,Jump on top of the enemy
+res://scenes/levels/test_rounds/three_three_three_level.tscn,15.0,225,Jump on top of the enemy
 # Large gap
 res://scenes/levels/test_rounds/two_five_five_level.tscn,30.0,0,Jump over the gap and hit the bell
 res://scenes/levels/test_rounds/two_five_five_level.tscn,30.0,225,Jump over the gap and hit the bell

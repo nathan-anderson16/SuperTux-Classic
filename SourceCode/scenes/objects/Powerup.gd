@@ -68,6 +68,7 @@ func apply_movement(delta, solid):
 	
 	if Global.current_level.level_type == Scoreboard.LEVEL_TYPE.ROUND:
 		if position.y > Global.current_level.level_height * Global.TILE_SIZE :
+			Logger.log_event("Failure")
 			Global.reset_level()
 
 func bounce():

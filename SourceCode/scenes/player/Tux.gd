@@ -189,7 +189,7 @@ func move_input():
 	if Input.is_action_pressed("move_left"):
 		Logger.log_event("Input: Move Left")
 		
-	elif Input.is_action_pressed("move_right"):
+	if Input.is_action_pressed("move_right"):
 		Logger.log_event("Input: Move Right")
 		
 	return input

@@ -18,7 +18,6 @@ var round_summaries = []
 var frame_summary: Array = []
 var event_summary: Array = []
 var qoe_summary: Array = []
-var tux_file: Node = null
 var previous_state = ""
 var init = false
 var last_frame_time: float = 0.0
@@ -27,7 +26,8 @@ var cumulative_time: float = 0.0
 var frame_count: int = 0
 var start_time: int = OS.get_ticks_msec() 
 var tick_rate: float = 0.0 
-const TICK_RATE_INTERVAL: float = 1.0 
+const TICK_RATE_INTERVAL: float = 1.0
+var current_frame_time: float = 0.0
 
 func _ready():
 	
@@ -79,6 +79,15 @@ func _process(delta):
 
 		start_time = current_time
 		frame_count = 0
+		
+	if Input.is_action_just_released("jump"):
+		Logger.log_event("Pressed Jump")
+		
+	if Input.is_action_just_pressed("move_right"):
+		Logger.log_event("Pressed Right")
+		
+	if Input.is_action_just_pressed("move_left"):
+		Logger.log_event("Pressed Left")
 	
 	if is_instance_valid(Global.player) and Global.player.has_node("state_machine"):
 		var state_machine = Global.player.get_node("state_machine") if Global.player.has_node("state_machine") else null
@@ -146,12 +155,9 @@ func parse_csv(file_path: String) -> Array:
 		file.close()
 	return data
 
-func get_event_log_path() -> String:
-	return event_log_path
-
 func initialize_logs():
 	create_log(frame_log_path, "Time,PlayerID,DeltaFrames,Timestamp,Level,State,Timer,Coins,Lives,Deaths,X-Position,Y-Position,X-Velocity,Y-Velocity,TickRate")
-	create_log(event_log_path, "PlayerID,Timestamp,Level,State,Timer,Coins,Lives,Deaths,Event")
+	create_log(event_log_path, "PlayerID,Timestamp,Level,ExpectedLag,State,Timer,Coins,Lives,Deaths,X-Position,Y-Position,X-Velocity,Y-Velocity,Event")
 	create_log(qoe_log_path, "PlayerID,Timestamp,Level,Event")
 	create_log(summary_log_path, "Summary Log")
 	
@@ -162,13 +168,13 @@ func create_log(path: String, header: String):
 			file.store_line(header)
 	file.close()
 	
-func log_frame(delta, frame_time):
+func log_frame(delta, total_time):
 	if !init:
 		return
 		
-	var cumulative_ms = "%.6f" % (cumulative_time * 1000)
+	var cumulative_ms = "%.6f" % (cumulative_time)
 	var tick_rate_formatted = "%.2f" % tick_rate
-	var delta_ms = "%.6f" % (delta * 1000)
+	var delta_ms = "%.6f" % delta
 	var player_id = read_int_from_file(player_id_path)
 	var datetime = OS.get_datetime()
 	var micro = str(Time.get_unix_time_from_system()).split(".")
@@ -178,7 +184,11 @@ func log_frame(delta, frame_time):
 	var level_parts = current_level_path.split("/")
 	var level_result = (level_parts[-1]).split(".")[0]
 	var state = Global.player.state_machine.state
-	var timer = str($"/root/Scoreboard".timer_text.text)
+	var timer_text = $"/root/Scoreboard".timer_text.text
+	var timer_float = "%.6f" % (float(timer_text) - float(cumulative_time))
+	
+	print("Timer Text:", $"/root/Scoreboard".timer_text.text)
+
 	var coins = str($"/root/Scoreboard".coins_text.text)
 	var lives = str($"/root/Scoreboard".lives_text.text)
 	var deaths = str($"/root/Scoreboard".number_of_deaths)
@@ -188,7 +198,7 @@ func log_frame(delta, frame_time):
 	var y_velocity = str(Global.player.velocity).split(",")[1].split(")")[0].split(" ")[1]
 	var tick_rate = str(Engine.iterations_per_second)
 	
-	var frame_message = str(cumulative_time) + "," + str(player_id) + "," + delta_ms + "," + timestamp + "," + level_result + "," + state + "," + timer + "," + coins + "," + lives + "," + deaths + "," + x_position + "," + y_position + "," + x_velocity + "," + y_velocity + "," + tick_rate_formatted
+	var frame_message = str(cumulative_ms) + "," + str(player_id) + "," + str(delta_ms) + "," + timestamp + "," + level_result + "," + state + "," + str(timer_float) + "," + coins + "," + lives + "," + deaths + "," + x_position + "," + y_position + "," + x_velocity + "," + y_velocity + "," + tick_rate_formatted
 	frame_logs.append(frame_message)
 	if !frame_logs_by_round.has(current_round):
 		frame_logs_by_round[current_round] = []
@@ -196,9 +206,9 @@ func log_frame(delta, frame_time):
 	
 func summarize_frame_log(data: Array) -> Dictionary:
 	var total_frames = data.size()
+	
 	return {
-		"total_frames": total_frames
-		#"average_fps": total_fps / total_frames,
+		"total_frames": total_frames,
 		}
 
 func log_event(message: String = ""):
@@ -219,8 +229,13 @@ func log_event(message: String = ""):
 	var coins = str($"/root/Scoreboard".coins_text.text)
 	var lives = str($"/root/Scoreboard".lives_text.text)
 	var deaths = str($"/root/Scoreboard".number_of_deaths)
+	var expected_lag = str($"/root/Scoreboard".current_level_lag_time)
+	var x_position = str(Global.player.get_position()).split("(")[1].split(",")[0]
+	var y_position = str(Global.player.get_position()).split(",")[1].split(")")[0].split(" ")[1]
+	var x_velocity = str(Global.player.velocity).split("(")[1].split(",")[0]
+	var y_velocity = str(Global.player.velocity).split(",")[1].split(")")[0].split(" ")[1]
 	
-	var event_message = str(player_id) + "," + timestamp + "," + level_result + "," + state + "," + timer + "," + coins + "," + lives + "," + deaths + "," + message
+	var event_message = str(player_id) + "," + timestamp + "," + level_result + "," + expected_lag + "," + state + "," + timer + "," + coins + "," + lives + "," + deaths + "," + x_position + "," + y_position + "," + x_velocity + "," + y_velocity + "," + message
 	event_logs.append(event_message)
 	if !event_logs_by_round.has(current_round):
 		event_logs_by_round[current_round] = []
@@ -230,17 +245,39 @@ func summarize_event_log(data: Array) -> Dictionary:
 	var total_events = data.size()
 	var total_successes = 0
 	var total_deaths = 0
+	var total_object_drops = 0
+	var total_failures = 0
+	var total_jumps = 0
+	var total_left_inputs = 0
+	var total_right_inputs = 0
 	
 	for line in data:
 		if line.find("Success: Reset Checkpoint Reached") != -1:
 			total_successes += 1
 		elif line.find("Death") != -1:
 			total_deaths += 1
-			
+		elif line.find("Failure") != -1:
+			total_object_drops += 1
+		elif line.find("Pressed Jump") != -1:
+			total_jumps += 1
+		elif line.find("Pressed Left") != -1:
+			total_left_inputs += 1
+		elif line.find("Pressed Right") != -1:
+			total_right_inputs += 1
+	
+	total_failures = total_deaths + total_object_drops
+	var total_inputs = total_jumps + total_left_inputs + total_right_inputs
+	
 	return {
 		"total_events": total_events,
 		"total_successes": total_successes,
-		"total_deaths": total_deaths
+		"total_deaths": total_deaths,
+		"total_object_drops": total_object_drops,
+		"total_failures": total_failures,
+		"total_jumps": total_jumps,
+		"total_left_inputs": total_left_inputs,
+		"total_right_inputs": total_right_inputs,
+		"total_inputs": total_inputs
 	}
 	
 func log_qoe(message: String = ""):
@@ -287,24 +324,7 @@ func log_summary(output_path: String, frame_summary: Dictionary, event_summary: 
 		file.store_line("Total Entries: " + str(qoe_summary["total_entries"]))
 		file.store_line("Average QoE Score: " + str(qoe_summary["average_qoe_score"]))
 		file.store_line("Acceptable Count: " + str(qoe_summary["acceptable_count"]))
-		file.store_line("Round Data: " + str(level_data))
 		file.close()
-		
-func get_round_frames(frame_log, current_round):
-	if frame_log == null:
-		return []
-	var round_frames = []
-	for frame in frame_log:
-		if frame.round_id == current_round: 
-			round_frames.append(frame)
-		return round_frames
-		
-func get_round_events(event_log, current_round):
-	var round_events = []
-	for event in event_log:
-		if event.round_id == current_round:
-			round_events.append(event)
-	return round_events
 	
 func get_round_qoe_score(qoe_entries: Array) -> float:
 	var key = "QoE Score:"
@@ -315,42 +335,6 @@ func get_round_qoe_score(qoe_entries: Array) -> float:
 			return float(entry.substr(index + key.length(), entry.length()).strip_edges())
 	return 0.0
 	
-func calculate_min_fps(frames: Array) -> float:
-	if frames == null or frames.size() == 0:
-		return 0.0
-	var min_fps = INF
-	for frame in frames:
-		var fps = float(frame.split(",")[13])
-		min_fps = min(min_fps, fps)
-	return min_fps
-
-func calculate_min_tick_rate(frames: Array) -> float:
-	if frames == null or frames.size() == 0:
-		return 0.0
-	var min_tick_rate = INF
-	for frame in frames:
-		var tick_rate = float(frame.split(",")[14])
-		min_tick_rate = min(min_tick_rate, tick_rate)
-	return min_tick_rate
-	
-func calculate_average_fps(frames: Array) -> float:
-	if frames == null or frames.size() == 0:
-		return 0.0
-	var total_fps = 0.0
-	for frame in frames:
-		var fps = float(frame.split(",")[13]) 
-		total_fps += fps
-	return total_fps / frames.size()
-
-func calculate_average_tick_rate(frames: Array) -> float:
-	if frames == null or frames.size() == 0:
-		return 0.0
-	var total_tick_rate = 0.0
-	for frame in frames:
-		var tick_rate = float(frame.split(",")[14]) 
-		total_tick_rate += tick_rate
-	return total_tick_rate / frames.size()
-	
 func count_acceptable_qoe(qoe_entries: Array) -> int:
 	var count = 0
 	for entry in qoe_entries:
@@ -358,6 +342,29 @@ func count_acceptable_qoe(qoe_entries: Array) -> int:
 			count += 1
 	return count
 		
+func calculate_average_frame_rate_for_round(round_number: int) -> float:
+	if !frame_logs_by_round.has(round_number):
+		print("No frame data found for round:", round_number)
+		return 0.0
+   
+	var round_frames = frame_logs_by_round[round_number]
+	if round_frames.size() == 0:
+		return 0.0
+
+	var total_delta_time = 0.0
+	var frame_count = round_frames.size()
+	
+	for frame in round_frames:
+		var frame_parts = frame.split(",")
+		if frame_parts.size() > 2:  
+			total_delta_time += float(frame_parts[2]) / 1000.0 
+
+	if total_delta_time == 0.0:
+		return 0.0
+	
+	var average_fps = frame_count / total_delta_time
+	return average_fps
+
 func create_round_summary(round_number: int):
 	if !frame_logs_by_round.has(round_number) or !event_logs_by_round.has(round_number) or !qoe_logs_by_round.has(round_number):
 		print("No data found for round: ", round_number)
@@ -366,10 +373,25 @@ func create_round_summary(round_number: int):
 	var round_frames = frame_logs_by_round[round_number]
 	var round_events = event_logs_by_round[round_number]
 	var round_qoe = qoe_logs_by_round[round_number]
+	var round_summary = []
+	var average_fps = calculate_average_frame_rate_for_round(round_number)
+	var level = ""
+	var level_time = Global.current_level.time
+	var lag_configuration = str($"/root/Scoreboard".current_level_lag_time)
 	
-	var frame_summary = {
-		"total_frames": round_frames.size()
+	var frame_summary = summarize_frame_log(round_frames)
+	
+	var data = frame_logs_by_round[round_number][0].strip_edges()
+	var data_array = data.split(",")
+	level = data_array[4]
+
+	round_summary = {
+		"average_fps": average_fps,
+		"level": level,
+		"lag_configuration": lag_configuration,
+		"level_time": level_time
 	}
+	
 	var event_summary = summarize_event_log(round_events)
 	
 	var qoe_summary = {
@@ -379,6 +401,7 @@ func create_round_summary(round_number: int):
 
 	round_summaries.append({
 		"round": round_number,
+		"round_summary": round_summary,
 		"frame_summary": frame_summary,
 		"event_summary": event_summary,
 		"qoe_summary": qoe_summary
@@ -401,10 +424,9 @@ func create_summary_log():
 		file.seek_end()
 		for round_summary in round_summaries:
 			file.store_line("\nRound " + str(round_summary["round"]) + " Summary")
+			file.store_line("\nRound_Summary " + str(round_summary["round_summary"]))
 			file.store_line("Frame Summary: " + str(round_summary["frame_summary"]))
 			file.store_line("Event Summary: " + str(round_summary["event_summary"]))
-			file.store_line("  Total Successes: " + str(round_summary["event_summary"]["total_successes"]))
-			file.store_line("  Total Deaths: " + str(round_summary["event_summary"]["total_deaths"]))
 			file.store_line("QoE Summary: " + str(round_summary["qoe_summary"]))
 		file.close()
 
@@ -431,4 +453,5 @@ func write_to_disk():
 	frame_logs.clear()
 	event_logs.clear()
 	qoe_logs.clear()
+	cumulative_time = 0.0
 	

@@ -68,6 +68,7 @@ func apply_movement(delta, solid):
 	
 	if position.y > Global.current_level.level_height * Global.TILE_SIZE :
 		Global.reset_level()
+		Logger.log_event("Failure")
 
 func bounce():
 	if grounded:

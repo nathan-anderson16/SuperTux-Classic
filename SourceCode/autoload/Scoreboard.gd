@@ -96,9 +96,9 @@ func _process(delta):
 				if level_timer.time_left <= 40 and (Global.spawn_position == null or Global.spawn_position.x < 4112) :
 					# Teleport to 7 Jump on next death
 					Global.spawn_position = Vector2(4112, 112)
-				if level_timer.time_left <= 20 and (Global.spawn_position == null or Global.spawn_position.x < 5584) :
+				if level_timer.time_left <= 20 and (Global.spawn_position == null or Global.spawn_position.x < 4896) :
 					# Teleport to Z Jump on next death
-					Global.spawn_position = Vector2(5584, 112)
+					Global.spawn_position = Vector2(4896, 112)
 		# If we have under 10 seconds remaining in the current level:
 		if level_timer.time_left < 10:
 			# Play a clock ticking noise every second

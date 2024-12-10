@@ -170,6 +170,7 @@ func load_round(idx: int):
 	var objective_text = next_round_data["objective_text"]
 	
 	Global.next_level_lag = lag_time
+	Global.spawn_position = null
 	Global.goto_level(next_round_data["path"])
 	
 	print("Level time: ", level_time)

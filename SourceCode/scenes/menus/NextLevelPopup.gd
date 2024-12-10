@@ -16,8 +16,10 @@ func _process(delta):
 		objective_label.text = "Objective: " + Global.current_level.level_objective
 		if Global.current_level.level_type == Scoreboard.LEVEL_TYPE.PRACTICE_1:
 			practice_difficulty_label.text = "Smoothest practice"
-		if Global.current_level.level_type == Scoreboard.LEVEL_TYPE.PRACTICE_2:
+		elif Global.current_level.level_type == Scoreboard.LEVEL_TYPE.PRACTICE_2:
 			practice_difficulty_label.text = "Choppiest practice"
+		else:
+			practice_difficulty_label.text = ""
 	else:
 		objective_label.hide()
 		objective_panel.hide()

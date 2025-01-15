@@ -4,6 +4,7 @@ signal next_level_popup_closed
 
 onready var objective_label = $ObjectiveLabel
 onready var objective_panel = $ObjectivePanel
+onready var practice_difficulty_label = $PracticeDifficultyLabel
 
 func _process(delta):
 	if !self.visible:
@@ -14,9 +15,11 @@ func _process(delta):
 		objective_panel.show()
 		objective_label.text = "Objective: " + Global.current_level.level_objective
 		if Global.current_level.level_type == Scoreboard.LEVEL_TYPE.PRACTICE_1:
-			objective_label.text += " (Smoothest practice)"
-		if Global.current_level.level_type == Scoreboard.LEVEL_TYPE.PRACTICE_2:
-			objective_label.text += " (Choppiest practice)"
+			practice_difficulty_label.text = "Smoothest practice"
+		elif Global.current_level.level_type == Scoreboard.LEVEL_TYPE.PRACTICE_2:
+			practice_difficulty_label.text = "Choppiest practice"
+		else:
+			practice_difficulty_label.text = ""
 	else:
 		objective_label.hide()
 		objective_panel.hide()

@@ -67,6 +67,8 @@ onready var message_text_object = $Message
 onready var test_popup = $TestPopup
 onready var next_level_popup = $NextLevelPopup
 onready var round_counter = $Control/RoundCounter
+onready var scene_transition_rect = $SceneTransitionRect
+onready var animation_player = $SceneTransitionRect/AnimationPlayer
 
 var number_of_deaths = 0
 var level_timer_enabled = false
@@ -76,7 +78,10 @@ var score = 0
 
 var score_visible = true
 
+signal fade_finished
+
 func _ready():
+	scene_transition_rect.hide()
 	load_round_data()
 	self.message_text = ""
 	stop_level_timer()
@@ -86,11 +91,19 @@ func _process(delta):
 	
 	if level_timer_enabled:
 		
+		if Global.current_level != null:
+			if Global.current_level.level_type == 1 or Global.current_level.level_type == 2:
+				if level_timer.time_left <= 40 and (Global.spawn_position == null or Global.spawn_position.x < 4112) :
+					# Teleport to 7 Jump on next death
+					Global.spawn_position = Vector2(4112, 112)
+				if level_timer.time_left <= 20 and (Global.spawn_position == null or Global.spawn_position.x < 4896) :
+					# Teleport to Z Jump on next death
+					Global.spawn_position = Vector2(4896, 112)
 		# If we have under 10 seconds remaining in the current level:
 		if level_timer.time_left < 10:
 			# Play a clock ticking noise every second
 			var time_left = ceil(level_timer.time_left)
-			
+					
 			if time_left < tick_time:
 				
 				tick_time = time_left
@@ -112,6 +125,21 @@ func _draw():
 		round_counter.text = ""
 	
 	lives_text.text = str( max(lives, 0) )
+
+func fade_out():
+	$Control.hide()
+	scene_transition_rect.show()
+	animation_player.play_backwards("Fade")
+	yield(animation_player, "animation_finished")
+	emit_signal("fade_finished")
+
+func fade_in():
+	scene_transition_rect.show()
+	animation_player.play("Fade")
+	yield(animation_player, "animation_finished")
+	scene_transition_rect.hide()
+	$Control.show()
+	emit_signal("fade_finished")
 
 func load_round_data():
 	var practices_data = Global.read_csv_data(practice_data_path)
@@ -142,6 +170,7 @@ func load_round(idx: int):
 	var objective_text = next_round_data["objective_text"]
 	
 	Global.next_level_lag = lag_time
+	Global.spawn_position = null
 	Global.goto_level(next_round_data["path"])
 	
 	print("Level time: ", level_time)
@@ -204,7 +233,7 @@ func hide():
 
 func show(include_lives_count = true):
 	score_visible = true
-	lives_counter.visible = include_lives_count
+	lives_counter.visible = false
 	hud_node.show()
 
 func reset_player_values(game_over = false, reset_state = true):

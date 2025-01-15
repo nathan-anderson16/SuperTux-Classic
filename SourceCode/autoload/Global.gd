@@ -177,6 +177,9 @@ func _deferred_reset_scene():
 	get_tree().paused = true
 	Engine.time_scale = 1
 	
+	Scoreboard.fade_out()
+#	yield(Scoreboard, "fade_finished")
+	
 	var preserved_time = Scoreboard.level_timer.time_left
 	var preserved_level_type = current_level.level_type
 	
@@ -197,6 +200,12 @@ func _deferred_reset_scene():
 	
 	# Add it to the active scene, as child of root.
 	get_tree().get_root().add_child(current_scene)
+	
+	# This delay makes the fade animation feel better
+#	OS.delay_msec(100)
+	
+	Scoreboard.fade_in()
+#	yield(Scoreboard, "fade_finished")
 	
 	get_tree().paused = false
 	emit_signal("scene_reset")

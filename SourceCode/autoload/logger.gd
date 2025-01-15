@@ -158,7 +158,7 @@ func parse_csv(file_path: String) -> Array:
 func initialize_logs():
 	create_log(frame_log_path, "Time,PlayerID,DeltaFrames,Timestamp,Level,State,Timer,Coins,Lives,Deaths,X-Position,Y-Position,X-Velocity,Y-Velocity,TickRate")
 	create_log(event_log_path, "PlayerID,Timestamp,Level,ExpectedLag,State,Timer,Coins,Lives,Deaths,X-Position,Y-Position,X-Velocity,Y-Velocity,Event")
-	create_log(qoe_log_path, "PlayerID,Timestamp,Level,Event")
+	create_log(qoe_log_path, "PlayerID,Timestamp,Level,ExpectedLag,Event")
 	create_log(summary_log_path, "Summary Log")
 	
 func create_log(path: String, header: String):
@@ -290,9 +290,10 @@ func log_qoe(message: String = ""):
 	var level_result = (level_parts[-1]).split(".")[0]
 	var datetime = OS.get_datetime()
 	var micro = str(Time.get_unix_time_from_system()).split(".")
+	var expected_lag = str($"/root/Scoreboard".current_level_lag_time)
 	micro = "0" if len(micro) == 1 else micro[1]
 	var timestamp =  str(datetime.hour).pad_zeros(2) + ":" + str(datetime.minute).pad_zeros(2) + ":" + str(datetime.second).pad_zeros(2) + "." + micro
-	var qoe_message = str(player_id) + "," + timestamp + "," + level_result + "," + message
+	var qoe_message = str(player_id) + "," + timestamp + "," + level_result + "," + expected_lag + "," + message
 	qoe_logs.append(qoe_message)
 	if !qoe_logs_by_round.has(current_round):
 		qoe_logs_by_round[current_round] = []

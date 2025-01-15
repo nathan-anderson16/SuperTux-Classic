@@ -68,6 +68,7 @@ onready var high_bounce_height = high_bounce_height_in_tiles * Global.TILE_SIZE 
 
 var has_large_hitbox = false # Returns true if tux is using big Tux's hitbox
 var can_die = true
+var should_be_dead = false
 
 
 var lag_queued = false
@@ -440,7 +441,8 @@ func lag_space_input() :
 	lag_next_jump = true
 
 func die():
-	if !can_die: return
+	if not self.should_be_dead:
+		if !can_die: return
 	
 	Scoreboard.number_of_deaths += 1
 	Logger.log_event("Death")
@@ -460,6 +462,7 @@ func die():
 	z_index = 999 # Go to the front of the screen
 	state_machine.set_state("dead")
 	Global.can_pause = false
+	self.should_be_dead = false # Should have died by this point, we can reset
 
 func set_invincible():
 	if state_machine.state == "dead": return

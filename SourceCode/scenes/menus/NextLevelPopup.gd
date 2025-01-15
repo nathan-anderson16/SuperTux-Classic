@@ -2,17 +2,27 @@ extends Popup
 
 signal next_level_popup_closed
 
+onready var objective_label = $ObjectiveLabel
+onready var objective_panel = $ObjectivePanel
+onready var practice_difficulty_label = $PracticeDifficultyLabel
+
 func _process(delta):
 	if !self.visible:
 		return
 	
 	if Global.current_level != null:
-		$ObjectiveLabel.show()
-		$ObjectivePanel.show()
-		$ObjectiveLabel.text = "Objective: " + Global.current_level.level_objective
+		objective_label.show()
+		objective_panel.show()
+		objective_label.text = "Objective: " + Global.current_level.level_objective
+		if Global.current_level.level_type == Scoreboard.LEVEL_TYPE.PRACTICE_1:
+			practice_difficulty_label.text = "Smoothest practice"
+		elif Global.current_level.level_type == Scoreboard.LEVEL_TYPE.PRACTICE_2:
+			practice_difficulty_label.text = "Choppiest practice"
+		else:
+			practice_difficulty_label.text = ""
 	else:
-		$ObjectiveLabel.hide()
-		$ObjectivePanel.hide()
+		objective_label.hide()
+		objective_panel.hide()
 	
 	if (Global.current_level.level_type == Scoreboard.LEVEL_TYPE.PRACTICE_1 or
 		Global.current_level.level_type == Scoreboard.LEVEL_TYPE.PRACTICE_2):

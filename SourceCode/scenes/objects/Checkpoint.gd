@@ -31,6 +31,7 @@ func set_active(new_value):
 	animation_player.play(animation)
 	if new_value and !active:
 		Global.spawn_position = position
+		print_debug(position)
 		sfx.play("Checkpoint")
 		$Flash.emitting = true
 		Logger.log_event("Success: Checkpoint Reached")

@@ -1,26 +1,42 @@
-path,level_time,spike_time
+path,level_time,spike_time,objective_text
 # Z-jump
-res://scenes/levels/test_rounds/five_five_five_level.tscn,30.0,0
-res://scenes/levels/test_rounds/five_five_five_level.tscn,30.0,225
+res://scenes/levels/test_rounds/five_five_five_level.tscn,30.0,0,Avoid the lava and hit the bell
+res://scenes/levels/test_rounds/five_five_five_level.tscn,30.0,75,Avoid the lava and hit the bell
+res://scenes/levels/test_rounds/five_five_five_level.tscn,30.0,150,Avoid the lava and hit the bell
+res://scenes/levels/test_rounds/five_five_five_level.tscn,30.0,225,Avoid the lava and hit the bell
 # 7-jump
-res://scenes/levels/test_rounds/four_four_five_level.tscn,30.0,0
-res://scenes/levels/test_rounds/four_four_five_level.tscn,30.0,225
+res://scenes/levels/test_rounds/four_four_five_level.tscn,30.0,0,Jump down to hit the bell
+res://scenes/levels/test_rounds/four_four_five_level.tscn,30.0,75,Jump down to hit the bell
+res://scenes/levels/test_rounds/four_four_five_level.tscn,30.0,150,Jump down to hit the bell
+res://scenes/levels/test_rounds/four_four_five_level.tscn,30.0,225,Jump down to hit the bell
 # Collect power-up: Mushroom
-res://scenes/levels/test_rounds/one_two_two_level.tscn,15.0,0
-res://scenes/levels/test_rounds/one_two_two_level.tscn,15.0,225
+res://scenes/levels/test_rounds/one_two_two_level.tscn,15.0,0,Collect the bell
+res://scenes/levels/test_rounds/one_two_two_level.tscn,15.0,75,Collect the bell
+res://scenes/levels/test_rounds/one_two_two_level.tscn,15.0,150,Collect the bell
+res://scenes/levels/test_rounds/one_two_two_level.tscn,15.0,225,Collect the bell
 # Medium gap, small landing platform
-res://scenes/levels/test_rounds/three_four_five_level.tscn,30.0,0
-res://scenes/levels/test_rounds/three_four_five_level.tscn,30.0,225
-Small gap, medium landing platform
-res://scenes/levels/test_rounds/three_three_five_level.tscn,30.0,0
-res://scenes/levels/test_rounds/three_three_five_level.tscn,30.0,225
+res://scenes/levels/test_rounds/three_four_five_level.tscn,30.0,0,Jump over the gap and hit the bell
+res://scenes/levels/test_rounds/three_four_five_level.tscn,30.0,75,Jump over the gap and hit the bell
+res://scenes/levels/test_rounds/three_four_five_level.tscn,30.0,150,Jump over the gap and hit the bell
+res://scenes/levels/test_rounds/three_four_five_level.tscn,30.0,225,Jump over the gap and hit the bell
+# Small gap, medium landing platform
+res://scenes/levels/test_rounds/three_three_five_level.tscn,30.0,0,Jump over the gap and hit the bell
+res://scenes/levels/test_rounds/three_three_five_level.tscn,30.0,75,Jump over the gap and hit the bell
+res://scenes/levels/test_rounds/three_three_five_level.tscn,30.0,150,Jump over the gap and hit the bell
+res://scenes/levels/test_rounds/three_three_five_level.tscn,30.0,225,Jump over the gap and hit the bell
 # Squish enemy
-res://scenes/levels/test_rounds/three_three_three_level.tscn,30.0,0
-res://scenes/levels/test_rounds/three_three_three_level.tscn,30.0,225
+res://scenes/levels/test_rounds/three_three_three_level.tscn,15.0,0,Jump on top of the enemy
+res://scenes/levels/test_rounds/three_three_three_level.tscn,15.0,75,Jump on top of the enemy
+res://scenes/levels/test_rounds/three_three_three_level.tscn,15.0,150,Jump on top of the enemy
+res://scenes/levels/test_rounds/three_three_three_level.tscn,15.0,225,Jump on top of the enemy
 # Large gap
-res://scenes/levels/test_rounds/two_five_five_level.tscn,30.0,0
-res://scenes/levels/test_rounds/two_five_five_level.tscn,30.0,225
+res://scenes/levels/test_rounds/two_five_five_level.tscn,30.0,0,Jump over the gap and hit the bell
+res://scenes/levels/test_rounds/two_five_five_level.tscn,30.0,75,Jump over the gap and hit the bell
+res://scenes/levels/test_rounds/two_five_five_level.tscn,30.0,150,Jump over the gap and hit the bell
+res://scenes/levels/test_rounds/two_five_five_level.tscn,30.0,225,Jump over the gap and hit the bell
 # Collect power-up: Star
-res://scenes/levels/test_rounds/two_three_two_level.tscn,15.0,0
-res://scenes/levels/test_rounds/two_three_two_level.tscn,15.0,225
+res://scenes/levels/test_rounds/two_three_two_level.tscn,15.0,0,Collect the bell
+res://scenes/levels/test_rounds/two_three_two_level.tscn,15.0,75,Collect the bell
+res://scenes/levels/test_rounds/two_three_two_level.tscn,15.0,150,Collect the bell
+res://scenes/levels/test_rounds/two_three_two_level.tscn,15.0,225,Collect the bell
 

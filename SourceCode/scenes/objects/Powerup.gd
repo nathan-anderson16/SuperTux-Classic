@@ -66,9 +66,10 @@ func apply_movement(delta, solid):
 	else: 
 		position += velocity * delta
 	
-	if position.y > Global.current_level.level_height * Global.TILE_SIZE :
-		Global.reset_level()
-		Logger.log_event("Failure")
+	if Global.current_level.level_type == Scoreboard.LEVEL_TYPE.ROUND:
+		if position.y > Global.current_level.level_height * Global.TILE_SIZE :
+			Logger.log_event("Failure")
+			Global.reset_level()
 
 func bounce():
 	if grounded:
@@ -80,9 +81,10 @@ func _on_Area2D_body_entered(body):
 	if intangibility_timer > 0: return
 	
 	if body.is_in_group("players"):
-		Scoreboard.score += 100
-		Logger.log_event("Success: Reset Checkpoint Reached")
-		Global.reset_level()
+		if Global.current_level.level_type == Scoreboard.LEVEL_TYPE.ROUND:
+			Scoreboard.score += 100
+			Logger.log_event("Success: Power-up Collected")
+			Global.reset_level()
 		#match type:
 		#	"Powerup":
 		#		if body.state < state_to_grant:

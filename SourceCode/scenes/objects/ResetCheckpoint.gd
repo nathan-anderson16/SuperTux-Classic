@@ -9,8 +9,10 @@ func _process(delta):
 		var player_velocity = sqrt(pow(Global.player.velocity.x, 2) + pow(Global.player.velocity.y, 2))
 		if player_velocity < 100:
 			Logger.log_event("Success: Reset Checkpoint Reached")
+			Scoreboard.play_reset_checkpoint()
 			Scoreboard.add_score(100)
 			print("Score: ", Scoreboard.score)
+			Global.spawn_position = null
 			Global.reset_level()
 
 func _on_Area2D_body_entered(body):

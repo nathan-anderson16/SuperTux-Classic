@@ -58,6 +58,10 @@ window/size/height=720
 
 enabled=PoolStringArray(  )
 
+[global]
+
+vsync=false
+
 [importer_defaults]
 
 texture={

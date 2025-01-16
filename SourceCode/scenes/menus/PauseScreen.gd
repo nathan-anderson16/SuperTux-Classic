@@ -20,8 +20,10 @@ extends CanvasLayer
 onready var menu = $Control
 onready var menu_items = $Control/CenterContainer
 onready var options_menu = $Control/OptionsMenu
+onready var frame_stutter_menu = $Control/PauseFrameStutter
 
 onready var button_continue = $Control/CenterContainer/VBoxContainer/Continue
+onready var button_frame_stutter = $Control/CenterContainer/VBoxContainer/FrameStutter
 onready var button_restart = $Control/CenterContainer/VBoxContainer/Restart
 onready var button_options = $Control/CenterContainer/VBoxContainer/Options
 onready var button_abort = $Control/CenterContainer/VBoxContainer/Abort
@@ -112,3 +114,8 @@ func _on_Abort_pressed():
 	WorldmapManager.return_to_worldmap()
 
 
+func _on_FrameStutter_mouse_entered():
+	button_frame_stutter.grab_focus()
+
+func _on_FrameStutter_pressed():
+	frame_stutter_menu.popup()

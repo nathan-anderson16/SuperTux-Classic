@@ -223,6 +223,13 @@ func _set_lives_count(new_value):
 	if new_value > lives: sfx.play("1up")
 	lives = clamp(new_value, -1, 99)
 
+# Returns the round data in the order that it should be for the current round
+func ordered_round_data():
+	var data = []
+	for i in range(len(round_data)):
+		data.append(get_round_data(i))
+	return data
+
 func play_reset_checkpoint():
 	sfx.play("Checkpoint")
 

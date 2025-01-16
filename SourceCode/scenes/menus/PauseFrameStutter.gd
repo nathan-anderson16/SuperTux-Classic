@@ -129,7 +129,7 @@ func _button_practice_2():
 
 func _button_pressed(i):
 	Scoreboard.current_round  = i - 1
-	Global.goto_level(Scoreboard.ordered_round_data()[i - 1]["path"])
+	Scoreboard.load_round(Scoreboard.current_round)
 
 func _on_Done_mouse_entered():
 	done.grab_focus()

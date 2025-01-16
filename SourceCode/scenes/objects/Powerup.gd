@@ -84,6 +84,7 @@ func _on_Area2D_body_entered(body):
 		if Global.current_level.level_type == Scoreboard.LEVEL_TYPE.ROUND:
 			Scoreboard.score += 100
 			Logger.log_event("Success: Power-up Collected")
+			Scoreboard.play_reset_checkpoint()
 			Global.reset_level()
 		#match type:
 		#	"Powerup":

@@ -105,6 +105,7 @@ func _enter_state(new_state, old_state):
 		"squished":
 			if Global.current_level.level_type == Scoreboard.LEVEL_TYPE.ROUND:
 				Scoreboard.score += 100
+				Scoreboard.play_reset_checkpoint()
 				Global.reset_level()
 
 

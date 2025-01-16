@@ -3,6 +3,7 @@
 [ext_resource path="res://scenes/menus/NextLevelPopup.gd" type="Script" id=1]
 
 [node name="TestPopup" type="Popup"]
+visible = true
 margin_right = 601.0
 margin_bottom = 113.0
 rect_scale = Vector2( 1.25, 1.25 )
@@ -29,11 +30,20 @@ margin_top = 67.0
 margin_right = 950.0
 margin_bottom = 201.0
 
-[node name="Label2" type="Label" parent="."]
+[node name="PracticeDifficultyLabel" type="Label" parent="."]
 margin_left = 404.0
-margin_top = 75.2
+margin_top = 70.4
 margin_right = 654.0
-margin_bottom = 123.2
+margin_bottom = 84.4
+rect_scale = Vector2( 2, 2 )
+text = "(Hardest)"
+align = 1
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 407.2
+margin_top = 103.2
+margin_right = 657.2
+margin_bottom = 151.2
 rect_scale = Vector2( 2, 2 )
 text = "This is a practice round
 Arrow keys to move
@@ -54,15 +64,6 @@ margin_bottom = 246.6
 rect_scale = Vector2( 2, 2 )
 text = "Objective: Jump over the gap to hit the bell
 "
-align = 1
-
-[node name="PracticeDifficultyLabel" type="Label" parent="."]
-margin_left = 402.4
-margin_top = 180.8
-margin_right = 652.4
-margin_bottom = 194.8
-rect_scale = Vector2( 2, 2 )
-text = "(Hardest)"
 align = 1
 
 [node name="NextLevelButton" type="Button" parent="."]

@@ -27,6 +27,11 @@ func _on_Area2D_body_entered(body):
 		self.active = true
 
 func set_active(new_value):
+	if Global.current_level.level_type == 1 or Global.current_level.level_type == 2:
+		if position == Vector2(4176, 720):
+			Global.spawn_position = Vector2(4912, 112)
+			Global.player.position = Vector2(4912, 112)
+			return
 	var animation = "active" if new_value == true else "default"
 	animation_player.play(animation)
 	if new_value and !active:

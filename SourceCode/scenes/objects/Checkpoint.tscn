@@ -170,7 +170,6 @@ material = SubResource( 4 )
 scale = Vector2( 2, 2 )
 z_index = 1
 frames = SubResource( 5 )
-frame = 1
 playing = true
 offset = Vector2( 0, -2 )
 

@@ -304,9 +304,9 @@ func summarize_qoe_log(data: Array) -> Dictionary:
 	var total_qoe_score = 0
 	var acceptable_count = 0
 	for line in data:
-		if line[3].begins_with("QoE Score:"):
-			total_qoe_score += float(line[3].split(":")[1].strip_edges())
-		elif line[3].begins_with("Acceptable?: Yes"):
+		if line[4].begins_with("QoE Score:"):
+			total_qoe_score += float(line[4].split(":")[1].strip_edges())
+		elif line[4].begins_with("Acceptable?: Yes"):
 			acceptable_count += 1
 	return {
 		"total_entries": total_entries,
@@ -410,13 +410,9 @@ func create_round_summary(round_number: int):
 	print("Created summary for round %d" % round_number)
 		
 func create_summary_log():
-	var frame_data = parse_csv(frame_log_path)
-	var event_data = parse_csv(event_log_path)
-	var qoe_data = parse_csv(qoe_log_path)
-	
-	var frame_summary = summarize_frame_log(frame_data)
-	var event_summary = summarize_event_log(event_data)
-	var qoe_summary = summarize_qoe_log(qoe_data)
+	var frame_summary = summarize_frame_log(parse_csv(frame_log_path))
+	var event_summary = summarize_event_log(parse_csv(event_log_path))
+	var qoe_summary = summarize_qoe_log(parse_csv(qoe_log_path))
 	
 	log_summary(summary_log_path, frame_summary, event_summary, qoe_summary)
 	

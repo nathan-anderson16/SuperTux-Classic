@@ -93,12 +93,12 @@ func _process(delta):
 		
 		if Global.current_level != null:
 			if Global.current_level.level_type == 1 or Global.current_level.level_type == 2:
-				if level_timer.time_left <= 40 and (Global.spawn_position == null or Global.spawn_position.x < 4112) :
+				if level_timer.time_left <= 10 and (Global.spawn_position == null or Global.spawn_position.x < 2592) :
 					# Teleport to 7 Jump on next death
-					Global.spawn_position = Vector2(4112, 112)
-				if level_timer.time_left <= 20 and (Global.spawn_position == null or Global.spawn_position.x < 4896) :
+					Global.spawn_position = Vector2(2592, 112)
+#				if level_timer.time_left <= 20 and (Global.spawn_position == null or Global.spawn_position.x < 4896) :
 					# Teleport to Z Jump on next death
-					Global.spawn_position = Vector2(4912, 112)
+#					Global.spawn_position = Vector2(4912, 112)
 		# If we have under 10 seconds remaining in the current level:
 		if level_timer.time_left < 10:
 			# Play a clock ticking noise every second
@@ -371,7 +371,7 @@ func _on_LEVELTIMER_timeout():
 			yield(test_popup, "test_popup_closed")
 			_set_paused(false)
 			
-			goto_practice(1)
+			load_round(0)
 			return
 		
 		# Practice level 2 is over, so start the rounds

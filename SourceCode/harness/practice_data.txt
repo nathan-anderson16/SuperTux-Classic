@@ -1,3 +1,2 @@
 path,level_time,spike_time,objective_text
-res://scenes/levels/test_rounds/practice.tscn,90.0,0,Complete the level
-res://scenes/levels/test_rounds/practice.tscn,90.0,225,Complete the level
+res://scenes/levels/test_rounds/practice.tscn,30.0,0,Complete the level

@@ -78,30 +78,6 @@ func _load_round_buttons():
 		button.connect("button_down", self, "_button_pressed", [i])
 		button.hint_tooltip = _format_tooltip(Scoreboard.ordered_round_data()[i - 1])
 		row_1.add_child(button)
-	
-	for i in range(9, 17):
-		var button = Button.new()
-		button.text = str(i)
-		button.rect_min_size = Vector2(50, 50)
-		button.connect("button_down", self, "_button_pressed", [i])
-		button.hint_tooltip = _format_tooltip(Scoreboard.ordered_round_data()[i - 1])
-		row_2.add_child(button)
-	
-	for i in range(17, 25):
-		var button = Button.new()
-		button.text = str(i)
-		button.rect_min_size = Vector2(50, 50)
-		button.connect("button_down", self, "_button_pressed", [i])
-		button.hint_tooltip = _format_tooltip(Scoreboard.ordered_round_data()[i - 1])
-		row_3.add_child(button)
-		
-	for i in range(25, 33):
-		var button = Button.new()
-		button.text = str(i)
-		button.rect_min_size = Vector2(50, 50)
-		button.connect("button_down", self, "_button_pressed", [i])
-		button.hint_tooltip = _format_tooltip(Scoreboard.ordered_round_data()[i - 1])
-		row_4.add_child(button)
 
 func _player_id_save_button_pressed():
 	Scoreboard.player_id = int(player_id.get_children()[1].value)

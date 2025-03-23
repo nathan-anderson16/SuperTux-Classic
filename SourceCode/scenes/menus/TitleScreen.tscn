@@ -310,6 +310,22 @@ mode = 0
 
 [node name="IceMountainsBackground" parent="." instance=ExtResource( 4 )]
 
+[node name="ExampleFormSubmitText" type="TextEdit" parent="."]
+margin_left = 978.0
+margin_top = 23.0
+margin_right = 1220.0
+margin_bottom = 75.0
+text = "Hi"
+
+[node name="ExampleFormSubmitButton" type="Button" parent="."]
+margin_left = 995.0
+margin_top = 90.0
+margin_right = 1184.0
+margin_bottom = 120.0
+text = "Submit"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
 [connection signal="mouse_entered" from="TitleContent/Menu/VBoxContainer/StartGame" to="." method="_on_StartGame_mouse_entered"]
 [connection signal="pressed" from="TitleContent/Menu/VBoxContainer/StartGame" to="." method="_on_StartGame_pressed"]
 [connection signal="mouse_entered" from="TitleContent/Menu/VBoxContainer/FrameStutter" to="." method="_on_FrameStutter_mouse_entered"]
@@ -338,3 +354,4 @@ mode = 0
 [connection signal="popup_hide" from="BonusLevelsMenu" to="." method="_on_BonusLevelsMenu_popup_hide"]
 [connection signal="popup_hide" from="OptionsMenu" to="." method="_on_OptionsMenu_popup_hide"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_FileDialog_file_selected"]
+[connection signal="pressed" from="ExampleFormSubmitButton" to="." method="_on_ExampleFormSubmitButton_pressed"]

@@ -34,6 +34,9 @@ onready var options_menu = $OptionsMenu
 onready var start_game_menu = $StartGameMenu
 onready var frame_stutter_menu = $FrameStutterMenu
 
+onready var example_form_submit_text = $ExampleFormSubmitText
+onready var http_request = $HTTPRequest
+
 export var default_world = "world1"
 
 func _ready():
@@ -56,6 +59,8 @@ func _ready():
 	quit_button.visible = !is_on_browser
 	
 	start_game_button.grab_focus()
+	
+	http_request.connect("request_completed", self, "_request_completed")
 
 func _on_StartGame_mouse_entered():
 	start_game_button.grab_focus()
@@ -137,3 +142,14 @@ func _on_two_five_five_pressed(val):
 	Global.next_level_lag = val
 	Global.goto_level("res://scenes/levels/test_rounds/two_five_five_level.tscn")
 
+func _request_completed(result, response_code, headers, body):
+	print(response_code)
+#	var json = JSON.parse(body.get_string_from_utf8())
+#	print(json.result)
+
+func _on_ExampleFormSubmitButton_pressed():
+	var form_url = "https://docs.google.com/forms/d/e/1FAIpQLSegtXvnfveEen1Zb_PDYziZ44WCGZBiYq3b2JIeWVqOInwzCA/formResponse?entry.1934454714=" + example_form_submit_text.text
+	var headers = ["Content-Type: application/x-www-form-urlencoded", "Content-Length: 0"]
+	
+	var result = http_request.request(form_url, headers, true, HTTPClient.METHOD_POST, "")
+#	print("Result:", result)

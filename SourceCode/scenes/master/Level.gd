@@ -64,7 +64,7 @@ func _ready():
 
 	Global.current_level = self
 	set_pause_mode(PAUSE_MODE_STOP)
-#
+#	
 	# Only automatically start levels if the level is the root scene.
 	# This is not the case when we are in the level editor, because
 	# the level is a child of the LevelEditor scene.
@@ -147,7 +147,9 @@ func start_level(in_editor = false):
 	else:
 		get_tree().paused = false
 		Scoreboard.start_level_timer()
+	window_resized()
 	emit_signal("level_ready")
+	
 
 func _process(delta):
 	if is_autoscrolling:
@@ -294,6 +296,11 @@ func window_resized():
 		var window_size = ResolutionManager.window_resolution
 		var zoom = max(max_size.x / window_size.x, max_size.y / window_size.y)
 		custom_camera.zoom = Vector2.ONE * zoom
+	# TODO: Fix for width
+	var scale_y = 1080 / (get_viewport().size[1])
+	var scale_x = 1920 / (get_viewport().size[0])
+	Global.get_current_camera().zoom = Vector2.ONE * max(scale_x, scale_y)
+
 
 func _set_level_music(new_value):
 	music = new_value

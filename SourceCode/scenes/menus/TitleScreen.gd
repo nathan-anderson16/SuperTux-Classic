@@ -137,3 +137,7 @@ func _on_two_five_five_pressed(val):
 	Global.next_level_lag = val
 	Global.goto_level("res://scenes/levels/test_rounds/two_five_five_level.tscn")
 
+func _on_TitleScreen_resized():
+	# print_debug(OS.get_screen_size()[1])
+	pass
+	# Global.TILE_SIZE = 32 * (OS.get_screen_size()[1] / 1080)

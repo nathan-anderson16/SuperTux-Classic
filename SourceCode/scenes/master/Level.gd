@@ -299,16 +299,16 @@ func window_resized():
 	# TODO: Fix for width
 	var scale_y = 1080 / (get_viewport().size[1])
 	var scale_x = 1920 / (get_viewport().size[0])
-	var aspect_ratio = 1920 / 1080
+	var aspect_ratio = 1920.0 / 1080.0
 	Global.get_current_camera().zoom = Vector2.ONE * max(scale_x, scale_y)
 	var adjustable_border = Global.current_scene.find_node("Border")
 	
 	var y_pos = 0
 	var x_pos = 0
 	if scale_y < scale_x :
-		y_pos = (get_viewport().size[0] * (1920/1080) / (1920/1080))
+		y_pos = (get_viewport().size[0] / aspect_ratio)
 	elif scale_x < scale_y :
-		x_pos = (get_viewport().size[1] * (1920/1080) * (1920/1080))
+		x_pos = (get_viewport().size[1] * aspect_ratio)
 	else :
 		y_pos = 2000
 		

@@ -306,9 +306,9 @@ func window_resized():
 	var y_pos = 0
 	var x_pos = 0
 	if scale_y < scale_x :
-		y_pos = (get_viewport().size[0] * (1920/1080) / 1.78)
+		y_pos = (get_viewport().size[0] * (1920/1080) / (1920/1080))
 	elif scale_x < scale_y :
-		x_pos = (get_viewport().size[1] * (1920/1080))
+		x_pos = (get_viewport().size[1] * (1920/1080) * (1920/1080))
 	else :
 		y_pos = 2000
 		

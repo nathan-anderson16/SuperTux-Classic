@@ -299,8 +299,22 @@ func window_resized():
 	# TODO: Fix for width
 	var scale_y = 1080 / (get_viewport().size[1])
 	var scale_x = 1920 / (get_viewport().size[0])
+	var aspect_ratio = 1920 / 1080
 	Global.get_current_camera().zoom = Vector2.ONE * max(scale_x, scale_y)
-
+	var adjustable_border = Global.current_scene.find_node("Border")
+	
+	var y_pos = 0
+	var x_pos = 0
+	if scale_y < scale_x :
+		y_pos = (get_viewport().size[0] * (1920/1080) / 1.78)
+	elif scale_x < scale_y :
+		x_pos = (get_viewport().size[1] * (1920/1080))
+	else :
+		y_pos = 2000
+		
+	
+	adjustable_border.rect_position = Vector2(x_pos, y_pos)
+	adjustable_border.rect_size = Vector2(get_viewport().size[0], get_viewport().size[1])
 
 func _set_level_music(new_value):
 	music = new_value

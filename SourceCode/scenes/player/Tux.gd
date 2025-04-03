@@ -119,8 +119,11 @@ onready var hitbox_riding = $HitboxRiding
 
 var riding_entity = null
 
+var current_zone = 0
+
 func _ready():
 	Global.player = self
+	Global.player.current_zone = 0
 	initialize_character()
 	update_state(Scoreboard.player_initial_state, false)
 

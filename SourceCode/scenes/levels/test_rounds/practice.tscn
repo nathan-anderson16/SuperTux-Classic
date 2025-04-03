@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scenes/layers/Background/Snow.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/layers/TileMap.tscn" type="PackedScene" id=2]
@@ -32,6 +32,9 @@ void fragment()
 [sub_resource type="ShaderMaterial" id=8]
 shader = SubResource( 7 )
 shader_param/overlay_color = Plane( 0.4, 0.5, 0.7, 0.5 )
+
+[sub_resource type="RectangleShape2D" id=9]
+extents = Vector2( 100, 104.5 )
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 4 )
@@ -109,3 +112,11 @@ rect_scale = Vector2( 2, 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Lava (the red stuff) kills you"
 align = 1
+
+[node name="Zone 1" type="Area2D" parent="."]
+
+[node name="Hitbox" type="CollisionShape2D" parent="Zone 1"]
+position = Vector2( 445, 334.5 )
+shape = SubResource( 9 )
+
+[connection signal="body_entered" from="Zone 1" to="." method="_on_Zone_entered" binds= [ 50 ]]

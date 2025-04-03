@@ -28,6 +28,7 @@ func _on_Coin_body_entered(body):
 func collect():
 	if !collectable: return
 	Scoreboard.coins += 1
+	Scoreboard.score += 10
 	visible = false
 	sfx.play("Coin")
 	destroy_timer.start()

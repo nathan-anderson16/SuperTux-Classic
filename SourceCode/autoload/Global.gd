@@ -57,6 +57,8 @@ var accepted_music_file_types = [".mp3", ".wav", ".ogg"]
 
 var is_first_load = false
 
+var last_checkpoint_score = 0
+
 #var hovered_objects = []
 
 signal scene_loaded
@@ -203,6 +205,8 @@ func _deferred_reset_scene():
 	
 	# This delay makes the fade animation feel better
 #	OS.delay_msec(100)
+
+	Scoreboard.score = Global.last_checkpoint_score
 	
 	Scoreboard.fade_in()
 #	yield(Scoreboard, "fade_finished")

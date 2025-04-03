@@ -319,6 +319,7 @@ mode = 0
 
 [node name="IceMountainsBackground" parent="." instance=ExtResource( 4 )]
 
+[connection signal="resized" from="." to="." method="_on_TitleScreen_resized"]
 [connection signal="mouse_entered" from="TitleContent/Menu/VBoxContainer/StartGame" to="." method="_on_StartGame_mouse_entered"]
 [connection signal="pressed" from="TitleContent/Menu/VBoxContainer/StartGame" to="." method="_on_StartGame_pressed"]
 [connection signal="mouse_entered" from="TitleContent/Menu/VBoxContainer/FrameStutter" to="." method="_on_FrameStutter_mouse_entered"]

@@ -93,6 +93,44 @@ func _ready():
 	var options_data : Dictionary = SaveManager.get_options_data()
 	apply_options(options_data)
 	SaveManager.load_current_controls()
+	
+	# Browser signature detection
+	print("Browser signature:\n", get_signature())
+
+func get_signature():
+	print("Getting browser signature...")
+	# Size of the physical monitor
+	var screen_resolution = OS.get_screen_size()
+	# User agent (browser)
+	var user_agent = JavaScript.eval("navigator.userAgent")
+	# Time
+	var datetime = Time.get_datetime_dict_from_system()
+	var micro = str(Time.get_unix_time_from_system()).split(".")
+	micro = "0" if len(micro) == 1 else micro[1]
+	var time =  str(datetime.hour).pad_zeros(2) + ":" + str(datetime.minute).pad_zeros(2) + ":" + str(datetime.second).pad_zeros(2) + "." + micro
+	# Date
+	var date = str(datetime.year) + "-" + str(datetime.month).pad_zeros(2) + "-" + str(datetime.day).pad_zeros(2)
+	# Timezone
+#	var timezone = Time.get_time_zone_from_system()
+	var timezone = JavaScript.eval("Intl.DateTimeFormat().resolvedOptions().timeZone")
+	# Data from JS navigator
+	var platform = JavaScript.eval("navigator.platform")
+	var oscpu = JavaScript.eval("navigator.oscpu")
+	
+	return {
+		"screen_resolution": {
+			"x": screen_resolution[0],
+			"y": screen_resolution[1]
+		},
+		"date": date,
+		"time": time,
+		"timezone": timezone,
+		"navigator": {
+			"user_agent": user_agent,
+			"platform": platform,
+			"oscpu": oscpu
+		}
+	}
 
 func read_csv_data(path: String):
 	var file = File.new()

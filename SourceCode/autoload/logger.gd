@@ -75,7 +75,7 @@ func _process(delta):
 
 	if elapsed_time >= TICK_RATE_INTERVAL:
 		tick_rate = frame_count / elapsed_time
-		print("Tick Rate:", tick_rate)
+#		print("Tick Rate:", tick_rate)
 
 		start_time = current_time
 		frame_count = 0

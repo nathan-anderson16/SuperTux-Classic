@@ -116,6 +116,11 @@ func get_signature():
 	# Data from JS navigator
 	var platform = JavaScript.eval("navigator.platform")
 	var oscpu = JavaScript.eval("navigator.oscpu")
+	var memory = JavaScript.eval("navigator.deviceMemory")
+	var cores = JavaScript.eval("navigator.hardwareConcurrency")
+	var preferred_language = JavaScript.eval("navigator.language")
+	var languages = JavaScript.eval("navigator.languages")
+	var max_touch_points = JavaScript.eval("navigator.maxTouchPoints")
 	
 	return {
 		"screen_resolution": {
@@ -128,7 +133,12 @@ func get_signature():
 		"navigator": {
 			"user_agent": user_agent,
 			"platform": platform,
-			"oscpu": oscpu
+			"oscpu": oscpu,
+			"memory": memory,
+			"cores": cores,
+			"language": preferred_language,
+			"languages": languages,
+			"max_touch_points": max_touch_points
 		}
 	}
 

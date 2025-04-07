@@ -95,9 +95,10 @@ func _ready():
 	SaveManager.load_current_controls()
 	
 	# Browser signature detection
-	print("Browser signature:\n", get_signature())
+#	print("Browser signature:\n", get_signature())
 
-func get_signature():
+func get_signature(result, response_code, headers, body):
+	print(result, response_code, headers, body)
 	print("Getting browser signature...")
 	# Size of the physical monitor
 	var screen_resolution = OS.get_screen_size()
@@ -121,8 +122,12 @@ func get_signature():
 	var preferred_language = JavaScript.eval("navigator.language")
 	var languages = JavaScript.eval("navigator.languages")
 	var max_touch_points = JavaScript.eval("navigator.maxTouchPoints")
+	# IP address
+#	var ip = JavaScript.eval("""fetch('https://api.ipify.org?format=json')""")
+	var ip = body
+	print("IP: ", ip)
 	
-	return {
+	var data = {
 		"screen_resolution": {
 			"x": screen_resolution[0],
 			"y": screen_resolution[1]
@@ -139,8 +144,11 @@ func get_signature():
 			"language": preferred_language,
 			"languages": languages,
 			"max_touch_points": max_touch_points
-		}
+		},
+		"ip": ip
 	}
+	print("Signature: ", data)
+	return data
 
 func read_csv_data(path: String):
 	var file = File.new()

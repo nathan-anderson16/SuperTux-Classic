@@ -34,7 +34,7 @@ shader = SubResource( 7 )
 shader_param/overlay_color = Plane( 0.4, 0.5, 0.7, 0.5 )
 
 [sub_resource type="RectangleShape2D" id=9]
-extents = Vector2( 100, 104.5 )
+extents = Vector2( 131, 60.5 )
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 4 )
@@ -115,8 +115,8 @@ align = 1
 
 [node name="Zone 1" type="Area2D" parent="."]
 
-[node name="Hitbox" type="CollisionShape2D" parent="Zone 1"]
-position = Vector2( 445, 334.5 )
+[node name="Zone 1 Hitbox" type="CollisionShape2D" parent="Zone 1"]
+position = Vector2( 414, 378.5 )
 shape = SubResource( 9 )
 
 [connection signal="body_entered" from="Zone 1" to="." method="_on_Zone_entered" binds= [ 50 ]]

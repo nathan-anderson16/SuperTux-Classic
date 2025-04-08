@@ -77,6 +77,8 @@ signal quit_game_requested
 # When in the level editor main menu, this signal opens the World Menu for a given world
 signal open_world_menu(world_folder_name)
 
+var current_zone = 0
+
 func _ready():
 #	print(read_csv_data("res://harness/round_data.txt"))
 	

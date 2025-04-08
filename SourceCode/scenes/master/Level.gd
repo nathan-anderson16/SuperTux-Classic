@@ -332,7 +332,7 @@ func play_music(continue_music : bool = false):
 func map_to_world_position(position : Vector2):
 	return position * Global.TILE_SIZE + Vector2.ONE * Global.TILE_SIZE * 0.5
 
-
 func _on_Zone_entered(body, value):
 	if body == Global.player :
-		Global.player.current_zone = value
+		Global.current_zone = value
+		print(Global.current_zone)

@@ -119,11 +119,9 @@ onready var hitbox_riding = $HitboxRiding
 
 var riding_entity = null
 
-var current_zone = 0
-
 func _ready():
 	Global.player = self
-	Global.player.current_zone = 0
+	Global.current_zone = 0
 	initialize_character()
 	update_state(Scoreboard.player_initial_state, false)
 
@@ -137,7 +135,6 @@ func initialize_character():
 	
 	bounce_height = -sqrt(2 * gravity * bounce_height)
 	high_bounce_height = -sqrt(2 * gravity * high_bounce_height)
-	
 	if Global.spawn_position != null: position = Global.spawn_position
 
 func apply_movement(delta, solid = true):

@@ -67,7 +67,7 @@ func apply_movement(delta, solid):
 		position += velocity * delta
 	
 	if Global.current_level.level_type == Scoreboard.LEVEL_TYPE.ROUND:
-		if position.y > Global.current_level.level_height * Global.TILE_SIZE :
+		if position.y > Global.current_level.level_height * Global.TILE_SIZE:
 			Logger.log_event("Failure")
 			Global.reset_level()
 
@@ -81,11 +81,11 @@ func _on_Area2D_body_entered(body):
 	if intangibility_timer > 0: return
 	
 	if body.is_in_group("players"):
+		Scoreboard.score += 100
 		if Global.current_level.level_type == Scoreboard.LEVEL_TYPE.ROUND:
-			Scoreboard.score += 100
 			Logger.log_event("Success: Power-up Collected")
 			Scoreboard.play_reset_checkpoint()
-			Global.reset_level()
+			#Global.reset_level()
 		#match type:
 		#	"Powerup":
 		#		if body.state < state_to_grant:

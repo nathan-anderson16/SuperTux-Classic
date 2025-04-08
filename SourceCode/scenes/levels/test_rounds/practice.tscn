@@ -112,11 +112,12 @@ rect_scale = Vector2( 2, 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Lava (the red stuff) kills you"
 align = 1
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Zone 1" type="Area2D" parent="."]
+[node name="Border" type="ColorRect" parent="CanvasLayer"]
+margin_left = 1.0
+margin_top = 1080.0
+margin_right = 51.0
+margin_bottom = 1130.0
+color = Color( 0, 0, 0, 1 )
 
-[node name="Zone 1 Hitbox" type="CollisionShape2D" parent="Zone 1"]
-position = Vector2( 414, 378.5 )
-shape = SubResource( 9 )
-
-[connection signal="body_entered" from="Zone 1" to="." method="_on_Zone_entered" binds= [ 50 ]]

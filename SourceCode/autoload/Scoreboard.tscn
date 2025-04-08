@@ -91,31 +91,36 @@ custom_fonts/font = ExtResource( 7 )
 text = "300"
 
 [node name="CoinCounter" type="Control" parent="Control"]
-anchor_left = 1.0
-anchor_right = 1.0
 
 [node name="CoinIcon" type="TextureRect" parent="Control/CoinCounter"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -80.0
-margin_top = -16.0
-margin_right = 16.0
-margin_bottom = 80.0
+margin_left = -15.0
+margin_top = 59.0
+margin_right = 81.0
+margin_bottom = 155.0
 mouse_filter = 2
 texture = ExtResource( 5 )
 
 [node name="Coins" type="Label" parent="Control/CoinCounter"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -285.0
-margin_top = 20.0
-margin_right = -65.0
-margin_bottom = 50.0
+margin_left = 70.0
+margin_top = 95.0
+margin_right = 295.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 50, 0 )
 custom_colors/font_color = Color( 1, 1, 0, 1 )
 custom_fonts/font = ExtResource( 7 )
 text = "100"
-align = 2
+
+[node name="CoinCounter1" type="Control" parent="Control"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -1215.0
+margin_top = 75.0
+margin_right = -1215.0
+margin_bottom = 75.0
 
 [node name="GameOverScreen" parent="Control" instance=ExtResource( 8 )]
 mouse_filter = 2

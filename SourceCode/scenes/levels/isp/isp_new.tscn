@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://scenes/layers/Background/Snow.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/layers/TileMap.tscn" type="PackedScene" id=2]
@@ -34,7 +34,55 @@ shader = SubResource( 7 )
 shader_param/overlay_color = Plane( 0.4, 0.5, 0.7, 0.5 )
 
 [sub_resource type="RectangleShape2D" id=9]
-extents = Vector2( 391.5, 151 )
+extents = Vector2( 285.5, 117 )
+
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 90, 65 )
+
+[sub_resource type="RectangleShape2D" id=11]
+extents = Vector2( 266.5, 118.25 )
+
+[sub_resource type="RectangleShape2D" id=12]
+extents = Vector2( 298, 117.75 )
+
+[sub_resource type="RectangleShape2D" id=13]
+extents = Vector2( 251.25, 121.25 )
+
+[sub_resource type="RectangleShape2D" id=14]
+extents = Vector2( 32.5, 71.75 )
+
+[sub_resource type="RectangleShape2D" id=15]
+extents = Vector2( 262.25, 144.5 )
+
+[sub_resource type="RectangleShape2D" id=16]
+extents = Vector2( 307.5, 83.25 )
+
+[sub_resource type="RectangleShape2D" id=17]
+extents = Vector2( 78.5, 56.625 )
+
+[sub_resource type="RectangleShape2D" id=18]
+extents = Vector2( 320.75, 83.75 )
+
+[sub_resource type="RectangleShape2D" id=19]
+extents = Vector2( 66, 56.25 )
+
+[sub_resource type="RectangleShape2D" id=20]
+extents = Vector2( 234.5, 125.5 )
+
+[sub_resource type="RectangleShape2D" id=21]
+extents = Vector2( 246.25, 166.75 )
+
+[sub_resource type="RectangleShape2D" id=22]
+extents = Vector2( 233.5, 165.5 )
+
+[sub_resource type="RectangleShape2D" id=23]
+extents = Vector2( 271.5, 199.25 )
+
+[sub_resource type="RectangleShape2D" id=24]
+extents = Vector2( 296.25, 366.5 )
+
+[sub_resource type="RectangleShape2D" id=25]
+extents = Vector2( 63, 95.25 )
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 4 )
@@ -80,7 +128,119 @@ color = Color( 0, 0, 0, 1 )
 [node name="Zone 1" type="Area2D" parent="."]
 
 [node name="Zone 1 Hitbox" type="CollisionShape2D" parent="Zone 1"]
-position = Vector2( 417.5, 330 )
+position = Vector2( 916.5, 345 )
 shape = SubResource( 9 )
 
+[node name="Zone 2" type="Area2D" parent="."]
+
+[node name="Zone 2 Hitbox" type="CollisionShape2D" parent="Zone 2"]
+position = Vector2( 1249, 522 )
+shape = SubResource( 10 )
+
+[node name="Zone 3" type="Area2D" parent="."]
+
+[node name="Zone 3 Hitbox" type="CollisionShape2D" parent="Zone 3"]
+position = Vector2( 1484.5, 338.25 )
+shape = SubResource( 11 )
+
+[node name="Zone 4" type="Area2D" parent="."]
+
+[node name="Zone 4 Hitbox" type="CollisionShape2D" parent="Zone 4"]
+position = Vector2( 2060, 336.75 )
+shape = SubResource( 12 )
+
+[node name="Zone 5" type="Area2D" parent="."]
+
+[node name="Zone 5 Hitbox" type="CollisionShape2D" parent="Zone 5"]
+position = Vector2( 2621.75, 336.25 )
+shape = SubResource( 13 )
+
+[node name="Zone 6" type="Area2D" parent="."]
+
+[node name="Zone 6 Hitbox" type="CollisionShape2D" parent="Zone 6"]
+position = Vector2( 2400.5, 532.25 )
+shape = SubResource( 14 )
+
+[node name="Zone 7" type="Area2D" parent="."]
+
+[node name="Zone 7 Hitbox" type="CollisionShape2D" parent="Zone 7"]
+position = Vector2( 3143.75, 245.5 )
+shape = SubResource( 15 )
+
+[node name="Zone 8" type="Area2D" parent="."]
+
+[node name="Zone 8 Hitbox" type="CollisionShape2D" parent="Zone 8"]
+position = Vector2( 4240.5, 245.25 )
+shape = SubResource( 16 )
+
+[node name="Zone 9" type="Area2D" parent="."]
+
+[node name="Zone 9 Hitbox" type="CollisionShape2D" parent="Zone 9"]
+position = Vector2( 4237, 46 )
+shape = SubResource( 17 )
+
+[node name="Zone 10" type="Area2D" parent="."]
+
+[node name="Zone 10 Hitbox" type="CollisionShape2D" parent="Zone 10"]
+position = Vector2( 4893.25, 246.75 )
+shape = SubResource( 18 )
+
+[node name="Zone 11" type="Area2D" parent="."]
+
+[node name="Zone 11 Hitbox" type="CollisionShape2D" parent="Zone 11"]
+position = Vector2( 4909, 45.25 )
+shape = SubResource( 19 )
+
+[node name="Zone 12" type="Area2D" parent="."]
+
+[node name="Zone 12 Hitbox" type="CollisionShape2D" parent="Zone 12"]
+position = Vector2( 5461, 208 )
+shape = SubResource( 20 )
+
+[node name="Zone 13" type="Area2D" parent="."]
+
+[node name="Zone 13 Hitbox" type="CollisionShape2D" parent="Zone 13"]
+position = Vector2( 6270.75, 240.75 )
+shape = SubResource( 21 )
+
+[node name="Zone 14" type="Area2D" parent="."]
+
+[node name="Zone 14 Hitbox" type="CollisionShape2D" parent="Zone 14"]
+position = Vector2( 6840.5, 241 )
+shape = SubResource( 22 )
+
+[node name="Zone 15" type="Area2D" parent="."]
+
+[node name="Zone 15 Hitbox" type="CollisionShape2D" parent="Zone 15"]
+position = Vector2( 7569.5, 207.75 )
+shape = SubResource( 23 )
+
+[node name="Zone 16" type="Area2D" parent="."]
+
+[node name="Zone 16 Hitbox" type="CollisionShape2D" parent="Zone 16"]
+position = Vector2( 8238.75, 366.5 )
+shape = SubResource( 24 )
+
+[node name="Zone 17" type="Area2D" parent="."]
+
+[node name="Zone 17 Hitbox" type="CollisionShape2D" parent="Zone 17"]
+position = Vector2( 7875, 734.25 )
+shape = SubResource( 25 )
+
 [connection signal="body_entered" from="Zone 1" to="." method="_on_Zone_entered" binds= [ 1 ]]
+[connection signal="body_entered" from="Zone 2" to="." method="_on_Zone_entered" binds= [ 1 ]]
+[connection signal="body_entered" from="Zone 3" to="." method="_on_Zone_entered" binds= [ 1 ]]
+[connection signal="body_entered" from="Zone 4" to="." method="_on_Zone_entered" binds= [ 1 ]]
+[connection signal="body_entered" from="Zone 5" to="." method="_on_Zone_entered" binds= [ 1 ]]
+[connection signal="body_entered" from="Zone 6" to="." method="_on_Zone_entered" binds= [ 1 ]]
+[connection signal="body_entered" from="Zone 7" to="." method="_on_Zone_entered" binds= [ 1 ]]
+[connection signal="body_entered" from="Zone 8" to="." method="_on_Zone_entered" binds= [ 1 ]]
+[connection signal="body_entered" from="Zone 9" to="." method="_on_Zone_entered" binds= [ 1 ]]
+[connection signal="body_entered" from="Zone 10" to="." method="_on_Zone_entered" binds= [ 1 ]]
+[connection signal="body_entered" from="Zone 11" to="." method="_on_Zone_entered" binds= [ 1 ]]
+[connection signal="body_entered" from="Zone 12" to="." method="_on_Zone_entered" binds= [ 1 ]]
+[connection signal="body_entered" from="Zone 13" to="." method="_on_Zone_entered" binds= [ 1 ]]
+[connection signal="body_entered" from="Zone 14" to="." method="_on_Zone_entered" binds= [ 1 ]]
+[connection signal="body_entered" from="Zone 15" to="." method="_on_Zone_entered" binds= [ 1 ]]
+[connection signal="body_entered" from="Zone 16" to="." method="_on_Zone_entered" binds= [ 1 ]]
+[connection signal="body_entered" from="Zone 17" to="." method="_on_Zone_entered" binds= [ 1 ]]

@@ -24,7 +24,9 @@ var active = false setget set_active
 
 func _on_Area2D_body_entered(body):
 	if body.is_in_group("players"):
-		Global.last_checkpoint_score = Scoreboard.score
+		# Only update score if the checkpoint hasn't been hit yet (to prevent dying -> respawning to collect power-up -> repeat)
+		if not self.active:
+			Global.last_checkpoint_score = Scoreboard.score
 		self.active = true
 
 func set_active(new_value):

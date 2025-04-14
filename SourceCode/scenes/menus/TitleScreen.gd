@@ -138,6 +138,12 @@ func _on_two_five_five_pressed(val):
 	Global.goto_level("res://scenes/levels/test_rounds/two_five_five_level.tscn")
 
 
+func _on_ISP_New_pressed():
+	title_content.hide()
+	Global.next_level_lag = 0
+	Global.goto_level("res://scenes/levels/isp/isp_new.tscn")
+	yield(Global, "level_ready")
+	
 func _on_ISP_pressed():
 	title_content.hide()
 	Global.next_level_lag = 0

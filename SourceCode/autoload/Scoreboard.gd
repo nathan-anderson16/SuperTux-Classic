@@ -359,7 +359,7 @@ func _on_LEVELTIMER_timeout():
 			if !["win", "dead"].has(player_state):
 				Global.player.die()
 			Global.spawn_position = null  # Reset player spawn position back to start of level
-			set_level_timer(Global.current_level.time)
+			set_level_timer(Global.current_level.base_time)
 			stop_level_timer()
 			score = 0
 			return

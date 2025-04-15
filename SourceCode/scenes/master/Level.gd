@@ -65,8 +65,6 @@ func _ready():
 
 	Global.current_level = self
 	set_pause_mode(PAUSE_MODE_STOP)
-	
-	self.base_time = self.time
 #	
 	# Only automatically start levels if the level is the root scene.
 	# This is not the case when we are in the level editor, because
@@ -108,7 +106,7 @@ func start_level(in_editor = false):
 	if !in_editor and Scoreboard.player_initial_state < starting_powerup:
 		Scoreboard.player_initial_state = starting_powerup
 	
-	if uses_timer: Scoreboard.enable_level_timer(time)
+	if uses_timer: Scoreboard.enable_level_timer(base_time)
 	else: Scoreboard.disable_level_timer()
 	
 	# Display the level title card and wait until it disappears

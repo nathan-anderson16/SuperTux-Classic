@@ -425,11 +425,11 @@ func hurt(hurting_body):
 
 func enter_delay_lag_field() :
 	intersecting_lag_fields += 1
-	print(intersecting_lag_fields)
+	#print(intersecting_lag_fields)
 
 func exit_delay_lag_field() :
 	intersecting_lag_fields -= 1
-	print(intersecting_lag_fields)
+	#print(intersecting_lag_fields)
 
 func entered_lag_field() :
 	intersecting_probability_fields += 1

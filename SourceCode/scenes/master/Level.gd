@@ -335,4 +335,9 @@ func map_to_world_position(position : Vector2):
 func _on_Zone_entered(body, value):
 	if body == Global.player :
 		Global.current_zone = value
-		print(Global.current_zone)
+		Global.current_level.lag_magnitude = Global.zone_lag_amounts[value]
+		print(Global.zone_lag_amounts)
+
+func _init_Zone_Lag(value):
+	if not value in Global.zone_lag_amounts.keys() :
+		Global.zone_lag_amounts[value] = 75 * (Global.rng_generator.randi_range(0, 3))

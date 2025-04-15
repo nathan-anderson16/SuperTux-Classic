@@ -78,10 +78,13 @@ signal quit_game_requested
 signal open_world_menu(world_folder_name)
 
 var current_zone = 0
-
+var zone_lag_amounts = {}
+var rng_generator = null
 func _ready():
 #	print(read_csv_data("res://harness/round_data.txt"))
-	
+	rng_generator = RandomNumberGenerator.new()
+	rng_generator.seed = int(Time.get_unix_time_from_system())
+
 	# Disable the game automatically quitting
 	get_tree().set_auto_accept_quit(false)
 	

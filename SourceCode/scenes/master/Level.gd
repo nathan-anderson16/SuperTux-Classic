@@ -36,6 +36,7 @@ export var music = "ChipDisko" setget _set_level_music
 export var particle_system = ""
 export var uses_timer = true
 export var time = 300
+export var base_time = 200
 export var gravity = 10
 export var autoscroll_speed = 0.0
 export var starting_powerup = 1
@@ -64,6 +65,8 @@ func _ready():
 
 	Global.current_level = self
 	set_pause_mode(PAUSE_MODE_STOP)
+	
+	self.base_time = self.time
 #	
 	# Only automatically start levels if the level is the root scene.
 	# This is not the case when we are in the level editor, because

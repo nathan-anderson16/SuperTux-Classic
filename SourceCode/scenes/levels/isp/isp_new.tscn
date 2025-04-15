@@ -87,7 +87,7 @@ extents = Vector2( 63, 95.25 )
 [node name="Level" type="Node2D"]
 script = ExtResource( 4 )
 level_title = "Playtest 1 (No Spikes)"
-time = 200
+time = 20
 lag_min_delay = 10.0
 lag_max_delay = 69.0
 level_objective = "Complete the level!"
@@ -228,19 +228,19 @@ position = Vector2( 7875, 734.25 )
 shape = SubResource( 25 )
 
 [connection signal="body_entered" from="Zone 1" to="." method="_on_Zone_entered" binds= [ 1 ]]
-[connection signal="body_entered" from="Zone 2" to="." method="_on_Zone_entered" binds= [ 1 ]]
-[connection signal="body_entered" from="Zone 3" to="." method="_on_Zone_entered" binds= [ 1 ]]
-[connection signal="body_entered" from="Zone 4" to="." method="_on_Zone_entered" binds= [ 1 ]]
-[connection signal="body_entered" from="Zone 5" to="." method="_on_Zone_entered" binds= [ 1 ]]
-[connection signal="body_entered" from="Zone 6" to="." method="_on_Zone_entered" binds= [ 1 ]]
-[connection signal="body_entered" from="Zone 7" to="." method="_on_Zone_entered" binds= [ 1 ]]
-[connection signal="body_entered" from="Zone 8" to="." method="_on_Zone_entered" binds= [ 1 ]]
-[connection signal="body_entered" from="Zone 9" to="." method="_on_Zone_entered" binds= [ 1 ]]
-[connection signal="body_entered" from="Zone 10" to="." method="_on_Zone_entered" binds= [ 1 ]]
-[connection signal="body_entered" from="Zone 11" to="." method="_on_Zone_entered" binds= [ 1 ]]
-[connection signal="body_entered" from="Zone 12" to="." method="_on_Zone_entered" binds= [ 1 ]]
-[connection signal="body_entered" from="Zone 13" to="." method="_on_Zone_entered" binds= [ 1 ]]
-[connection signal="body_entered" from="Zone 14" to="." method="_on_Zone_entered" binds= [ 1 ]]
-[connection signal="body_entered" from="Zone 15" to="." method="_on_Zone_entered" binds= [ 1 ]]
+[connection signal="body_entered" from="Zone 2" to="." method="_on_Zone_entered" binds= [ 2 ]]
+[connection signal="body_entered" from="Zone 3" to="." method="_on_Zone_entered" binds= [ 3 ]]
+[connection signal="body_entered" from="Zone 4" to="." method="_on_Zone_entered" binds= [ 4 ]]
+[connection signal="body_entered" from="Zone 5" to="." method="_on_Zone_entered" binds= [ 5 ]]
+[connection signal="body_entered" from="Zone 6" to="." method="_on_Zone_entered" binds= [ 6 ]]
+[connection signal="body_entered" from="Zone 7" to="." method="_on_Zone_entered" binds= [ 7 ]]
+[connection signal="body_entered" from="Zone 8" to="." method="_on_Zone_entered" binds= [ 8 ]]
+[connection signal="body_entered" from="Zone 9" to="." method="_on_Zone_entered" binds= [ 9 ]]
+[connection signal="body_entered" from="Zone 10" to="." method="_on_Zone_entered" binds= [ 10 ]]
+[connection signal="body_entered" from="Zone 11" to="." method="_on_Zone_entered" binds= [ 11 ]]
+[connection signal="body_entered" from="Zone 12" to="." method="_on_Zone_entered" binds= [ 12 ]]
+[connection signal="body_entered" from="Zone 13" to="." method="_on_Zone_entered" binds= [ 13 ]]
+[connection signal="body_entered" from="Zone 14" to="." method="_on_Zone_entered" binds= [ 14 ]]
+[connection signal="body_entered" from="Zone 15" to="." method="_on_Zone_entered" binds= [ 15 ]]
 [connection signal="body_entered" from="Zone 16" to="." method="_on_Zone_entered" binds= [ 1 ]]
-[connection signal="body_entered" from="Zone 17" to="." method="_on_Zone_entered" binds= [ 1 ]]
+[connection signal="body_entered" from="Zone 17" to="." method="_on_Zone_entered" binds= [ 17 ]]

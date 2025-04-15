@@ -358,6 +358,10 @@ func _on_LEVELTIMER_timeout():
 			var player_state = Global.player.state_machine.state
 			if !["win", "dead"].has(player_state):
 				Global.player.die()
+			Global.spawn_position = null  # Reset player spawn position back to start of level
+			set_level_timer(Global.current_level.time)
+			stop_level_timer()
+			score = 0
 			return
 		
 		# Practice level 1 is over, send the player to practice level 2

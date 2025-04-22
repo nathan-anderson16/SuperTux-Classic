@@ -594,9 +594,6 @@ func win():
 	Scoreboard.hide()	
 	Global.can_pause = false
 	
-	Global.goto_scene("res://scenes/menus/ThankYou.tscn")
-	return
-	
 	# Once this timer depletes, load in the next level
 	win_timer.start()
 	

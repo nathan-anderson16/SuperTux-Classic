@@ -281,6 +281,10 @@ func autoscroll(delta):
 
 func level_complete():
 	is_autoscrolling = false
+	
+	Global.goto_scene("res://scenes/menus/ThankYou.tscn")
+	return
+	
 	if extro_level != null:
 		WorldmapManager.extro_level = null
 		WorldmapManager.save_progress(true) # Clear the level in worldmap and save progress

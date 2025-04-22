@@ -10,5 +10,6 @@ func _on_Lava_body_entered(body):
 	if body.get("invincible"):
 		if body.invincible == true: return
 	if body.has_method("die"):
-		body.should_be_dead = true
+		if body.get("should_be_dead"):
+			body.should_be_dead = true
 		body.die()

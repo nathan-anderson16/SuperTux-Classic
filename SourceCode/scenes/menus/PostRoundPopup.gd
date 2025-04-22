@@ -34,7 +34,11 @@ func _on_SubmitButton_pressed():
 	print("QoE: ", qoe_slider.value)
 	Logger.log_qoe("QoE Score: " + str(qoe_slider.value))
 	qoe_popup.hide()
-	acceptable_popup.show()
+	self.hide()
+	emit_signal("test_popup_closed")
+	Logger.write_to_disk()
+	Logger.start_new_round()
+#	acceptable_popup.show()
 
 func _on_QoeSlider_gui_input(event):
 	# Only show the submit button when the slider is clicked

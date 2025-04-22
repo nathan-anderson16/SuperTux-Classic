@@ -23,7 +23,7 @@ margin_top = 12.8
 margin_right = 345.6
 margin_bottom = 27.8
 rect_scale = Vector2( 1.5, 1.5 )
-text = "Rate the visual smoothness of the round"
+text = "Rate the visual smoothness of the level"
 align = 1
 
 [node name="QoeSlider" type="HSlider" parent="QoEPopup"]

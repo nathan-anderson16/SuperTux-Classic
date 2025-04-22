@@ -349,6 +349,16 @@ func goto_practice(idx):
 func bonus_score():
 	return 10 * int(level_timer.time_left)
 
+func show_qoe_popup():
+	# Show the qoe popup and pause the game
+	test_popup.reset()
+	test_popup.show()
+	_set_paused(true)
+	
+	# Once the qoe popup is complete, unpause the game
+	yield(test_popup, "test_popup_closed")
+	_set_paused(false)
+
 func _on_LEVELTIMER_timeout():
 	stop_level_timer()
 	

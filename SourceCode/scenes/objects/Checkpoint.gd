@@ -21,15 +21,21 @@ onready var sfx = $SFX
 onready var animation_player = $AnimationPlayer
 
 var active = false setget set_active
+var qoe_shown = false
 
 func _on_Area2D_body_entered(body):
 	if body.is_in_group("players"):
 		# Only update score if the checkpoint hasn't been hit yet (to prevent dying -> respawning to collect power-up -> repeat)
 		if not self.active:
 			Global.last_checkpoint_score = Scoreboard.score
+		qoe_shown = true
 		self.active = true
 
 func set_active(new_value):
+	# Only show the QoE popup if the player just reached the checkpoint
+	if Global.spawn_position != position:
+		Scoreboard.show_qoe_popup()
+	
 	var animation = "active" if new_value == true else "default"
 	animation_player.play(animation)
 	if new_value and !active:

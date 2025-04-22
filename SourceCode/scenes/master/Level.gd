@@ -106,7 +106,7 @@ func start_level(in_editor = false):
 	if !in_editor and Scoreboard.player_initial_state < starting_powerup:
 		Scoreboard.player_initial_state = starting_powerup
 	
-	if uses_timer: Scoreboard.enable_level_timer(base_time)
+	if uses_timer: Scoreboard.enable_level_timer(0)
 	else: Scoreboard.disable_level_timer()
 	
 	# Display the level title card and wait until it disappears

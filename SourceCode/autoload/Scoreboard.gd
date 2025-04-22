@@ -116,7 +116,7 @@ func _process(delta):
 func _draw():
 	if level_timer_enabled:
 		var time_left = ceil(level_timer.time_left)
-		timer_text.text = str(time_left)
+		timer_text.text = "Bonus: " + str(bonus_score())
 	
 	coins_text.text = str(score)
 	if Global.current_level != null and Global.current_level.level_type == LEVEL_TYPE.ROUND:
@@ -346,7 +346,16 @@ func goto_practice(idx):
 	Scoreboard.set_level_timer(level_time)
 	Scoreboard.current_level_lag_time = spike_time
 
+func bonus_score():
+	return 10 * int(level_timer.time_left)
+
 func _on_LEVELTIMER_timeout():
+	stop_level_timer()
+	
+#	self.hide()
+#	Global.goto_scene("res://scenes/menus/ThankYou.tscn")
+	return
+	
 	if Global.player == null or Global.current_level == null: return
 	
 	var a = Global.current_level.level_type

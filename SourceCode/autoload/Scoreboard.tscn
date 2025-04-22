@@ -75,17 +75,17 @@ align = 2
 
 [node name="ClockIcon" type="TextureRect" parent="Control/ClockCounter"]
 margin_left = -16.0
-margin_top = -16.0
+margin_top = 59.0
 margin_right = 80.0
-margin_bottom = 80.0
+margin_bottom = 155.0
 mouse_filter = 2
 texture = ExtResource( 9 )
 
 [node name="Timer" type="Label" parent="Control/ClockCounter"]
 margin_left = 67.0
-margin_top = 20.0
-margin_right = 127.0
-margin_bottom = 50.0
+margin_top = 95.0
+margin_right = 238.0
+margin_bottom = 125.0
 custom_colors/font_color = Color( 1, 1, 0, 1 )
 custom_fonts/font = ExtResource( 7 )
 text = "300"
@@ -95,10 +95,10 @@ text = "300"
 [node name="CoinIcon" type="TextureRect" parent="Control/CoinCounter"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -15.0
-margin_top = 59.0
+margin_left = -16.0
+margin_top = -16.0
 margin_right = 81.0
-margin_bottom = 155.0
+margin_bottom = 80.0
 mouse_filter = 2
 texture = ExtResource( 5 )
 
@@ -106,9 +106,9 @@ texture = ExtResource( 5 )
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = 70.0
-margin_top = 95.0
+margin_top = 20.0
 margin_right = 295.0
-margin_bottom = 125.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 50, 0 )
 custom_colors/font_color = Color( 1, 1, 0, 1 )
 custom_fonts/font = ExtResource( 7 )

@@ -34,6 +34,8 @@ onready var options_menu = $OptionsMenu
 onready var start_game_menu = $StartGameMenu
 onready var frame_stutter_menu = $FrameStutterMenu
 
+onready var http_request = $HTTPRequest
+
 export var default_world = "world1"
 
 func _ready():
@@ -56,6 +58,9 @@ func _ready():
 	quit_button.visible = !is_on_browser
 	
 	start_game_button.grab_focus()
+	http_request.connect("request_completed", Global, "get_signature")
+	http_request.request("https://api.ipify.org?format=json")
+	print("AAAAA")
 
 func _on_StartGame_mouse_entered():
 	start_game_button.grab_focus()

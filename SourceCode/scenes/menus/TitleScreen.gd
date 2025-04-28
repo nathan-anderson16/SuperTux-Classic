@@ -152,6 +152,7 @@ func _on_ISP_New_pressed():
 func _on_ISP_pressed():
 	title_content.hide()
 	Global.next_level_lag = 0
+	Global.last_camera_backscroll = 0
 	Global.goto_level("res://scenes/levels/isp/isp.tscn")
 	yield(Global, "level_ready")
 	

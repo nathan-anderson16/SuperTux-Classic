@@ -18,9 +18,6 @@ func _ready():
 	acceptable_submit_button.hide()
 	acceptable_popup.hide()
 
-func _process(delta):
-	pass
-
 func reset():
 	# Hide the necessary things
 	qoe_submit_button.hide()

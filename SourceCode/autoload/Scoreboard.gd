@@ -91,8 +91,6 @@ func _process(delta):
 	
 	var window_pos = OS.window_size
 	var size = test_popup.rect_size
-	print(window_pos)
-	print(size)
 	test_popup.rect_position = Vector2((window_pos.x - size.x) / 2, (window_pos.y - size.y) / 2)
 	
 	if level_timer_enabled:

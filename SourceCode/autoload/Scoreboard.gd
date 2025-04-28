@@ -89,6 +89,10 @@ func _ready():
 func _process(delta):
 	_draw()
 	
+	var window_pos = OS.window_size
+	var size = test_popup.rect_size
+	test_popup.rect_position = Vector2((window_pos.x - size.x) / 2, (window_pos.y - size.y) / 2)
+	
 	if level_timer_enabled:
 		
 		if Global.current_level != null:

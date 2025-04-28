@@ -119,11 +119,16 @@ onready var hitbox_riding = $HitboxRiding
 
 var riding_entity = null
 
+var total_offset = -800
+
 func _ready():
 	Global.player = self
 	Global.current_zone = 0
+	
 	initialize_character()
+
 	update_state(Scoreboard.player_initial_state, false)
+	
 
 func initialize_character():
 	var gravity = Global.base_gravity
@@ -145,7 +150,15 @@ func apply_movement(delta, solid = true):
 	
 	if camera.current:
 		# Tux cannot go past the left side of the level
-		position.x = max(position.x, 16)
+		
+		if (velocity * delta).x > 0 and total_offset >= 0 : # position.x > camera.get_camera_screen_center().x 
+			camera.limit_left += (velocity * delta).x
+		else :
+			total_offset += (velocity * delta).x
+			pass
+		
+		
+		position.x = max(camera.limit_left, position.x)
 	else:
 		# If we're using a custom level camera (e.g. for Autoscrolling levels)
 		# Constrain Tux's position to within the camera boundaries

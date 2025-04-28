@@ -51,7 +51,12 @@ func _process(_delta):
 		current_offset = lerp(current_offset, offset_to_use, lerp_speed)
 	offset.x = current_offset
 	
-	position += offset
+	if offset.x >= 0 :
+		position += offset
+	else :
+		pass
+		#print_debug("Here: ", offset.x)
+	
 	offset = Vector2.ZERO
 	
 	# Camera shake stuff

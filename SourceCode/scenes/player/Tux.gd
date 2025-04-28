@@ -151,12 +151,15 @@ func apply_movement(delta, solid = true):
 	if camera.current:
 		# Tux cannot go past the left side of the level
 		
+		# This is a stupid hack, but it should work
+		if camera.limit_left < Global.last_camera_backscroll :
+			camera.limit_left = Global.last_camera_backscroll
+			
 		if (velocity * delta).x > 0 and total_offset >= 0 : # position.x > camera.get_camera_screen_center().x 
 			camera.limit_left += (velocity * delta).x
 		else :
 			total_offset += (velocity * delta).x
 			pass
-		
 		
 		position.x = max(camera.limit_left, position.x)
 	else:

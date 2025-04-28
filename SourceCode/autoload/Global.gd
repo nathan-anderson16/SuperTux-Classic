@@ -58,7 +58,7 @@ var accepted_music_file_types = [".mp3", ".wav", ".ogg"]
 var is_first_load = false
 
 var last_checkpoint_score = 0
-
+var last_camera_backscroll = 0;
 #var hovered_objects = []
 
 signal scene_loaded
@@ -197,6 +197,8 @@ func _update_gravity(new_value):
 func respawn_player():
 	if current_level == current_scene:
 		reset_level()
+		Global.player.camera.limit_left = Global.last_camera_backscroll
+		print_debug("left limit: ", Global.last_camera_backscroll, " | ", Global.player.camera.limit_left)
 	else:
 		emit_signal("player_died")
 

@@ -28,6 +28,8 @@ func _on_Area2D_body_entered(body):
 		# Only update score if the checkpoint hasn't been hit yet (to prevent dying -> respawning to collect power-up -> repeat)
 		if not self.active:
 			Global.last_checkpoint_score = Scoreboard.score
+			Global.last_camera_backscroll = Global.player.camera.limit_left
+			print(Global.last_camera_backscroll)
 		qoe_shown = true
 		self.active = true
 

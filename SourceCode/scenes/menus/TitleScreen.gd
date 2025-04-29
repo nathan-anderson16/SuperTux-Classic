@@ -157,6 +157,7 @@ func _on_ISP_pressed():
 	Global.next_level_lag = 0
 	Global.last_checkpoint_score = 0
 	Scoreboard.score = 0
+	Global.last_camera_backscroll = 0
 	Global.goto_level("res://scenes/levels/isp/isp.tscn")
 	yield(Global, "level_ready")
 	Scoreboard.set_level_timer(Global.current_level.base_time)

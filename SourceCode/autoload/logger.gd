@@ -29,6 +29,8 @@ var tick_rate: float = 0.0
 const TICK_RATE_INTERVAL: float = 1.0
 var current_frame_time: float = 0.0
 
+#onready var http_request = $HTTPRequest
+
 func _ready():
 	
 	set_process(true)
@@ -432,27 +434,32 @@ func create_summary_log():
 		file.close()
 
 func write_to_disk():
-	var file = File.new()
-	if file.open(frame_log_path, File.READ_WRITE) == OK:
-		file.seek_end()
-		for frame_message in frame_logs:
-			file.store_line(frame_message)
-	file.close()
+	var form_url = "https://docs.google.com/forms/d/e/1FAIpQLSegtXvnfveEen1Zb_PDYziZ44WCGZBiYq3b2JIeWVqOInwzCA/formResponse?entry.1934454714="
+	var headers = ["Content-Type: application/x-www-form-urlencoded", "Content-Length: 0"]
+
+#	var result = http_request.request(form_url, headers, true, HTTPClient.METHOD_POST, "")
 	
-	if file.open(event_log_path, File.READ_WRITE) == OK:
-		file.seek_end()
-		for event_message in event_logs:
-			file.store_line(event_message)
-	file.close()
-	
-	if file.open(qoe_log_path, File.READ_WRITE) == OK:
-		file.seek_end()
-		for qoe_message in qoe_logs:
-			file.store_line(qoe_message)
-	file.close()
-	
-	frame_logs.clear()
-	event_logs.clear()
-	qoe_logs.clear()
-	cumulative_time = 0.0
+	#var file = File.new()
+	#if file.open(frame_log_path, File.READ_WRITE) == OK:
+	#	file.seek_end()
+	#	for frame_message in frame_logs:
+	#		file.store_line(frame_message)
+	#file.close()
+	#
+	#if file.open(event_log_path, File.READ_WRITE) == OK:
+	#	file.seek_end()
+	#	for event_message in event_logs:
+	#		file.store_line(event_message)
+	#file.close()
+	#
+	#if file.open(qoe_log_path, File.READ_WRITE) == OK:
+	#	file.seek_end()
+	#	for qoe_message in qoe_logs:
+	#		file.store_line(qoe_message)
+	#file.close()
+	#
+	#frame_logs.clear()
+	#event_logs.clear()
+	#qoe_logs.clear()
+	#cumulative_time = 0.0
 	

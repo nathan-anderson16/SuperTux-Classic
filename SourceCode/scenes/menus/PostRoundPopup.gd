@@ -37,7 +37,7 @@ func _on_SubmitButton_pressed():
 	self.hide()
 	emit_signal("test_popup_closed")
 	Logger.write_to_disk()
-	Logger.start_new_round()
+	#Logger.start_new_round()
 #	acceptable_popup.show()
 
 func _on_QoeSlider_gui_input(event):

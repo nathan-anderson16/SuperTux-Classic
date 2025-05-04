@@ -41,6 +41,9 @@ var base_gravity = 1 * pow(60, 2) / 3
 var gravity = 1 setget _update_gravity
 var fireballs_on_screen = 0 setget _change_fireball_count
 var auto_run = true
+
+var lag_options = [0, 75, 150, 225]
+var lag_index = 0
 var next_level_lag = 0
 
 var controls = ["jump", "run", "move_left", "move_right", "move_up", "duck"]

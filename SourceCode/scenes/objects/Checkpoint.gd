@@ -29,7 +29,10 @@ func _on_Area2D_body_entered(body):
 		if not self.active:
 			Global.last_checkpoint_score = Scoreboard.score
 			Global.last_camera_backscroll = Global.player.camera.limit_left
-			print(Global.last_camera_backscroll)
+			
+			Global.lag_index = (Global.lag_index + 1) % 4
+			Global.next_level_lag = Global.lag_options[Global.lag_index]
+		
 		qoe_shown = true
 		self.active = true
 

@@ -145,7 +145,11 @@ func _on_two_five_five_pressed(val):
 
 func _on_ISP_New_pressed():
 	title_content.hide()
-	Global.next_level_lag = 0
+	
+	Global.lag_options.shuffle()
+	Global.lag_index = 0
+	Global.next_level_lag = Global.lag_options[Global.lag_index]
+	
 	Global.last_checkpoint_score = 0
 	Scoreboard.score = 0
 	Global.goto_level("res://scenes/levels/isp/isp_new.tscn")

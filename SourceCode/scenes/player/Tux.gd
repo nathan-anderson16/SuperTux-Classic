@@ -155,11 +155,8 @@ func apply_movement(delta, solid = true):
 		if camera.limit_left < Global.last_camera_backscroll :
 			camera.limit_left = Global.last_camera_backscroll
 			
-		if (velocity * delta).x > 0 and total_offset >= 0 : # position.x > camera.get_camera_screen_center().x 
-			camera.limit_left += (velocity * delta).x
-		else :
-			total_offset += (velocity * delta).x
-			pass
+		if (velocity * delta).x > 0 &&  position.x - int(ResolutionManager.window_size.x/2) > camera.limit_left : # position.x > camera.get_camera_screen_center().x 
+			camera.limit_left = position.x - int(ResolutionManager.window_size.x/2)
 		
 		position.x = max(camera.limit_left, position.x)
 	else:

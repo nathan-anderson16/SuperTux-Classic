@@ -18,9 +18,9 @@ margin_right = -40.0
 margin_bottom = 24.0
 
 [node name="Title" type="Label" parent="QoEPopup"]
-margin_left = 86.6
+margin_left = 25.0
 margin_top = 12.8
-margin_right = 345.6
+margin_right = 366.0
 margin_bottom = 27.8
 rect_scale = Vector2( 1.5, 1.5 )
 text = "Rate the visual smoothness since the last checkpoint"

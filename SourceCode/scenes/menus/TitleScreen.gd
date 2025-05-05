@@ -170,3 +170,7 @@ func _on_TitleScreen_resized():
 	# print_debug(OS.get_screen_size()[1])
 	pass
 	# Global.TILE_SIZE = 32 * (OS.get_screen_size()[1] / 1080)
+
+
+func _on_Info_pressed():
+	OS.shell_open(Global.privacy_policy_url)

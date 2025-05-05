@@ -113,9 +113,9 @@ focus_neighbour_bottom = NodePath("../LevelEditor")
 text = "ISP (New)"
 
 [node name="ISP" type="Button" parent="TitleContent/Menu/VBoxContainer"]
-margin_top = 35.0
+margin_top = 18.0
 margin_right = 350.0
-margin_bottom = 65.0
+margin_bottom = 48.0
 focus_neighbour_top = NodePath("../StartGame")
 focus_neighbour_bottom = NodePath("../LevelEditor")
 text = "Start Game"
@@ -217,12 +217,20 @@ text = "[2, 5, 5]"
 script = null
 
 [node name="Options" type="Button" parent="TitleContent/Menu/VBoxContainer"]
-margin_top = 70.0
+margin_top = 53.0
 margin_right = 350.0
-margin_bottom = 100.0
+margin_bottom = 83.0
 focus_neighbour_top = NodePath("../StartGame")
 focus_neighbour_bottom = NodePath("../LevelEditor")
 text = "Options"
+
+[node name="Info" type="Button" parent="TitleContent/Menu/VBoxContainer"]
+margin_top = 88.0
+margin_right = 350.0
+margin_bottom = 118.0
+focus_neighbour_top = NodePath("../StartGame")
+focus_neighbour_bottom = NodePath("../LevelEditor")
+text = "About"
 
 [node name="LevelEditor" type="Button" parent="TitleContent/Menu/VBoxContainer"]
 visible = false
@@ -257,9 +265,9 @@ margin_bottom = 205.0
 text = "Boss Battle (DEBUG)"
 
 [node name="Quit" type="Button" parent="TitleContent/Menu/VBoxContainer"]
-margin_top = 105.0
+margin_top = 123.0
 margin_right = 350.0
-margin_bottom = 135.0
+margin_bottom = 153.0
 focus_neighbour_top = NodePath("../Credits")
 text = "Quit Game"
 
@@ -340,6 +348,7 @@ mode = 0
 [connection signal="pressed" from="TitleContent/Menu/VBoxContainer/HBoxContainer3/two_five_five3" to="." method="_on_two_five_five_pressed" binds= [ 225 ]]
 [connection signal="mouse_entered" from="TitleContent/Menu/VBoxContainer/Options" to="." method="_on_Options_mouse_entered"]
 [connection signal="pressed" from="TitleContent/Menu/VBoxContainer/Options" to="." method="_on_Options_pressed"]
+[connection signal="pressed" from="TitleContent/Menu/VBoxContainer/Info" to="." method="_on_Info_pressed"]
 [connection signal="mouse_entered" from="TitleContent/Menu/VBoxContainer/LevelEditor" to="." method="_on_LevelEditor_mouse_entered"]
 [connection signal="pressed" from="TitleContent/Menu/VBoxContainer/LevelEditor" to="." method="_on_LevelEditor_pressed"]
 [connection signal="mouse_entered" from="TitleContent/Menu/VBoxContainer/Credits" to="." method="_on_Credits_mouse_entered"]

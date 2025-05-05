@@ -50,7 +50,7 @@ var controls = ["jump", "run", "move_left", "move_right", "move_up", "duck"]
 
 var can_pause = false
 
-var privacy_policy_url = "https://github.com/Alzter/SuperTux-Classic/blob/main/PRIVACYPOLICY.md"
+var privacy_policy_url = "https://github.com/nathan-anderson16/SuperTux-Classic/blob/isp/PRIVACYPOLICY.md"
 
 var level_attributes_cache = {}
 

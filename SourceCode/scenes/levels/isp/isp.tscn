@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://scenes/layers/Background/Snow.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/layers/TileMap.tscn" type="PackedScene" id=2]
@@ -121,7 +121,37 @@ extents = Vector2( 92.5, 130.25 )
 extents = Vector2( 235.25, 109.75 )
 
 [sub_resource type="RectangleShape2D" id=41]
-extents = Vector2( 241.5, 444.25 )
+extents = Vector2( 173.25, 154.125 )
+
+[sub_resource type="RectangleShape2D" id=42]
+extents = Vector2( 85.25, 118.5 )
+
+[sub_resource type="RectangleShape2D" id=43]
+extents = Vector2( 108.25, 101.25 )
+
+[sub_resource type="RectangleShape2D" id=44]
+extents = Vector2( 245, 505 )
+
+[sub_resource type="RectangleShape2D" id=45]
+extents = Vector2( 143.25, 145 )
+
+[sub_resource type="RectangleShape2D" id=46]
+extents = Vector2( 331.5, 143.75 )
+
+[sub_resource type="RectangleShape2D" id=47]
+extents = Vector2( 271.25, 147 )
+
+[sub_resource type="RectangleShape2D" id=48]
+extents = Vector2( 126, 53 )
+
+[sub_resource type="RectangleShape2D" id=49]
+extents = Vector2( 338.5, 438.25 )
+
+[sub_resource type="RectangleShape2D" id=50]
+extents = Vector2( 245.5, 542 )
+
+[sub_resource type="RectangleShape2D" id=51]
+extents = Vector2( 199.25, 164 )
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 4 )
@@ -340,8 +370,68 @@ shape = SubResource( 34 )
 [node name="Zone 26" type="Area2D" parent="."]
 
 [node name="Zone 26 Hitbox" type="CollisionShape2D" parent="Zone 26"]
-position = Vector2( 10079.5, 447.75 )
+position = Vector2( 9299.75, 296.875 )
 shape = SubResource( 41 )
+
+[node name="Zone 27" type="Area2D" parent="."]
+
+[node name="Zone 27 Hitbox" type="CollisionShape2D" parent="Zone 27"]
+position = Vector2( 9581.75, 210.5 )
+shape = SubResource( 42 )
+
+[node name="Zone 28" type="Area2D" parent="."]
+
+[node name="Zone 28 Hitbox" type="CollisionShape2D" parent="Zone 28"]
+position = Vector2( 9781.25, 139.75 )
+shape = SubResource( 43 )
+
+[node name="Zone 29" type="Area2D" parent="."]
+
+[node name="Zone 29 Hitbox" type="CollisionShape2D" parent="Zone 29"]
+position = Vector2( 10201, 343 )
+shape = SubResource( 44 )
+
+[node name="Zone 30" type="Area2D" parent="."]
+
+[node name="Zone 30 Hitbox" type="CollisionShape2D" parent="Zone 30"]
+position = Vector2( 10589.8, 828 )
+shape = SubResource( 45 )
+
+[node name="Zone 31" type="Area2D" parent="."]
+
+[node name="Zone 31 Hitbox" type="CollisionShape2D" parent="Zone 31"]
+position = Vector2( 11097.5, 826.25 )
+shape = SubResource( 46 )
+
+[node name="Zone 32" type="Area2D" parent="."]
+
+[node name="Zone 32 Hitbox" type="CollisionShape2D" parent="Zone 32"]
+position = Vector2( 11710.8, 833 )
+shape = SubResource( 47 )
+
+[node name="Zone 33" type="Area2D" parent="."]
+
+[node name="Zone 33 Hitbox" type="CollisionShape2D" parent="Zone 33"]
+position = Vector2( 12116, 1009 )
+shape = SubResource( 48 )
+
+[node name="Zone 34" type="Area2D" parent="."]
+
+[node name="Zone 34 Hitbox" type="CollisionShape2D" parent="Zone 34"]
+position = Vector2( 12334.5, 344.75 )
+shape = SubResource( 49 )
+
+[node name="Zone 35" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zone 35"]
+position = Vector2( 13104.5, 500 )
+shape = SubResource( 50 )
+
+[node name="Zone 36" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zone 36"]
+position = Vector2( 12558.2, 948 )
+shape = SubResource( 51 )
 
 [connection signal="body_entered" from="Zone 1" to="." method="_on_Zone_entered" binds= [ 1 ]]
 [connection signal="body_entered" from="Zone 2" to="." method="_on_Zone_entered" binds= [ 2 ]]
@@ -373,3 +463,13 @@ shape = SubResource( 41 )
 [connection signal="body_entered" from="Zone 25" to="." method="_on_Zone_entered" binds= [ 25 ]]
 [connection signal="body_entered" from="Zone 25_2" to="." method="_on_Zone_entered" binds= [ 25 ]]
 [connection signal="body_entered" from="Zone 26" to="." method="_on_Zone_entered" binds= [ 26 ]]
+[connection signal="body_entered" from="Zone 27" to="." method="_on_Zone_entered" binds= [ 27 ]]
+[connection signal="body_entered" from="Zone 28" to="." method="_on_Zone_entered" binds= [ 28 ]]
+[connection signal="body_entered" from="Zone 29" to="." method="_on_Zone_entered" binds= [ 29 ]]
+[connection signal="body_entered" from="Zone 30" to="." method="_on_Zone_entered" binds= [ 30 ]]
+[connection signal="body_entered" from="Zone 31" to="." method="_on_Zone_entered" binds= [ 31 ]]
+[connection signal="body_entered" from="Zone 32" to="." method="_on_Zone_entered" binds= [ 32 ]]
+[connection signal="body_entered" from="Zone 33" to="." method="_on_Zone_entered" binds= [ 33 ]]
+[connection signal="body_entered" from="Zone 34" to="." method="_on_Zone_entered" binds= [ 34 ]]
+[connection signal="body_entered" from="Zone 35" to="." method="_on_Zone_entered" binds= [ 35 ]]
+[connection signal="body_entered" from="Zone 36" to="." method="_on_Zone_entered" binds= [ 36 ]]

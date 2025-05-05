@@ -16,6 +16,7 @@ func _on_Lava_body_entered(body):
 	if body.has_method("enter_delay_lag_field"):
 		body.enter_delay_lag_field()
 		Logger.log_event("Random Delay Enter: Entered at time: %f" % enter_time)
+		OLogger.add_to_event_log("DELAY_ENTER")
 		return
 
 func _on_Lava_body_exited(body):
@@ -33,5 +34,6 @@ func _on_Lava_body_exited(body):
 	entry_times.erase(body)
 	if body.has_method("exit_delay_lag_field"):
 		body.exit_delay_lag_field()
-		Logger.log_event("Random Delay Exit: Exited at time: %f, Duration: %f seconds" % [exit_time, duration])
+		#Logger.log_event("Random Delay Exit: Exited at time: %f, Duration: %f seconds" % [exit_time, duration])
+		OLogger.add_to_event_log("DELAY_EXIT")
 		return

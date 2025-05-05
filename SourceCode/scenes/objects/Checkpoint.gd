@@ -45,5 +45,6 @@ func set_active(new_value):
 		print_debug(position)
 		sfx.play("Checkpoint")
 		$Flash.emitting = true
-		Logger.log_event("Success: Checkpoint Reached")
+		#Logger.log_event("Success: Checkpoint Reached")
+		OLogger.add_to_event_log("CHECKPOINT")
 	active = new_value

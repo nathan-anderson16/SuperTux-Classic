@@ -185,4 +185,8 @@ margin_top = 196.0
 margin_right = 722.0
 margin_bottom = 309.0
 
+[node name="HTTPRequestE" type="HTTPRequest" parent="."]
+
+[node name="HTTPRequestS" type="HTTPRequest" parent="."]
+
 [connection signal="timeout" from="LEVELTIMER" to="." method="_on_LEVELTIMER_timeout"]

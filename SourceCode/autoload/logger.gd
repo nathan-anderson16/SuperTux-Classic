@@ -83,13 +83,16 @@ func _process(delta):
 		frame_count = 0
 		
 	if Input.is_action_just_released("jump"):
-		Logger.log_event("Pressed Jump")
+		#Logger.log_event("Pressed Jump")
+		OLogger.add_to_event_log("JUMP")
 		
 	if Input.is_action_just_pressed("move_right"):
-		Logger.log_event("Pressed Right")
+		#Logger.log_event("Pressed Right")
+		OLogger.add_to_event_log("RIGHT")
 		
 	if Input.is_action_just_pressed("move_left"):
-		Logger.log_event("Pressed Left")
+		#Logger.log_event("Pressed Left")
+		OLogger.add_to_event_log("LEFT")
 	
 	if is_instance_valid(Global.player) and Global.player.has_node("state_machine"):
 		var state_machine = Global.player.get_node("state_machine") if Global.player.has_node("state_machine") else null
@@ -434,32 +437,27 @@ func create_summary_log():
 		file.close()
 
 func write_to_disk():
-	var form_url = "https://docs.google.com/forms/d/e/1FAIpQLSegtXvnfveEen1Zb_PDYziZ44WCGZBiYq3b2JIeWVqOInwzCA/formResponse?entry.1934454714="
-	var headers = ["Content-Type: application/x-www-form-urlencoded", "Content-Length: 0"]
-
-#	var result = http_request.request(form_url, headers, true, HTTPClient.METHOD_POST, "")
+	var file = File.new()
+	if file.open(frame_log_path, File.READ_WRITE) == OK:
+		file.seek_end()
+		for frame_message in frame_logs:
+			file.store_line(frame_message)
+	file.close()
 	
-	#var file = File.new()
-	#if file.open(frame_log_path, File.READ_WRITE) == OK:
-	#	file.seek_end()
-	#	for frame_message in frame_logs:
-	#		file.store_line(frame_message)
-	#file.close()
-	#
-	#if file.open(event_log_path, File.READ_WRITE) == OK:
-	#	file.seek_end()
-	#	for event_message in event_logs:
-	#		file.store_line(event_message)
-	#file.close()
-	#
-	#if file.open(qoe_log_path, File.READ_WRITE) == OK:
-	#	file.seek_end()
-	#	for qoe_message in qoe_logs:
-	#		file.store_line(qoe_message)
-	#file.close()
-	#
-	#frame_logs.clear()
-	#event_logs.clear()
-	#qoe_logs.clear()
-	#cumulative_time = 0.0
+	if file.open(event_log_path, File.READ_WRITE) == OK:
+		file.seek_end()
+		for event_message in event_logs:
+			file.store_line(event_message)
+	file.close()
+	
+	if file.open(qoe_log_path, File.READ_WRITE) == OK:
+		file.seek_end()
+		for qoe_message in qoe_logs:
+			file.store_line(qoe_message)
+	file.close()
+	
+	frame_logs.clear()
+	event_logs.clear()
+	qoe_logs.clear()
+	cumulative_time = 0.0
 	

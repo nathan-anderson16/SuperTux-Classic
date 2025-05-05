@@ -8,7 +8,8 @@ func _process(delta):
 	if hitbox.overlaps_body(Global.player):
 		var player_velocity = sqrt(pow(Global.player.velocity.x, 2) + pow(Global.player.velocity.y, 2))
 		if player_velocity < 100:
-			Logger.log_event("Success: Reset Checkpoint Reached")
+			#Logger.log_event("Success: Reset Checkpoint Reached")
+			OLogger.add_to_event_log("FINISH")
 			Scoreboard.play_reset_checkpoint()
 			Scoreboard.add_score(100)
 			print("Score: ", Scoreboard.score)

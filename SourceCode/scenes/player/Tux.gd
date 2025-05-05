@@ -203,11 +203,13 @@ func apply_gravity(delta, gravity_set = Global.gravity):
 func move_input():
 	var input = -int(Input.is_action_pressed("move_left")) + int(Input.is_action_pressed("move_right"))
 	
-	if Input.is_action_pressed("move_left"):
-		Logger.log_event("Input: Move Left")
+	#if Input.is_action_pressed("move_left"):
+		#Logger.log_event("Input: Move Left")
+		#OLogger.add_to_event_log("LEFT")
 		
-	if Input.is_action_pressed("move_right"):
-		Logger.log_event("Input: Move Right")
+	#if Input.is_action_pressed("move_right"):
+		#Logger.log_event("Input: Move Right")
+		#OLogger.add_to_event_log("RIGHT")
 		
 	return input
 
@@ -266,7 +268,8 @@ func _set_grounded_state(new_value):
 func jump_input(running = abs(velocity.x) > walk_max):
 	if Input.is_action_just_pressed("jump"):
 		jump_buffer.start()
-		Logger.log_event("Input: Jump")
+		#Logger.log_event("Input: Jump")
+		#OLogger.add_to_event_log("JUMP")
 	
 	var exit_riding = riding_entity and Input.is_action_pressed("move_up")
 	var jump_velocity = run_jump_height if running else jump_height
@@ -461,7 +464,8 @@ func die():
 		if !can_die: return
 	
 	Scoreboard.number_of_deaths += 1
-	Logger.log_event("Death")
+	#Logger.log_event("Death")
+	OLogger.add_to_event_log("DEATH")
 #	Scoreboard.lives -= 1
 	Scoreboard.player_initial_state = states.BIG
 #	Scoreboard.stop_level_timer()

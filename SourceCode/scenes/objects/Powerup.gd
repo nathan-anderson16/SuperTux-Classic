@@ -68,7 +68,7 @@ func apply_movement(delta, solid):
 	
 	if Global.current_level.level_type == Scoreboard.LEVEL_TYPE.ROUND:
 		if position.y > Global.current_level.level_height * Global.TILE_SIZE:
-			Logger.log_event("Failure")
+			#Logger.log_event("Failure")
 			Global.reset_level()
 
 func bounce():
@@ -83,7 +83,7 @@ func _on_Area2D_body_entered(body):
 	if body.is_in_group("players"):
 		Scoreboard.score += 100
 		if Global.current_level.level_type == Scoreboard.LEVEL_TYPE.ROUND:
-			Logger.log_event("Success: Power-up Collected")
+			#Logger.log_event("Success: Power-up Collected")
 			Scoreboard.play_reset_checkpoint()
 			#Global.reset_level()
 		#match type:

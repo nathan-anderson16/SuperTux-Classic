@@ -18,5 +18,5 @@ This study also collects the following data about your system:
 - System languages
 - Device touch points
 
-This data will be used ONLY to prevent users from spamming our logging system.
+Data about your system will be used ONLY to prevent users from spamming our logging system.
 

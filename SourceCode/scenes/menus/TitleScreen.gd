@@ -173,4 +173,4 @@ func _on_TitleScreen_resized():
 
 
 func _on_Info_pressed():
-	OS.shell_open(Global.privacy_policy_url)
+	OS.shell_open(Global.about_url)

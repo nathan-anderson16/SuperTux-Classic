@@ -50,6 +50,7 @@ var controls = ["jump", "run", "move_left", "move_right", "move_up", "duck"]
 
 var can_pause = false
 
+var about_url = "https://github.com/nathan-anderson16/SuperTux-Classic/blob/isp/ABOUT.md"
 var privacy_policy_url = "https://github.com/nathan-anderson16/SuperTux-Classic/blob/isp/PRIVACYPOLICY.md"
 
 var level_attributes_cache = {}

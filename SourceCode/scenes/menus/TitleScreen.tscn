@@ -1,18 +1,14 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://theme/default_theme.tres" type="Theme" id=1]
 [ext_resource path="res://scenes/menus/TitleScreen.gd" type="Script" id=2]
 [ext_resource path="res://images/menu/Logo.png" type="Texture" id=3]
 [ext_resource path="res://scenes/layers/Background/IceMountains.tscn" type="PackedScene" id=4]
 [ext_resource path="res://theme/FontSmall.tres" type="DynamicFont" id=5]
-[ext_resource path="res://theme/FontTiny.tres" type="DynamicFont" id=6]
 [ext_resource path="res://scenes/menus/Options.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/menus/BonusLevels.tscn" type="PackedScene" id=8]
 [ext_resource path="res://scenes/menus/WorldButton.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/menus/StartGame.tscn" type="PackedScene" id=10]
-
-[sub_resource type="CanvasItemMaterial" id=1]
-blend_mode = 3
 
 [node name="TitleScreen" type="Control"]
 anchor_right = 1.0
@@ -45,27 +41,6 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -51.0
-
-[node name="ColorRect" type="ColorRect" parent="TitleContent/Disclaimer"]
-material = SubResource( 1 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0.443137, 0.533333, 0.658824, 1 )
-
-[node name="Disclaimer" type="Label" parent="TitleContent/Disclaimer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 132.0
-margin_top = -1.0
-margin_right = -8.0
-margin_bottom = -5.0
-custom_fonts/font = ExtResource( 6 )
-text = "This game comes under ABSOLUTELY NO WARRANTY! This is free, open-source software, and you are welcome to modify and redistribute it under certain conditions; see COPYING.TXT for details.
-
-Copyright © 2003-2023 SuperTux Team & Alexander Small"
-align = 2
-valign = 2
-autowrap = true
 
 [node name="Version" type="Label" parent="TitleContent/Disclaimer"]
 anchor_top = 1.0

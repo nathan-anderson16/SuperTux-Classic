@@ -32,7 +32,7 @@ func reset():
 
 func _on_SubmitButton_pressed():
 	print("QoE: ", qoe_slider.value)
-	Logger.log_qoe("QoE Score: " + str(qoe_slider.value))
+	#Logger.log_qoe("QoE Score: " + str(qoe_slider.value))
 	qoe_popup.hide()
 	self.hide()
 	emit_signal("test_popup_closed")

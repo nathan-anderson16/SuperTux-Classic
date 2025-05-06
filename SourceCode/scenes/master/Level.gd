@@ -64,6 +64,7 @@ signal music_changed
 func _ready():
 
 	Global.current_level = self
+	
 	set_pause_mode(PAUSE_MODE_STOP)
 #	
 	# Only automatically start levels if the level is the root scene.

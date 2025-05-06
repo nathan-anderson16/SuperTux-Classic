@@ -76,6 +76,8 @@ var tick_time = 999
 var message_text = "" setget update_message_text
 var score = 0
 
+var last_checkpoint_time = 200
+
 var score_visible = true
 
 signal fade_finished
@@ -85,7 +87,7 @@ func _ready():
 	var random_num = str(randi())
 	
 	self.player_id = random_num.md5_text()
-
+	
 	scene_transition_rect.hide()
 	load_round_data()
 	self.message_text = ""

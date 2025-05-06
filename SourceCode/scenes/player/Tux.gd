@@ -125,6 +125,8 @@ func _ready():
 	Global.player = self
 	Global.current_zone = 0
 	
+
+	
 	initialize_character()
 
 	update_state(Scoreboard.player_initial_state, false)

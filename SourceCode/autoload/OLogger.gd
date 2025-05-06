@@ -21,6 +21,10 @@ var event_type_map = {
 	"JUMP": "H",
 }
 
+var jumps = 0
+var lefts = 0
+var rights = 0
+
 var event_log: Array = []
 
 onready var http_request_e = $"/root/Scoreboard/HTTPRequestE"
@@ -30,19 +34,45 @@ func _ready():
 	set_process(true)
 	set_process_input(true)
 
+func format_timer() :
+	var timer = ""
+	var t = Scoreboard.level_timer.time_left
+	if t < 0 :
+		timer += "-"
+	else :
+		timer += "+"
+	
+	t = str(abs(t))
+	var t1 = t.substr(0, t.find("."))
+	while len(t1) < 3 :
+		t1 = "0" + t1
+	
+	var t2 = t.substr(t.find(".") + 1, 3)
+	while len(t2) < 3 :
+		t2 = t2 + "0"
+		
+	timer += t1 + t2
+	
+	return timer
 # Timer (6 digit) will be in every update, so it goes first
 # Event will be capital letters A-Z
 # State will be lowercase letters a-z
 # Score will be 4 digits
 # Zone will be 2 digits
 func add_to_event_log(e) :
-
+	
+	if e == "JUMP" :
+		jumps += 1
+	if e == "LEFT" :
+		lefts += 1
+	if e == "RIGHT" :
+		rights += 1
+	
 	var event = event_type_map[e]
 	
-	var timer = str($"/root/Scoreboard".timer_text.text).substr(7)
+	var timer = format_timer()
 	
-	while len(timer) < 6 :
-		timer = "0" + timer
+	print(timer)
 
 	var state = state_type_map[Global.player.state_machine.state]
 	var score = str($"/root/Scoreboard".coins_text.text)
@@ -81,21 +111,34 @@ func send_event_log() :
 	var result = http_request_e.request(form_url, headers, true, HTTPClient.METHOD_POST, "")
 	print("Result: ", result)
 	event_log.clear()
-	
+
 func send_summary_log(QOE_Result) :
-	var timer = str($"/root/Scoreboard".timer_text.text).substr(7)
+	
+	var time_since_last_checkpoint = Scoreboard.last_checkpoint_time - Scoreboard.level_timer.time_left
+	
 	var coins = str($"/root/Scoreboard".coins_text.text)
 	var deaths = str($"/root/Scoreboard".number_of_deaths)
 	
 	var data = ""
+	var lag = Global.next_level_lag
 	
 	data += Scoreboard.player_id + "_"
 	
-	data += str(timer)
+	data += format_timer()
+	data += "_"
+	data += str(lag)
 	data += "_"
 	data += str(coins)
 	data += "_"
+	data += str(jumps)
+	data += "_"
+	data += str(lefts)
+	data += "_"
+	data += str(rights)
+	data += "_"
 	data += str(deaths)
+	data += "_"
+	data += str(time_since_last_checkpoint)
 	data += "_"
 	data += QOE_Result
 	

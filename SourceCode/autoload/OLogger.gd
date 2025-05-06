@@ -64,6 +64,8 @@ func send_event_log() :
 	# TODO lag amount and player ID
 	var compressed = ""
 	
+	compressed += Scoreboard.player_id + "_"
+	
 	var last_item = null
 	for item in event_log :
 		compressed += item[0]
@@ -86,6 +88,8 @@ func send_summary_log(QOE_Result) :
 	var deaths = str($"/root/Scoreboard".number_of_deaths)
 	
 	var data = ""
+	
+	data += Scoreboard.player_id + "_"
 	
 	data += str(timer)
 	data += "_"

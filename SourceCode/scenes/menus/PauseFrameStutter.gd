@@ -37,7 +37,7 @@ func _ready():
 	player_id_text.rect_min_size = Vector2(100, 0)
 	player_id_text.step = 1
 	player_id_text.max_value = 10000000
-	player_id_text.value = Scoreboard.player_id
+	#player_id_text.value = Scoreboard.player_id
 	
 	var player_id_save_button = Button.new()
 	player_id_save_button.text = "Save"

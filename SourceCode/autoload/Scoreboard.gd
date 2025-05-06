@@ -81,6 +81,11 @@ var score_visible = true
 signal fade_finished
 
 func _ready():
+	randomize()
+	var random_num = str(randi())
+	
+	self.player_id = random_num.md5_text()
+
 	scene_transition_rect.hide()
 	load_round_data()
 	self.message_text = ""
@@ -163,7 +168,7 @@ func load_round_data():
 		round_orders.append(curr_order)
 
 func get_round_data(idx: int) -> Dictionary:
-	return round_data[round_orders[player_id % len(round_orders)][idx]]
+	return round_data[round_orders[0 % len(round_orders)][idx]]
 
 func load_round(idx: int):
 	print("Current player ID: ", player_id)

@@ -39,6 +39,7 @@ var current_round = 0
 
 var current_level_lag_time = 0
 
+var max_checkpoint_failures = 5
 var checkpoint_failure_count = 0
 
 # This node keeps track of all player variables which persist between levels,
@@ -83,6 +84,9 @@ var last_checkpoint_time = 200
 var score_visible = true
 
 signal fade_finished
+
+var waiting_on_checkpoint = false
+signal checkpoint_qoe_ready
 
 func _ready():
 	randomize()
@@ -143,7 +147,7 @@ func camera_pan():
 
 func try_advance_checkpoint():
 	print(Global.spawn_position, checkpoint_failure_count)
-	if checkpoint_failure_count > 5:
+	if checkpoint_failure_count >= max_checkpoint_failures:
 		checkpoint_failure_count = 0
 		if Global.spawn_position == null:
 			Global.spawn_position = Vector2(4015, 336)
@@ -392,6 +396,7 @@ func show_qoe_popup():
 	
 	# Once the qoe popup is complete, unpause the game
 	yield(test_popup, "test_popup_closed")
+	emit_signal("checkpoint_qoe_ready")
 	_set_paused(false)
 
 func _on_LEVELTIMER_timeout():

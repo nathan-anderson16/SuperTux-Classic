@@ -74,18 +74,18 @@ align = 2
 [node name="ClockCounter" type="Control" parent="Control"]
 
 [node name="ClockIcon" type="TextureRect" parent="Control/ClockCounter"]
-margin_left = -16.0
-margin_top = 59.0
-margin_right = 80.0
-margin_bottom = 155.0
+margin_left = 132.0
+margin_top = -16.0
+margin_right = 228.0
+margin_bottom = 80.0
 mouse_filter = 2
 texture = ExtResource( 9 )
 
 [node name="Timer" type="Label" parent="Control/ClockCounter"]
-margin_left = 67.0
-margin_top = 95.0
-margin_right = 238.0
-margin_bottom = 125.0
+margin_left = 215.0
+margin_top = 20.0
+margin_right = 386.0
+margin_bottom = 50.0
 custom_colors/font_color = Color( 1, 1, 0, 1 )
 custom_fonts/font = ExtResource( 7 )
 text = "300"

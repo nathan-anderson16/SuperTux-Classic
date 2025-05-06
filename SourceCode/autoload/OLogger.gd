@@ -100,7 +100,7 @@ func add_to_event_log(e) :
 	
 	var timer = format_timer()
 	
-	print(timer)
+#	print(timer)
 
 	var state = state_type_map[Global.player.state_machine.state]
 	var score = str($"/root/Scoreboard".coins_text.text)

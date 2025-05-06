@@ -19,9 +19,13 @@ extends Node2D
 
 onready var sfx = $SFX
 onready var animation_player = $AnimationPlayer
+onready var life_counter = $LifeCounter
 
 var active = false setget set_active
 var qoe_shown = false
+
+func _process(delta):
+	life_counter.text = str(Scoreboard.max_checkpoint_failures - Scoreboard.checkpoint_failure_count)
 
 func _on_Area2D_body_entered(body):
 	if body.is_in_group("players"):
@@ -35,8 +39,10 @@ func _on_Area2D_body_entered(body):
 
 func set_active(new_value):
 	# Only show the QoE popup if the player just reached the checkpoint
-	if Global.spawn_position != position:
+	if Global.spawn_position != position or Global.last_qoe_position_x != position.x:
+		Scoreboard.waiting_on_checkpoint = true
 		Scoreboard.checkpoint_failure_count = 0
+		Global.last_qoe_position_x = position.x
 		Scoreboard.show_qoe_popup()
 		OLogger.current_checkpoint += 1
 	

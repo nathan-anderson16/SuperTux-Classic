@@ -65,6 +65,8 @@ var last_checkpoint_score = 0
 var last_camera_backscroll = 0;
 #var hovered_objects = []
 
+var last_qoe_position_x = 0
+
 signal scene_loaded
 signal scene_reset
 signal player_loaded
@@ -242,6 +244,7 @@ func _deferred_reset_scene():
 	current_scene.free()
 	current_level = null
 	player = null
+	Scoreboard.waiting_on_checkpoint = false
 	
 	is_first_load = false
 	
@@ -264,7 +267,7 @@ func _deferred_reset_scene():
 	
 	Scoreboard.fade_in()
 #	yield(Scoreboard, "fade_finished")
-	
+
 	get_tree().paused = false
 	emit_signal("scene_reset")
 
@@ -276,6 +279,8 @@ func _deferred_goto_scene(path, loading_level = false):
 	spawn_position = null
 	current_level = null
 	player = null
+	Scoreboard.waiting_on_checkpoint = false
+	last_qoe_position_x = 0
 	Scoreboard.checkpoint_failure_count = 0
 	
 	is_first_load = true

@@ -197,7 +197,7 @@ func load_round(idx: int):
 	var lag_time = float(next_round_data["spike_time"])
 	var objective_text = next_round_data["objective_text"]
 	
-	Global.next_level_lag = lag_time
+	#Global.next_level_lag = lag_time
 	Global.spawn_position = null
 	Global.goto_level(next_round_data["path"])
 	
@@ -363,7 +363,7 @@ func goto_practice(idx):
 	var objective_text = practice_data[idx].objective_text
 	var path = practice_data[idx].path
 	
-	Global.next_level_lag = spike_time
+	#Global.next_level_lag = spike_time
 	Global.goto_level(path)
 	yield(Global, "level_ready")
 	

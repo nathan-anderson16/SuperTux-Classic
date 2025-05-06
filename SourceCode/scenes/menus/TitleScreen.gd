@@ -66,7 +66,7 @@ func _on_StartGame_mouse_entered():
 	start_game_button.grab_focus()
 
 func _on_StartGame_pressed():
-	Global.next_level_lag = 225
+	#Global.next_level_lag = 225
 	Global.goto_level("res://scenes/levels/test_rounds/practice.tscn")
 
 func _on_StartGameMenu_popup_hide():
@@ -131,15 +131,15 @@ func _on_FrameStutterMenu_popup_hide():
 	frame_stutter_button.grab_focus()
 
 func _on_one_two_two_pressed(val):
-	Global.next_level_lag = val
+	#Global.next_level_lag = val
 	Global.goto_level("res://scenes/levels/test_rounds/one_two_two_level.tscn")
 
 func _on_three_three_five_pressed(val):
-	Global.next_level_lag = val
+	#Global.next_level_lag = val
 	Global.goto_level("res://scenes/levels/test_rounds/three_three_five_level.tscn")
 
 func _on_two_five_five_pressed(val):
-	Global.next_level_lag = val
+	#Global.next_level_lag = val
 	Global.goto_level("res://scenes/levels/test_rounds/two_five_five_level.tscn")
 
 

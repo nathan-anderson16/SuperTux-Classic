@@ -29,9 +29,6 @@ func _on_Area2D_body_entered(body):
 		if not self.active:
 			Global.last_checkpoint_score = Scoreboard.score
 			Global.last_camera_backscroll = Global.player.camera.limit_left
-			
-			Global.lag_index = (Global.lag_index + 1) % 4
-			Global.next_level_lag = Global.lag_options[Global.lag_index]
 		
 		qoe_shown = true
 		self.active = true
@@ -41,6 +38,8 @@ func set_active(new_value):
 	if Global.spawn_position != position:
 		Scoreboard.checkpoint_failure_count = 0
 		Scoreboard.show_qoe_popup()
+		Global.lag_index = (Global.lag_index + 1) % 4
+		Global.next_level_lag = Global.lag_options[Global.lag_index]
 	
 	var animation = "active" if new_value == true else "default"
 	animation_player.play(animation)

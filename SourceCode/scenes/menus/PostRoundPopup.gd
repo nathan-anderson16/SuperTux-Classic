@@ -38,6 +38,10 @@ func _on_SubmitButton_pressed():
 	emit_signal("test_popup_closed")
 	OLogger.send_summary_log(str(qoe_slider.value))
 	OLogger.send_event_log()
+	
+	Global.lag_index = (Global.lag_index + 1) % 4
+	Global.next_level_lag = Global.lag_options[Global.lag_index]
+	Scoreboard.last_checkpoint_time = Scoreboard.level_timer.time_left
 	#Logger.write_to_disk()
 	#Logger.start_new_round()
 #	acceptable_popup.show()

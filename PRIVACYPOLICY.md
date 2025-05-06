@@ -1,7 +1,22 @@
 # Privacy Policy
 
-SuperTux Classic **does NOT collect, store, use, send, or share any personal data** including but not limited to name, date of birth, address, email, contact information, location, or accounts on social networks.
+This study collects the following data about your gameplay:
+- Level timer
+- Position in the level
+- Gameplay-specific events in the level (e.g. dying, squishing an enemy, hitting a checkpoint, collecting a coin, etc.)
+- The quality of experience surveys you fill out at each checkpoint
 
-The **only data SuperTux Classic stores and reads** from your device is your **game's save file**, which is stored in your user directory in the "SuperTuxClassic" folder. SuperTux Classic can only create, read, and delete files within the "SuperTuxClassic" folder in your user directory. **SuperTux Classic does not have access to any other folder or file on your device.**
+You will be assigned a unique user ID every time you restart the level (load in from the title screen). This ID will be sent with all of your data.
 
-For privacy enquiries, please email Alexander Small at alexsmudgy20@gmail.com
+This study also collects the following data about your system:
+- Screen resolution
+- Current date, time, and timezome
+- User agent
+- Operating system
+- System memory
+- Preferred language
+- System languages
+- Device touch points
+
+Data about your system will be used ONLY to prevent users from spamming our logging system.
+

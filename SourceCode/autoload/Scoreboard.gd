@@ -39,6 +39,8 @@ var current_round = 0
 
 var current_level_lag_time = 0
 
+var checkpoint_failure_count = 0
+
 # This node keeps track of all player variables which persist between levels,
 # such as the coin counter, lives, etc.
 
@@ -94,7 +96,6 @@ func _process(delta):
 	test_popup.rect_position = Vector2((window_pos.x - size.x) / 2, (window_pos.y - size.y) / 2)
 	
 	if level_timer_enabled:
-		
 		if Global.current_level != null:
 			if Global.current_level.level_type == 1 or Global.current_level.level_type == 2:
 				if level_timer.time_left <= 40 and (Global.spawn_position == null or Global.spawn_position.x < 4112) :
@@ -129,6 +130,29 @@ func _draw():
 		round_counter.text = ""
 	
 	lives_text.text = str( max(lives, 0) )
+
+func camera_pan():
+	pass
+
+func try_advance_checkpoint():
+	print(Global.spawn_position, checkpoint_failure_count)
+	if checkpoint_failure_count > 5:
+		checkpoint_failure_count = 0
+		if Global.spawn_position == null:
+			Global.spawn_position = Vector2(4015, 336)
+		elif Global.spawn_position.x == 4015:
+			Global.spawn_position = Vector2(6863, 208)
+		elif Global.spawn_position.x == 6863:
+			Global.spawn_position = Vector2(9935, 80)
+		elif Global.spawn_position.x == 9935:
+			Global.spawn_position = Vector2(10735, 912)
+		elif Global.spawn_position.x == 10735:
+			Global.spawn_position = Vector2(12751, 112)
+		elif Global.spawn_position.x == 12751:
+			Global.spawn_position = Vector2(13583, 880)
+		else:
+			return
+		camera_pan()
 
 func fade_out():
 	$Control.hide()

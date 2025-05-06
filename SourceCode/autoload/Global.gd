@@ -41,13 +41,17 @@ var base_gravity = 1 * pow(60, 2) / 3
 var gravity = 1 setget _update_gravity
 var fireballs_on_screen = 0 setget _change_fireball_count
 var auto_run = true
+
+var lag_options = [0, 75, 150, 225]
+var lag_index = 0
 var next_level_lag = 0
 
 var controls = ["jump", "run", "move_left", "move_right", "move_up", "duck"]
 
 var can_pause = false
 
-var privacy_policy_url = "https://github.com/Alzter/SuperTux-Classic/blob/main/PRIVACYPOLICY.md"
+var about_url = "https://github.com/nathan-anderson16/SuperTux-Classic/blob/isp/ABOUT.md"
+var privacy_policy_url = "https://github.com/nathan-anderson16/SuperTux-Classic/blob/isp/PRIVACYPOLICY.md"
 
 var level_attributes_cache = {}
 
@@ -282,6 +286,7 @@ func _deferred_goto_scene(path, loading_level = false):
 	spawn_position = null
 	current_level = null
 	player = null
+	Scoreboard.checkpoint_failure_count = 0
 	
 	is_first_load = true
 	

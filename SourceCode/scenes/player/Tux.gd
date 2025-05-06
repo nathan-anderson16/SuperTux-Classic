@@ -106,6 +106,7 @@ onready var skid_timer = $SkidTimer
 onready var invincible_timer = $InvincibleTimer
 onready var invincible_warning_timer = $StarWarning
 onready var win_timer = $WinTimer
+onready var checkpoint_failure_timer = $CheckpointFailureTimer
 onready var invincible_anim = $InvincibleAnimation
 onready var grab_position = $GrabPosition
 
@@ -155,11 +156,8 @@ func apply_movement(delta, solid = true):
 		if camera.limit_left < Global.last_camera_backscroll :
 			camera.limit_left = Global.last_camera_backscroll
 			
-		if (velocity * delta).x > 0 and total_offset >= 0 : # position.x > camera.get_camera_screen_center().x 
-			camera.limit_left += (velocity * delta).x
-		else :
-			total_offset += (velocity * delta).x
-			pass
+		if (velocity * delta).x > 0 &&  position.x - int(ResolutionManager.window_size.x/2) > camera.limit_left : # position.x > camera.get_camera_screen_center().x 
+			camera.limit_left = position.x - int(ResolutionManager.window_size.x/2)
 		
 		position.x = max(camera.limit_left, position.x)
 	else:
@@ -441,11 +439,11 @@ func hurt(hurting_body):
 
 func enter_delay_lag_field() :
 	intersecting_lag_fields += 1
-	print(intersecting_lag_fields)
+#	print(intersecting_lag_fields)
 
 func exit_delay_lag_field() :
 	intersecting_lag_fields -= 1
-	print(intersecting_lag_fields)
+#	print(intersecting_lag_fields)
 
 func entered_lag_field() :
 	intersecting_probability_fields += 1
@@ -465,6 +463,12 @@ func die():
 #	Scoreboard.lives -= 1
 	Scoreboard.player_initial_state = states.BIG
 #	Scoreboard.stop_level_timer()
+
+	if checkpoint_failure_timer.time_left == 0:
+		Scoreboard.checkpoint_failure_count += 1
+		Scoreboard.try_advance_checkpoint()
+		checkpoint_failure_timer.stop()
+	checkpoint_failure_timer.start()
 	
 	sfx.play("Hurt")
 	self.invincible = false

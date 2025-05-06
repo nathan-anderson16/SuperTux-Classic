@@ -39,13 +39,14 @@ func _on_Area2D_body_entered(body):
 func set_active(new_value):
 	# Only show the QoE popup if the player just reached the checkpoint
 	if Global.spawn_position != position:
+		Scoreboard.checkpoint_failure_count = 0
 		Scoreboard.show_qoe_popup()
 	
 	var animation = "active" if new_value == true else "default"
 	animation_player.play(animation)
 	if new_value and !active:
 		Global.spawn_position = position
-		print_debug(position)
+#		print_debug(position)
 		sfx.play("Checkpoint")
 		$Flash.emitting = true
 		Logger.log_event("Success: Checkpoint Reached")

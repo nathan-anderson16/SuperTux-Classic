@@ -331,7 +331,7 @@ func get_round_qoe_score(qoe_entries: Array) -> float:
 	var key = "QoE Score:"
 	for entry in qoe_entries:
 		var index = entry.find(key)
-		print(entry)
+#		print(entry)
 		if index != -1:
 			return float(entry.substr(index + key.length(), entry.length()).strip_edges())
 	return 0.0

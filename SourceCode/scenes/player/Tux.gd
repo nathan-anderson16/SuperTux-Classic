@@ -106,6 +106,7 @@ onready var skid_timer = $SkidTimer
 onready var invincible_timer = $InvincibleTimer
 onready var invincible_warning_timer = $StarWarning
 onready var win_timer = $WinTimer
+onready var checkpoint_failure_timer = $CheckpointFailureTimer
 onready var invincible_anim = $InvincibleAnimation
 onready var grab_position = $GrabPosition
 
@@ -438,11 +439,11 @@ func hurt(hurting_body):
 
 func enter_delay_lag_field() :
 	intersecting_lag_fields += 1
-	print(intersecting_lag_fields)
+#	print(intersecting_lag_fields)
 
 func exit_delay_lag_field() :
 	intersecting_lag_fields -= 1
-	print(intersecting_lag_fields)
+#	print(intersecting_lag_fields)
 
 func entered_lag_field() :
 	intersecting_probability_fields += 1
@@ -462,6 +463,12 @@ func die():
 #	Scoreboard.lives -= 1
 	Scoreboard.player_initial_state = states.BIG
 #	Scoreboard.stop_level_timer()
+
+	if checkpoint_failure_timer.time_left == 0:
+		Scoreboard.checkpoint_failure_count += 1
+		Scoreboard.try_advance_checkpoint()
+		checkpoint_failure_timer.stop()
+	checkpoint_failure_timer.start()
 	
 	sfx.play("Hurt")
 	self.invincible = false

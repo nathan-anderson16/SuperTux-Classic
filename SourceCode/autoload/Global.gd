@@ -286,6 +286,7 @@ func _deferred_goto_scene(path, loading_level = false):
 	spawn_position = null
 	current_level = null
 	player = null
+	Scoreboard.checkpoint_failure_count = 0
 	
 	is_first_load = true
 	

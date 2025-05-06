@@ -244,6 +244,7 @@ func _deferred_reset_scene():
 	current_scene.free()
 	current_level = null
 	player = null
+	Scoreboard.waiting_on_checkpoint = false
 	
 	is_first_load = false
 	
@@ -278,6 +279,7 @@ func _deferred_goto_scene(path, loading_level = false):
 	spawn_position = null
 	current_level = null
 	player = null
+	Scoreboard.waiting_on_checkpoint = false
 	last_qoe_position_x = 0
 	Scoreboard.checkpoint_failure_count = 0
 	

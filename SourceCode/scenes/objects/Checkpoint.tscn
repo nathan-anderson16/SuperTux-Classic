@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://images/objects/checkpoint/bell-m.png" type="Texture" id=1]
 [ext_resource path="res://images/objects/checkpoint/bell-l.png" type="Texture" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://images/enemies/flame/flame-1.png" type="Texture" id=10]
 [ext_resource path="res://scenes/objects/Checkpoint.gd" type="Script" id=11]
 [ext_resource path="res://scenes/particles/InvincibleParticlesSmall.tres" type="Material" id=12]
+[ext_resource path="res://theme/FontGiant.tres" type="DynamicFont" id=13]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -171,6 +172,7 @@ material = SubResource( 4 )
 scale = Vector2( 2, 2 )
 z_index = 1
 frames = SubResource( 5 )
+frame = 1
 playing = true
 offset = Vector2( 0, -2 )
 
@@ -178,5 +180,13 @@ offset = Vector2( 0, -2 )
 autoplay = "default"
 anims/active = SubResource( 6 )
 anims/default = SubResource( 7 )
+
+[node name="LifeCounter" type="Label" parent="."]
+margin_left = -17.0
+margin_top = -95.0
+margin_right = 23.0
+margin_bottom = -48.0
+custom_fonts/font = ExtResource( 13 )
+text = "5"
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]

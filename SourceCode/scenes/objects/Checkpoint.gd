@@ -19,9 +19,13 @@ extends Node2D
 
 onready var sfx = $SFX
 onready var animation_player = $AnimationPlayer
+onready var life_counter = $LifeCounter
 
 var active = false setget set_active
 var qoe_shown = false
+
+func _process(delta):
+	life_counter.text = str(Scoreboard.max_checkpoint_failures - Scoreboard.checkpoint_failure_count)
 
 func _on_Area2D_body_entered(body):
 	if body.is_in_group("players"):

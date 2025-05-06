@@ -66,7 +66,7 @@ func _on_StartGame_mouse_entered():
 	start_game_button.grab_focus()
 
 func _on_StartGame_pressed():
-	Global.next_level_lag = 225
+	#Global.next_level_lag = 225
 	Global.goto_level("res://scenes/levels/test_rounds/practice.tscn")
 
 func _on_StartGameMenu_popup_hide():
@@ -130,21 +130,25 @@ func _on_FrameStutterMenu_popup_hide():
 	frame_stutter_button.grab_focus()
 
 func _on_one_two_two_pressed(val):
-	Global.next_level_lag = val
+	#Global.next_level_lag = val
 	Global.goto_level("res://scenes/levels/test_rounds/one_two_two_level.tscn")
 
 func _on_three_three_five_pressed(val):
-	Global.next_level_lag = val
+	#Global.next_level_lag = val
 	Global.goto_level("res://scenes/levels/test_rounds/three_three_five_level.tscn")
 
 func _on_two_five_five_pressed(val):
-	Global.next_level_lag = val
+	#Global.next_level_lag = val
 	Global.goto_level("res://scenes/levels/test_rounds/two_five_five_level.tscn")
 
 
 func _on_ISP_New_pressed():
 	title_content.hide()
-	Global.next_level_lag = 0
+	
+	Global.lag_options.shuffle()
+	Global.lag_index = 0
+	Global.next_level_lag = Global.lag_options[Global.lag_index]
+	
 	Global.last_checkpoint_score = 0
 	Scoreboard.score = 0
 	Global.goto_level("res://scenes/levels/isp/isp_new.tscn")
@@ -153,10 +157,12 @@ func _on_ISP_New_pressed():
 	
 func _on_ISP_pressed():
 	title_content.hide()
+	
 	Global.next_level_lag = 0
 	Global.last_camera_backscroll = 0
 	Global.last_checkpoint_score = 0
 	Scoreboard.score = 0
+	
 	Global.goto_level("res://scenes/levels/isp/isp.tscn")
 	yield(Global, "level_ready")
 	Scoreboard.set_level_timer(Global.current_level.base_time)
@@ -165,3 +171,7 @@ func _on_TitleScreen_resized():
 	# print_debug(OS.get_screen_size()[1])
 	pass
 	# Global.TILE_SIZE = 32 * (OS.get_screen_size()[1] / 1080)
+
+
+func _on_Info_pressed():
+	OS.shell_open(Global.about_url)

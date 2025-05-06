@@ -457,6 +457,9 @@ one_shot = true
 wait_time = 9.0
 one_shot = true
 
+[node name="CheckpointFailureTimer" type="Timer" parent="."]
+one_shot = true
+
 [node name="BounceRaycasts" type="Node2D" parent="."]
 position = Vector2( 0, 18 )
 z_index = 15

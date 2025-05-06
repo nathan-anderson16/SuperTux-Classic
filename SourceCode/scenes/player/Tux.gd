@@ -269,7 +269,7 @@ func jump_input(running = abs(velocity.x) > walk_max):
 	if Input.is_action_just_pressed("jump"):
 		jump_buffer.start()
 		#Logger.log_event("Input: Jump")
-		#OLogger.add_to_event_log("JUMP")
+		OLogger.add_to_event_log("JUMP")
 	
 	var exit_riding = riding_entity and Input.is_action_pressed("move_up")
 	var jump_velocity = run_jump_height if running else jump_height
@@ -466,6 +466,10 @@ func die():
 	Scoreboard.number_of_deaths += 1
 	#Logger.log_event("Death")
 	OLogger.add_to_event_log("DEATH")
+	if Global.current_zone in OLogger.times_died_in_zone.keys() :
+		OLogger.times_died_in_zone[Global.current_zone] += 1
+	else :
+		OLogger.times_died_in_zone[Global.current_zone] = 1
 #	Scoreboard.lives -= 1
 	Scoreboard.player_initial_state = states.BIG
 #	Scoreboard.stop_level_timer()

@@ -19,13 +19,23 @@ var event_type_map = {
 	"LEFT": "F",
 	"RIGHT": "G",
 	"JUMP": "H",
+	"LEFT_RELEASE": "I",
+	"RIGHT_RELEASE": "J",
+	"JUMP_RELEASE": "K",
 }
 
 var jumps = 0
 var lefts = 0
 var rights = 0
 
+var current_checkpoint = 0
+
 var event_log: Array = []
+
+var time_in_zone = {}
+var times_entered_zone = {}
+var times_died_in_zone = {}
+var score_in_zone = {}
 
 onready var http_request_e = $"/root/Scoreboard/HTTPRequestE"
 onready var http_request_s = $"/root/Scoreboard/HTTPRequestS"
@@ -33,6 +43,22 @@ onready var http_request_s = $"/root/Scoreboard/HTTPRequestS"
 func _ready():
 	set_process(true)
 	set_process_input(true)
+
+var last_score = 0
+func _process(delta) :
+	if Global.current_zone in time_in_zone.keys() :
+		time_in_zone[Global.current_zone] += delta
+	else :
+		time_in_zone[Global.current_zone] = 0
+	
+	var score_delta = int(str($"/root/Scoreboard".coins_text.text)) - last_score
+	if score_delta > 0 :
+		if Global.current_zone in score_in_zone.keys() :
+			score_in_zone[Global.current_zone] += score_delta
+		else :
+			score_in_zone[Global.current_zone] = score_delta
+	
+	last_score = int(str($"/root/Scoreboard".coins_text.text))
 
 func format_timer() :
 	var timer = ""
@@ -61,6 +87,8 @@ func format_timer() :
 # Zone will be 2 digits
 func add_to_event_log(e) :
 	
+	if e == "DEATH" :
+		score_in_zone.clear()
 	if e == "JUMP" :
 		jumps += 1
 	if e == "LEFT" :
@@ -97,11 +125,15 @@ func send_event_log() :
 	compressed += Scoreboard.player_id + "_"
 	
 	var last_item = null
+	
 	for item in event_log :
-		compressed += item[0]
+		var temp = ""
 		for i in range(1, len(item)) :
 			if last_item == null or item[i] != last_item[i] :
-				compressed += item[i] 
+				temp += item[i]
+		if temp != "" :
+			compressed += item[0] + temp
+		last_item = item
 	
 	var form_url = "https://docs.google.com/forms/d/e/1FAIpQLSegtXvnfveEen1Zb_PDYziZ44WCGZBiYq3b2JIeWVqOInwzCA/formResponse?entry.1934454714=" + compressed
 	var headers = ["Content-Type: application/x-www-form-urlencoded", "Content-Length: 0"]
@@ -128,7 +160,9 @@ func send_summary_log(QOE_Result) :
 	data += "_"
 	data += str(lag)
 	data += "_"
-	data += str(coins)
+	data += str(score_in_zone).replace(" ", "")
+	data += "_"
+	data += str($"/root/Scoreboard".timer_text.text).substr(7)
 	data += "_"
 	data += str(jumps)
 	data += "_"
@@ -136,11 +170,17 @@ func send_summary_log(QOE_Result) :
 	data += "_"
 	data += str(rights)
 	data += "_"
-	data += str(deaths)
+	data += str(times_died_in_zone).replace(" ", "")
 	data += "_"
 	data += str(time_since_last_checkpoint)
 	data += "_"
+	data += str(current_checkpoint)
+	data += "_"
 	data += QOE_Result
+	data += "_"
+	data += str(time_in_zone).replace(" ", "")
+	data += "_"
+	data += str(times_entered_zone).replace(" ", "")
 	
 	# TODO: Fix for url for summary URL
 	var form_url = "https://docs.google.com/forms/d/e/1FAIpQLSelQVDbEVX93LgRN-XQxCdKg68diD8ovHqOw4IcKrHCYQzLxQ/formResponse?entry.1934454714=" + data
@@ -149,3 +189,5 @@ func send_summary_log(QOE_Result) :
 	print(form_url)
 	var result = http_request_s.request(form_url, headers, true, HTTPClient.METHOD_POST, "")
 	print("SResult: ", result)
+	
+	print(time_in_zone)

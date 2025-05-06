@@ -38,6 +38,7 @@ func set_active(new_value):
 	if Global.spawn_position != position:
 		Scoreboard.checkpoint_failure_count = 0
 		Scoreboard.show_qoe_popup()
+		OLogger.current_checkpoint += 1
 	
 	var animation = "active" if new_value == true else "default"
 	animation_player.play(animation)

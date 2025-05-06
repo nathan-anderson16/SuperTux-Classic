@@ -145,26 +145,28 @@ func _on_two_five_five_pressed(val):
 func _on_ISP_New_pressed():
 	title_content.hide()
 	
-	Global.lag_options.shuffle()
-	Global.lag_index = 0
-	Global.next_level_lag = Global.lag_options[Global.lag_index]
-	
 	Global.last_checkpoint_score = 0
 	Scoreboard.score = 0
 	Global.goto_level("res://scenes/levels/isp/isp_new.tscn")
 	yield(Global, "level_ready")
+	
 	Scoreboard.set_level_timer(Global.current_level.base_time)
 	
 func _on_ISP_pressed():
 	title_content.hide()
-	
-	Global.next_level_lag = 0
+
 	Global.last_camera_backscroll = 0
 	Global.last_checkpoint_score = 0
 	Scoreboard.score = 0
 	
 	Global.goto_level("res://scenes/levels/isp/isp.tscn")
+	
+	print("YEILD")
+	
 	yield(Global, "level_ready")
+	
+	print("I AM FUCKING HERE GODDAMNIT")
+	
 	Scoreboard.set_level_timer(Global.current_level.base_time)
 	
 func _on_TitleScreen_resized():

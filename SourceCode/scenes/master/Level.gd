@@ -81,7 +81,15 @@ func activate_objectmaps():
 
 func start_level(in_editor = false):
 	
-	self.lag_magnitude = Global.next_level_lag
+	#self.lag_magnitude = Global.next_level_lag
+	randomize()
+	if Global.lag_index == -1 :
+		Global.lag_options.shuffle()
+		Global.lag_index = 0
+		Global.next_level_lag = Global.lag_options[Global.lag_index]
+		Global.current_level.lag_magnitude = Global.lag_options[Global.lag_index]
+		self.lag_magnitude = Global.lag_options[Global.lag_index]
+		print("HELLO FUCKING WORLD")
 	
 	activate_objectmaps()
 	
@@ -341,3 +349,7 @@ func map_to_world_position(position : Vector2):
 func _on_Zone_entered(body, value):
 	if body == Global.player:
 		Global.current_zone = value
+		if value in OLogger.times_entered_zone.keys() :
+			OLogger.times_entered_zone[value] += 1
+		else :
+			OLogger.times_entered_zone[value] = 1

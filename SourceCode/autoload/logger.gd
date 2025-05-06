@@ -84,15 +84,23 @@ func _process(delta):
 		
 	if Input.is_action_just_released("jump"):
 		#Logger.log_event("Pressed Jump")
-		OLogger.add_to_event_log("JUMP")
+		OLogger.add_to_event_log("JUMP_RELEASE")
 		
 	if Input.is_action_just_pressed("move_right"):
 		#Logger.log_event("Pressed Right")
 		OLogger.add_to_event_log("RIGHT")
-		
+	
+	if Input.is_action_just_released("move_right"):
+		#Logger.log_event("Pressed Right")
+		OLogger.add_to_event_log("RIGHT_RELEASE")
+	
 	if Input.is_action_just_pressed("move_left"):
 		#Logger.log_event("Pressed Left")
 		OLogger.add_to_event_log("LEFT")
+		
+	if Input.is_action_just_released("move_left"):
+		#Logger.log_event("Pressed Right")
+		OLogger.add_to_event_log("LEFT_RELEASE")
 	
 	if is_instance_valid(Global.player) and Global.player.has_node("state_machine"):
 		var state_machine = Global.player.get_node("state_machine") if Global.player.has_node("state_machine") else null

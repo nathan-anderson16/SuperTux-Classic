@@ -35,8 +35,10 @@ func _on_Area2D_body_entered(body):
 
 func set_active(new_value):
 	# Only show the QoE popup if the player just reached the checkpoint
-	if Global.spawn_position != position:
+	if Global.spawn_position != position or Global.last_qoe_position_x != position.x:
+		Scoreboard.waiting_on_checkpoint = true
 		Scoreboard.checkpoint_failure_count = 0
+		Global.last_qoe_position_x = position.x
 		Scoreboard.show_qoe_popup()
 	
 	var animation = "active" if new_value == true else "default"

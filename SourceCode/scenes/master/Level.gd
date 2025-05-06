@@ -150,6 +150,13 @@ func start_level(in_editor = false):
 		get_tree().paused = false
 		Scoreboard.start_level_timer()
 	window_resized()
+	
+	if Scoreboard.waiting_on_checkpoint:
+		Scoreboard._set_paused(true)
+		yield(Scoreboard, "checkpoint_qoe_ready")
+		Scoreboard.waiting_on_checkpoint = false
+		Scoreboard._set_paused(false)
+	
 	emit_signal("level_ready")
 	
 

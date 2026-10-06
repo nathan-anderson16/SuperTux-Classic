@@ -38,9 +38,9 @@ func duration_from_msec(value: float) :
 	
 func apply_lag():
 	#print("Lagging for %s ms" % Global.current_level.lag_magnitude)
-	Logger.log_event("Lag Severity (start): " + str(Global.current_level.lag_magnitude))
+	#Logger.log_event("Lag Severity (start): " + str(Global.current_level.lag_magnitude))
 	OS.delay_msec(Global.current_level.lag_magnitude)
-	Logger.log_event("Lag Severity (end): " + str(Global.current_level.lag_magnitude))
+	#Logger.log_event("Lag Severity (end): " + str(Global.current_level.lag_magnitude))
 	host.lag_cooldown = duration_from_msec(50.0)
 	
 func _state_logic(delta):
@@ -170,12 +170,12 @@ func _enter_state(new_state, old_state):
 	match new_state:
 		"duck":
 			host.duck_hitbox(true)
-	if logger != null:
-		logger.log_event("Entering New State")
+	#if logger != null:
+		#logger.log_event("Entering New State")
 
 func _exit_state(old_state, new_state):
 	match old_state:
 		"duck":
 			host.duck_hitbox(false)
-	if logger != null:
-		logger.log_event("Exiting State")
+	#if logger != null:
+		#logger.log_event("Exiting State")

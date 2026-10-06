@@ -35,6 +35,8 @@ func load_options(options_data : Dictionary):
 	
 	if options_data.has("music_volume"):
 		volume_music_slider.value = options_data.get("music_volume")
+	else:
+		volume_music_slider.value = 0.5
 	
 	if options_data.has("sfx_volume"):
 		volume_sfx_slider.value = options_data.get("sfx_volume")

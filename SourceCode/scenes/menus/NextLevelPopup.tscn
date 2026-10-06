@@ -9,70 +9,18 @@ margin_bottom = 113.0
 rect_scale = Vector2( 1.25, 1.25 )
 script = ExtResource( 1 )
 
-[node name="Panel" type="Panel" parent="."]
-margin_left = -78.4
-margin_top = 389.4
-margin_right = 511.6
-margin_bottom = 439.4
-
-[node name="Label" type="Label" parent="."]
-margin_left = -36.8
-margin_top = 399.4
-margin_right = 213.2
-margin_bottom = 413.4
-rect_scale = Vector2( 2, 2 )
-text = "Press arrow keys or space to start"
-align = 1
-
 [node name="Panel2" type="Panel" parent="."]
-margin_left = -78.4
+margin_left = 54.0
 margin_top = 208.0
-margin_right = 511.6
-margin_bottom = 342.0
-
-[node name="PracticeDifficultyLabel" type="Label" parent="."]
-margin_left = -34.4
-margin_top = 211.4
-margin_right = 215.6
-margin_bottom = 225.4
-rect_scale = Vector2( 2, 2 )
-text = "(Hardest)"
-align = 1
+margin_right = 391.0
+margin_bottom = 284.0
 
 [node name="Label2" type="Label" parent="."]
-margin_left = -31.2
-margin_top = 244.2
-margin_right = 218.8
-margin_bottom = 292.2
+margin_left = -28.8
+margin_top = 215.2
+margin_right = 221.2
+margin_bottom = 263.2
 rect_scale = Vector2( 2, 2 )
-text = "This is a practice round
-Arrow keys to move
+text = "Arrow keys to move
 Space to jump"
 align = 1
-
-[node name="ObjectivePanel" type="Panel" parent="."]
-margin_left = -78.4
-margin_top = 341.0
-margin_right = 511.6
-margin_bottom = 391.0
-
-[node name="ObjectiveLabel" type="Label" parent="."]
-margin_left = -60.0
-margin_top = 356.6
-margin_right = 216.0
-margin_bottom = 387.6
-rect_scale = Vector2( 2, 2 )
-text = "Objective: Jump over the gap to hit the bell
-"
-align = 1
-
-[node name="NextLevelButton" type="Button" parent="."]
-visible = false
-margin_left = 204.0
-margin_top = 45.6
-margin_right = 284.0
-margin_bottom = 85.6
-rect_scale = Vector2( 2, 2 )
-text = "Next Level"
-
-[connection signal="pressed" from="NextLevelButton" to="." method="_on_NextLevelButton_pressed"]

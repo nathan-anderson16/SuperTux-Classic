@@ -45,8 +45,8 @@ var invisible_shimmer_bodies = []
 
 func _ready():
 	if invisible: animation_player.play("invisible")
-	#sprite.play(initial_animation)
-	_spawn_contents(null)
+	sprite.play(initial_animation)
+#	_spawn_contents(null)
 
 func be_hit_from_above(body):
 	if body.is_in_group("players"):
@@ -67,7 +67,7 @@ func _get_hit(body, vel_x = 0, vel_y = 0):
 	if !hit:
 		if contains_powerup:
 			var small = is_body_small(body, true)
-			_spawn_contents(body, small)
+			_spawn_contents(body, true)
 			_make_box_empty()
 		else:
 			if contains_coin:

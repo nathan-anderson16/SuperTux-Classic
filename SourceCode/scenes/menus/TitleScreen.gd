@@ -34,6 +34,8 @@ onready var options_menu = $OptionsMenu
 onready var start_game_menu = $StartGameMenu
 onready var frame_stutter_menu = $FrameStutterMenu
 
+onready var http_request = $HTTPRequest
+
 export var default_world = "world1"
 
 func _ready():
@@ -56,12 +58,15 @@ func _ready():
 	quit_button.visible = !is_on_browser
 	
 	start_game_button.grab_focus()
+	http_request.connect("request_completed", Global, "get_signature")
+	http_request.request("https://api.ipify.org?format=json")
+	print("AAAAA")
 
 func _on_StartGame_mouse_entered():
 	start_game_button.grab_focus()
 
 func _on_StartGame_pressed():
-	Global.next_level_lag = 225
+	#Global.next_level_lag = 225
 	Global.goto_level("res://scenes/levels/test_rounds/practice.tscn")
 
 func _on_StartGameMenu_popup_hide():
@@ -116,7 +121,6 @@ func _on_FrameStutter_mouse_entered():
 	
 func _on_FrameStutter_pressed():
 	title_content.hide()
-	Global.increment_player_id()
 	Scoreboard.goto_practice(0)
 #	Global.goto_level(Scoreboard.practice_data[0].path)
 #	Global.goto_level("res://scenes/levels/framespike/playtest.tscn")
@@ -126,14 +130,53 @@ func _on_FrameStutterMenu_popup_hide():
 	frame_stutter_button.grab_focus()
 
 func _on_one_two_two_pressed(val):
-	Global.next_level_lag = val
+	#Global.next_level_lag = val
 	Global.goto_level("res://scenes/levels/test_rounds/one_two_two_level.tscn")
 
 func _on_three_three_five_pressed(val):
-	Global.next_level_lag = val
+	#Global.next_level_lag = val
 	Global.goto_level("res://scenes/levels/test_rounds/three_three_five_level.tscn")
 
 func _on_two_five_five_pressed(val):
-	Global.next_level_lag = val
+	#Global.next_level_lag = val
 	Global.goto_level("res://scenes/levels/test_rounds/two_five_five_level.tscn")
 
+
+func _on_ISP_New_pressed():
+	title_content.hide()
+	
+	Global.last_checkpoint_score = 0
+	Scoreboard.score = 0
+	Global.goto_level("res://scenes/levels/isp/isp_new.tscn")
+	yield(Global, "level_ready")
+	
+	Scoreboard.set_level_timer(Global.current_level.base_time)
+	
+func _on_ISP_pressed():
+	title_content.hide()
+
+	Global.last_camera_backscroll = 0
+	Global.last_checkpoint_score = 0
+	Scoreboard.score = 0
+	#Global.goto_scene("res://scenes/menus/ThankYou.tscn")
+	Global.goto_level("res://scenes/levels/isp/isp.tscn")
+	
+	print("YEILD")
+	
+	yield(Global, "level_ready")
+	
+	print("I AM FUCKING HERE GODDAMNIT")
+	
+	Scoreboard.set_level_timer(Global.current_level.base_time)
+	
+func _on_TitleScreen_resized():
+	# print_debug(OS.get_screen_size()[1])
+	pass
+	# Global.TILE_SIZE = 32 * (OS.get_screen_size()[1] / 1080)
+
+
+func _on_Info_pressed():
+	OS.shell_open(Global.about_url)
+	
+func _on_ScoreBoard_pressed():
+	OS.shell_open(Global.scoreBoard_url)

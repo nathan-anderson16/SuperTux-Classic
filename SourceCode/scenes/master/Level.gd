@@ -35,7 +35,8 @@ export var level_author = ""
 export var music = "ChipDisko" setget _set_level_music
 export var particle_system = ""
 export var uses_timer = true
-export var time = 300
+export var time = 200
+export var base_time = 200
 export var gravity = 10
 export var autoscroll_speed = 0.0
 export var starting_powerup = 1
@@ -63,8 +64,9 @@ signal music_changed
 func _ready():
 
 	Global.current_level = self
+	
 	set_pause_mode(PAUSE_MODE_STOP)
-#
+#	
 	# Only automatically start levels if the level is the root scene.
 	# This is not the case when we are in the level editor, because
 	# the level is a child of the LevelEditor scene.
@@ -79,7 +81,15 @@ func activate_objectmaps():
 
 func start_level(in_editor = false):
 	
-	self.lag_magnitude = Global.next_level_lag
+	#self.lag_magnitude = Global.next_level_lag
+	randomize()
+	if Global.lag_index == -1 :
+		Global.lag_options.shuffle()
+		Global.lag_index = 0
+		Global.next_level_lag = Global.lag_options[Global.lag_index]
+		Global.current_level.lag_magnitude = Global.lag_options[Global.lag_index]
+		self.lag_magnitude = Global.lag_options[Global.lag_index]
+		print("HELLO FUCKING WORLD")
 	
 	activate_objectmaps()
 	
@@ -105,10 +115,10 @@ func start_level(in_editor = false):
 	if !in_editor and Scoreboard.player_initial_state < starting_powerup:
 		Scoreboard.player_initial_state = starting_powerup
 	
-	if uses_timer: Scoreboard.enable_level_timer(time)
+	if uses_timer: Scoreboard.enable_level_timer(0)
 	else: Scoreboard.disable_level_timer()
 	
-	# Display the level title card and wait until it disappears
+	# Display the level title card and wait until it disappearss
 #	if !is_worldmap and !in_editor: yield(_level_title_card(), "completed")
 #	else:
 	Global.emit_signal("level_ready")
@@ -147,7 +157,16 @@ func start_level(in_editor = false):
 	else:
 		get_tree().paused = false
 		Scoreboard.start_level_timer()
+	window_resized()
+	
+	if Scoreboard.waiting_on_checkpoint:
+		Scoreboard._set_paused(true)
+		yield(Scoreboard, "checkpoint_qoe_ready")
+		Scoreboard.waiting_on_checkpoint = false
+		Scoreboard._set_paused(false)
+	
 	emit_signal("level_ready")
+	
 
 func _process(delta):
 	if is_autoscrolling:
@@ -278,6 +297,10 @@ func autoscroll(delta):
 
 func level_complete():
 	is_autoscrolling = false
+	
+	Global.goto_scene("res://scenes/menus/ThankYou.tscn")
+	return
+	
 	if extro_level != null:
 		WorldmapManager.extro_level = null
 		WorldmapManager.save_progress(true) # Clear the level in worldmap and save progress
@@ -294,6 +317,25 @@ func window_resized():
 		var window_size = ResolutionManager.window_resolution
 		var zoom = max(max_size.x / window_size.x, max_size.y / window_size.y)
 		custom_camera.zoom = Vector2.ONE * zoom
+	# TODO: Fix for width
+	var scale_y = 1080 / (get_viewport().size[1])
+	var scale_x = 1920 / (get_viewport().size[0])
+	var aspect_ratio = 1920.0 / 1080.0
+	Global.get_current_camera().zoom = Vector2.ONE * max(scale_x, scale_y)
+	var adjustable_border = Global.current_scene.find_node("Border")
+	
+	var y_pos = 0
+	var x_pos = 0
+	if scale_y < scale_x :
+		y_pos = (get_viewport().size[0] / aspect_ratio)
+	elif scale_x < scale_y :
+		x_pos = (get_viewport().size[1] * aspect_ratio)
+	else :
+		y_pos = 2000
+		
+	
+	adjustable_border.rect_position = Vector2(x_pos, y_pos)
+	adjustable_border.rect_size = Vector2(get_viewport().size[0], get_viewport().size[1])
 
 func _set_level_music(new_value):
 	music = new_value
@@ -310,3 +352,11 @@ func play_music(continue_music : bool = false):
 
 func map_to_world_position(position : Vector2):
 	return position * Global.TILE_SIZE + Vector2.ONE * Global.TILE_SIZE * 0.5
+
+func _on_Zone_entered(body, value):
+	if body == Global.player:
+		Global.current_zone = value
+		if value in OLogger.times_entered_zone.keys() :
+			OLogger.times_entered_zone[value] += 1
+		else :
+			OLogger.times_entered_zone[value] = 1

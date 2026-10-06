@@ -32,9 +32,21 @@ func reset():
 
 func _on_SubmitButton_pressed():
 	print("QoE: ", qoe_slider.value)
-	Logger.log_qoe("QoE Score: " + str(qoe_slider.value))
+	#Logger.log_qoe("QoE Score: " + str(qoe_slider.value))
 	qoe_popup.hide()
-	acceptable_popup.show()
+	self.hide()
+	emit_signal("test_popup_closed")
+	
+	OLogger.send_summary_log(str(qoe_slider.value))
+	OLogger.send_event_log()
+	
+	Global.lag_index = (Global.lag_index + 1) % 4
+	Global.next_level_lag = Global.lag_options[Global.lag_index]
+	Global.current_level.lag_magnitude = Global.lag_options[Global.lag_index]
+	Scoreboard.last_checkpoint_time = Scoreboard.level_timer.time_left
+	#Logger.write_to_disk()
+	#Logger.start_new_round()
+#	acceptable_popup.show()
 
 func _on_QoeSlider_gui_input(event):
 	# Only show the submit button when the slider is clicked
@@ -44,14 +56,14 @@ func _on_QoeSlider_gui_input(event):
 
 func _on_AcceptableSubmitButton_pressed():
 	print("Acceptable: ", "No" if acceptable_no_button.pressed else "Yes")
-	if(acceptable_no_button.pressed):
-		Logger.log_qoe("Acceptable?: No")
-	else:
-		Logger.log_qoe("Acceptable?: Yes")
+	#if(acceptable_no_button.pressed):
+	#	Logger.log_qoe("Acceptable?: No")
+	#else:
+	#	Logger.log_qoe("Acceptable?: Yes")
 	self.hide()
 	emit_signal("test_popup_closed")
-	Logger.write_to_disk()
-	Logger.start_new_round()
+	#Logger.write_to_disk()
+	#Logger.start_new_round()
 
 
 func _on_NoButton_pressed():

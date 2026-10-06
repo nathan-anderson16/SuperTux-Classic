@@ -48,6 +48,7 @@ MobileControls="*res://autoload/MobileControls.tscn"
 UserLevels="*res://autoload/UserLevelsManager.gd"
 WAVAudioImporter="*res://autoload/WAVAudioImporter.gd"
 Logger="*res://autoload/logger.gd"
+OLogger="*res://autoload/OLogger.gd"
 
 [display]
 

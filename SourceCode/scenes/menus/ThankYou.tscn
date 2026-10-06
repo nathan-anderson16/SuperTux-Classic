@@ -17,9 +17,9 @@ anchor_bottom = 1.0
 
 [node name="Panel" type="Panel" parent="TitleContent"]
 margin_left = 723.0
-margin_top = 467.0
+margin_top = 415.0
 margin_right = 1196.0
-margin_bottom = 613.0
+margin_bottom = 701.0
 
 [node name="ThankYou" type="Label" parent="TitleContent/Panel"]
 margin_left = 38.0
@@ -36,13 +36,57 @@ margin_bottom = 79.0
 text = "Score: "
 
 [node name="CloseButton" parent="TitleContent/Panel" instance=ExtResource( 9 )]
-margin_left = 20.0
-margin_top = 102.0
-margin_right = 453.0
-margin_bottom = 132.0
-text = "Close"
+anchor_top = 0.808
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 18.0
+margin_top = -57.088
+margin_right = -22.0
+margin_bottom = -76.048
+text = "Save Score"
 script = null
+
+[node name="LineEdit" type="LineEdit" parent="TitleContent/Panel"]
+anchor_left = 0.019
+anchor_top = 0.458
+anchor_right = 0.962
+anchor_bottom = 0.566
+margin_left = 5.013
+margin_top = 0.0119934
+margin_right = -0.0260315
+margin_bottom = 0.123993
+hint_tooltip = "Maximum 20 characters allowed"
+align = 1
+max_length = 20
+expand_to_text_length = true
+placeholder_text = "Type Your Name Here"
+placeholder_alpha = 0.537
+
+[node name="Label" type="Label" parent="TitleContent/Panel"]
+anchor_top = 0.459
+anchor_right = 1.0
+anchor_bottom = 0.611
+margin_left = 29.0
+margin_top = -34.274
+margin_right = -32.0
+margin_bottom = -52.034
+text = "To save Score on Scoreboard"
+
+[node name="Button" type="Button" parent="TitleContent/Panel"]
+anchor_left = 0.175
+anchor_top = 0.822
+anchor_right = 0.846
+anchor_bottom = 0.927
+margin_left = 0.224991
+margin_top = -0.0920105
+margin_right = -0.15802
+margin_bottom = -0.122009
+text = "Dont Save"
 
 [node name="IceMountainsBackground" parent="." instance=ExtResource( 4 )]
 
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
 [connection signal="pressed" from="TitleContent/Panel/CloseButton" to="." method="_on_CloseButton_pressed"]
+[connection signal="pressed" from="TitleContent/Panel/Button" to="." method="_on_Button_pressed"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]

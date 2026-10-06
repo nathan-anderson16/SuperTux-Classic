@@ -41,6 +41,11 @@ lag_min_delay = 10.0
 lag_max_delay = 400.0
 level_type = 1
 
+[node name="Left_Bound" type="ColorRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+color = Color( 0, 0, 0, 1 )
+
 [node name="SnowBG" parent="." instance=ExtResource( 1 )]
 
 [node name="Background" parent="." instance=ExtResource( 2 )]
@@ -62,3 +67,8 @@ collision_mask = 0
 
 [node name="ObjectMap" parent="." instance=ExtResource( 3 )]
 tile_data = PoolIntArray( 851968, 5, 0 )
+
+[node name="Right_Bound" type="ColorRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+color = Color( 0, 0, 0, 1 )

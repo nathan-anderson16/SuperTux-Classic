@@ -106,6 +106,7 @@ onready var skid_timer = $SkidTimer
 onready var invincible_timer = $InvincibleTimer
 onready var invincible_warning_timer = $StarWarning
 onready var win_timer = $WinTimer
+onready var checkpoint_failure_timer = $CheckpointFailureTimer
 onready var invincible_anim = $InvincibleAnimation
 onready var grab_position = $GrabPosition
 
@@ -119,10 +120,18 @@ onready var hitbox_riding = $HitboxRiding
 
 var riding_entity = null
 
+var total_offset = -800
+
 func _ready():
 	Global.player = self
+	Global.current_zone = 0
+	
+
+	
 	initialize_character()
+
 	update_state(Scoreboard.player_initial_state, false)
+	
 
 func initialize_character():
 	var gravity = Global.base_gravity
@@ -134,7 +143,6 @@ func initialize_character():
 	
 	bounce_height = -sqrt(2 * gravity * bounce_height)
 	high_bounce_height = -sqrt(2 * gravity * high_bounce_height)
-	
 	if Global.spawn_position != null: position = Global.spawn_position
 
 func apply_movement(delta, solid = true):
@@ -145,7 +153,15 @@ func apply_movement(delta, solid = true):
 	
 	if camera.current:
 		# Tux cannot go past the left side of the level
-		position.x = max(position.x, 16)
+		
+		# This is a stupid hack, but it should work
+		if camera.limit_left < Global.last_camera_backscroll :
+			camera.limit_left = Global.last_camera_backscroll
+			
+		if (velocity * delta).x > 0 &&  position.x - int(ResolutionManager.window_size.x/2) > camera.limit_left : # position.x > camera.get_camera_screen_center().x 
+			camera.limit_left = position.x - int(ResolutionManager.window_size.x/2)
+		
+		position.x = max(camera.limit_left, position.x)
 	else:
 		# If we're using a custom level camera (e.g. for Autoscrolling levels)
 		# Constrain Tux's position to within the camera boundaries
@@ -187,11 +203,13 @@ func apply_gravity(delta, gravity_set = Global.gravity):
 func move_input():
 	var input = -int(Input.is_action_pressed("move_left")) + int(Input.is_action_pressed("move_right"))
 	
-	if Input.is_action_pressed("move_left"):
-		Logger.log_event("Input: Move Left")
+	#if Input.is_action_pressed("move_left"):
+		#Logger.log_event("Input: Move Left")
+		#OLogger.add_to_event_log("LEFT")
 		
-	if Input.is_action_pressed("move_right"):
-		Logger.log_event("Input: Move Right")
+	#if Input.is_action_pressed("move_right"):
+		#Logger.log_event("Input: Move Right")
+		#OLogger.add_to_event_log("RIGHT")
 		
 	return input
 
@@ -250,7 +268,8 @@ func _set_grounded_state(new_value):
 func jump_input(running = abs(velocity.x) > walk_max):
 	if Input.is_action_just_pressed("jump"):
 		jump_buffer.start()
-		Logger.log_event("Input: Jump")
+		#Logger.log_event("Input: Jump")
+		OLogger.add_to_event_log("JUMP")
 	
 	var exit_riding = riding_entity and Input.is_action_pressed("move_up")
 	var jump_velocity = run_jump_height if running else jump_height
@@ -425,11 +444,11 @@ func hurt(hurting_body):
 
 func enter_delay_lag_field() :
 	intersecting_lag_fields += 1
-	print(intersecting_lag_fields)
+#	print(intersecting_lag_fields)
 
 func exit_delay_lag_field() :
 	intersecting_lag_fields -= 1
-	print(intersecting_lag_fields)
+#	print(intersecting_lag_fields)
 
 func entered_lag_field() :
 	intersecting_probability_fields += 1
@@ -445,10 +464,21 @@ func die():
 		if !can_die: return
 	
 	Scoreboard.number_of_deaths += 1
-	Logger.log_event("Death")
+	#Logger.log_event("Death")
+	OLogger.add_to_event_log("DEATH")
+	if Global.current_zone in OLogger.times_died_in_zone.keys() :
+		OLogger.times_died_in_zone[Global.current_zone] += 1
+	else :
+		OLogger.times_died_in_zone[Global.current_zone] = 1
 #	Scoreboard.lives -= 1
 	Scoreboard.player_initial_state = states.BIG
 #	Scoreboard.stop_level_timer()
+
+	if checkpoint_failure_timer.time_left == 0:
+		Scoreboard.checkpoint_failure_count += 1
+		Scoreboard.try_advance_checkpoint()
+		checkpoint_failure_timer.stop()
+	checkpoint_failure_timer.start()
 	
 	sfx.play("Hurt")
 	self.invincible = false
@@ -591,7 +621,7 @@ func win():
 	state_machine.set_state("win")
 	Music.play("LevelDone")
 	Scoreboard.stop_level_timer()
-	Scoreboard.hide()
+	Scoreboard.hide()	
 	Global.can_pause = false
 	
 	# Once this timer depletes, load in the next level

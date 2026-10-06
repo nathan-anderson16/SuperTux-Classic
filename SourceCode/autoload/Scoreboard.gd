@@ -39,6 +39,9 @@ var current_round = 0
 
 var current_level_lag_time = 0
 
+var max_checkpoint_failures = 5
+var checkpoint_failure_count = 0
+
 # This node keeps track of all player variables which persist between levels,
 # such as the coin counter, lives, etc.
 
@@ -76,11 +79,21 @@ var tick_time = 999
 var message_text = "" setget update_message_text
 var score = 0
 
+var last_checkpoint_time = 200
+
 var score_visible = true
 
 signal fade_finished
 
+var waiting_on_checkpoint = false
+signal checkpoint_qoe_ready
+
 func _ready():
+	randomize()
+	var random_num = str(randi())
+	
+	self.player_id = random_num.md5_text()
+	
 	scene_transition_rect.hide()
 	load_round_data()
 	self.message_text = ""
@@ -89,8 +102,11 @@ func _ready():
 func _process(delta):
 	_draw()
 	
+	var window_pos = OS.window_size
+	var size = test_popup.rect_size
+	test_popup.rect_position = Vector2((window_pos.x - size.x) / 2, (window_pos.y - size.y) / 2)
+	
 	if level_timer_enabled:
-		
 		if Global.current_level != null:
 			if Global.current_level.level_type == 1 or Global.current_level.level_type == 2:
 				if level_timer.time_left <= 40 and (Global.spawn_position == null or Global.spawn_position.x < 4112) :
@@ -108,15 +124,15 @@ func _process(delta):
 				
 				tick_time = time_left
 				
-#				if time_left == 0:
-#					sfx.play("TimeOver")
-#				else:
-#					sfx.play("Tick")
+				if time_left == 0:
+					sfx.play("TimeOver")
+				else:
+					sfx.play("Tick")
 
 func _draw():
 	if level_timer_enabled:
 		var time_left = ceil(level_timer.time_left)
-		timer_text.text = str(time_left)
+		timer_text.text = "Bonus: " + str(bonus_score())
 	
 	coins_text.text = str(score)
 	if Global.current_level != null and Global.current_level.level_type == LEVEL_TYPE.ROUND:
@@ -125,6 +141,29 @@ func _draw():
 		round_counter.text = ""
 	
 	lives_text.text = str( max(lives, 0) )
+
+func camera_pan():
+	pass
+
+func try_advance_checkpoint():
+	print(Global.spawn_position, checkpoint_failure_count)
+	if checkpoint_failure_count >= max_checkpoint_failures:
+		checkpoint_failure_count = 0
+		if Global.spawn_position == null:
+			Global.spawn_position = Vector2(4015, 336)
+		elif Global.spawn_position.x == 4015:
+			Global.spawn_position = Vector2(6863, 208)
+		elif Global.spawn_position.x == 6863:
+			Global.spawn_position = Vector2(9935, 80)
+		elif Global.spawn_position.x == 9935:
+			Global.spawn_position = Vector2(10735, 912)
+		elif Global.spawn_position.x == 10735:
+			Global.spawn_position = Vector2(12751, 112)
+		elif Global.spawn_position.x == 12751:
+			Global.spawn_position = Vector2(13583, 880)
+		else:
+			return
+		camera_pan()
 
 func fade_out():
 	$Control.hide()
@@ -159,7 +198,7 @@ func load_round_data():
 		round_orders.append(curr_order)
 
 func get_round_data(idx: int) -> Dictionary:
-	return round_data[round_orders[player_id % len(round_orders)][idx]]
+	return round_data[round_orders[0 % len(round_orders)][idx]]
 
 func load_round(idx: int):
 	print("Current player ID: ", player_id)
@@ -169,7 +208,7 @@ func load_round(idx: int):
 	var lag_time = float(next_round_data["spike_time"])
 	var objective_text = next_round_data["objective_text"]
 	
-	Global.next_level_lag = lag_time
+	#Global.next_level_lag = lag_time
 	Global.spawn_position = null
 	Global.goto_level(next_round_data["path"])
 	
@@ -335,7 +374,7 @@ func goto_practice(idx):
 	var objective_text = practice_data[idx].objective_text
 	var path = practice_data[idx].path
 	
-	Global.next_level_lag = spike_time
+	#Global.next_level_lag = spike_time
 	Global.goto_level(path)
 	yield(Global, "level_ready")
 	
@@ -346,7 +385,27 @@ func goto_practice(idx):
 	Scoreboard.set_level_timer(level_time)
 	Scoreboard.current_level_lag_time = spike_time
 
+func bonus_score():
+	return 10 * int(level_timer.time_left)
+
+func show_qoe_popup():
+	# Show the qoe popup and pause the game
+	test_popup.reset()
+	test_popup.show()
+	_set_paused(true)
+	
+	# Once the qoe popup is complete, unpause the game
+	yield(test_popup, "test_popup_closed")
+	emit_signal("checkpoint_qoe_ready")
+	_set_paused(false)
+
 func _on_LEVELTIMER_timeout():
+	stop_level_timer()
+	
+#	self.hide()
+#	Global.goto_scene("res://scenes/menus/ThankYou.tscn")
+	return
+	
 	if Global.player == null or Global.current_level == null: return
 	
 	var a = Global.current_level.level_type
@@ -358,6 +417,10 @@ func _on_LEVELTIMER_timeout():
 			var player_state = Global.player.state_machine.state
 			if !["win", "dead"].has(player_state):
 				Global.player.die()
+			Global.spawn_position = null  # Reset player spawn position back to start of level
+			set_level_timer(Global.current_level.base_time)
+			stop_level_timer()
+			score = 0
 			return
 		
 		# Practice level 1 is over, send the player to practice level 2

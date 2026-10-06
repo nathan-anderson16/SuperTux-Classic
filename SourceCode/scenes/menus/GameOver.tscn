@@ -159,7 +159,6 @@ tracks/4/keys = {
 }
 
 [node name="GameOverScreen" type="Control"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 1 )
@@ -195,7 +194,7 @@ anchor_bottom = 0.5
 margin_left = -1089.0
 margin_top = -12.5
 margin_right = -1007.0
-margin_bottom = 12.5
+margin_bottom = 17.5
 custom_constants/shadow_offset_x = 3
 custom_constants/shadow_offset_y = 3
 custom_constants/shadow_as_outline = 0
@@ -211,7 +210,7 @@ anchor_bottom = 0.5
 margin_left = 911.0
 margin_top = -12.5
 margin_right = 993.0
-margin_bottom = 12.5
+margin_bottom = 17.5
 custom_constants/shadow_offset_x = 3
 custom_constants/shadow_offset_y = 3
 custom_constants/shadow_as_outline = 0

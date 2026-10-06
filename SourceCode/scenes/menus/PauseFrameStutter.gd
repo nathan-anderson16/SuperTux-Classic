@@ -37,7 +37,7 @@ func _ready():
 	player_id_text.rect_min_size = Vector2(100, 0)
 	player_id_text.step = 1
 	player_id_text.max_value = 10000000
-	player_id_text.value = Scoreboard.player_id
+	#player_id_text.value = Scoreboard.player_id
 	
 	var player_id_save_button = Button.new()
 	player_id_save_button.text = "Save"
@@ -106,11 +106,11 @@ func _load_round_buttons():
 func _player_id_save_button_pressed():
 	Scoreboard.player_id = int(player_id.get_children()[1].value)
 	self._load_round_buttons()
-	Logger.log_event("Player id changed to " + str(Scoreboard.player_id))
+	#Logger.log_event("Player id changed to " + str(Scoreboard.player_id))
 
 func _player_score_save_button_pressed():
 	Scoreboard.score = int(player_score.get_children()[1].value)
-	Logger.log_event("Player score changed to " + str(Scoreboard.score))
+	#Logger.log_event("Player score changed to " + str(Scoreboard.score))
 
 func _format_tooltip(round_data):
 	var path = round_data["path"]
@@ -124,17 +124,17 @@ func _format_tooltip(round_data):
 func _button_practice_1():
 	Scoreboard.current_round = 0
 	Scoreboard.goto_practice(0)
-	Logger.log_event("Round changed to " + str(Scoreboard.current_round + 1))
+	#Logger.log_event("Round changed to " + str(Scoreboard.current_round + 1))
 
 func _button_practice_2():
 	Scoreboard.current_round = 0
 	Scoreboard.goto_practice(1)
-	Logger.log_event("Round changed to " + str(Scoreboard.current_round + 1))
+	#Logger.log_event("Round changed to " + str(Scoreboard.current_round + 1))
 
 func _button_pressed(i):
 	Scoreboard.current_round  = i - 1
 	Scoreboard.load_round(Scoreboard.current_round)
-	Logger.log_event("Round changed to " + str(Scoreboard.current_round + 1))
+	#Logger.log_event("Round changed to " + str(Scoreboard.current_round + 1))
 
 func _on_Done_mouse_entered():
 	done.grab_focus()
@@ -147,4 +147,4 @@ func _on_Restart_mouse_entered():
 
 func _on_Restart_pressed():
 	Global.reset_level()
-	Logger.log_event("Round Restarted")
+	#Logger.log_event("Round Restarted")

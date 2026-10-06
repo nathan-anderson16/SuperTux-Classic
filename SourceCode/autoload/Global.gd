@@ -41,13 +41,18 @@ var base_gravity = 1 * pow(60, 2) / 3
 var gravity = 1 setget _update_gravity
 var fireballs_on_screen = 0 setget _change_fireball_count
 var auto_run = true
+
+var lag_options = [0, 75, 150, 225]
+var lag_index = -1
 var next_level_lag = 0
 
 var controls = ["jump", "run", "move_left", "move_right", "move_up", "duck"]
 
 var can_pause = false
 
-var privacy_policy_url = "https://github.com/Alzter/SuperTux-Classic/blob/main/PRIVACYPOLICY.md"
+var about_url = "https://github.com/nathan-anderson16/SuperTux-Classic/blob/isp/ABOUT.md"
+var scoreBoard_url = "https://rumu10.github.io/GoogleSheetTable/?fbclid=IwZXh0bgNhZW0CMTAAYnJpZBExTFJ2S2FSazNQb2tLVTZEMAEeuufgWBB0V0CvmXfrbVPBZ3EJ2bSpTOXI5CJsUKe45H7Bvlz0fy_NtH-0RBk_aem_3ut4XA4cNxKsNjYozcYqZw"
+var privacy_policy_url = "https://github.com/nathan-anderson16/SuperTux-Classic/blob/isp/PRIVACYPOLICY.md"
 
 var level_attributes_cache = {}
 
@@ -57,7 +62,11 @@ var accepted_music_file_types = [".mp3", ".wav", ".ogg"]
 
 var is_first_load = false
 
+var last_checkpoint_score = 0
+var last_camera_backscroll = 0;
 #var hovered_objects = []
+
+var last_qoe_position_x = 0
 
 signal scene_loaded
 signal scene_reset
@@ -74,6 +83,8 @@ signal quit_game_requested
 
 # When in the level editor main menu, this signal opens the World Menu for a given world
 signal open_world_menu(world_folder_name)
+
+var current_zone = 0
 
 func _ready():
 #	print(read_csv_data("res://harness/round_data.txt"))
@@ -93,6 +104,62 @@ func _ready():
 	var options_data : Dictionary = SaveManager.get_options_data()
 	apply_options(options_data)
 	SaveManager.load_current_controls()
+	
+	# Browser signature detection
+#	print("Browser signature:\n", get_signature())
+
+func get_signature(result, response_code, headers, body):
+	print(result, response_code, headers, body)
+	print("Getting browser signature...")
+	# Size of the physical monitor
+	var screen_resolution = OS.get_screen_size()
+	# User agent (browser)
+	var user_agent = JavaScript.eval("navigator.userAgent")
+	# Time
+	var datetime = Time.get_datetime_dict_from_system()
+	var micro = str(Time.get_unix_time_from_system()).split(".")
+	micro = "0" if len(micro) == 1 else micro[1]
+	var time =  str(datetime.hour).pad_zeros(2) + ":" + str(datetime.minute).pad_zeros(2) + ":" + str(datetime.second).pad_zeros(2) + "." + micro
+	# Date
+	var date = str(datetime.year) + "-" + str(datetime.month).pad_zeros(2) + "-" + str(datetime.day).pad_zeros(2)
+	# Timezone
+#	var timezone = Time.get_time_zone_from_system()
+	var timezone = JavaScript.eval("Intl.DateTimeFormat().resolvedOptions().timeZone")
+	# Data from JS navigator
+	var platform = JavaScript.eval("navigator.platform")
+	var oscpu = JavaScript.eval("navigator.oscpu")
+	var memory = JavaScript.eval("navigator.deviceMemory")
+	var cores = JavaScript.eval("navigator.hardwareConcurrency")
+	var preferred_language = JavaScript.eval("navigator.language")
+	var languages = JavaScript.eval("navigator.languages")
+	var max_touch_points = JavaScript.eval("navigator.maxTouchPoints")
+	# IP address
+#	var ip = JavaScript.eval("""fetch('https://api.ipify.org?format=json')""")
+	var ip = body
+	print("IP: ", ip)
+	
+	var data = {
+		"screen_resolution": {
+			"x": screen_resolution[0],
+			"y": screen_resolution[1]
+		},
+		"date": date,
+		"time": time,
+		"timezone": timezone,
+		"navigator": {
+			"user_agent": user_agent,
+			"platform": platform,
+			"oscpu": oscpu,
+			"memory": memory,
+			"cores": cores,
+			"language": preferred_language,
+			"languages": languages,
+			"max_touch_points": max_touch_points
+		},
+		"ip": ip
+	}
+	print("Signature: ", data)
+	return data
 
 func read_csv_data(path: String):
 	var file = File.new()
@@ -121,22 +188,14 @@ func read_csv_data(path: String):
 		
 	return file_data
 
-func increment_player_id():
-	var file = File.new()
-	file.open("res://harness/player_id.txt", File.READ_WRITE)
-	
-	var curr_id = int(file.get_line())
-	curr_id += 1
-	Scoreboard.player_id = curr_id
-	file.seek(0)
-	file.store_string(str(curr_id))
-
 func _update_gravity(new_value):
 	gravity = new_value * pow(60.0, 2.0) / 3.0
 
 func respawn_player():
 	if current_level == current_scene:
 		reset_level()
+		Global.player.camera.limit_left = Global.last_camera_backscroll
+		print_debug("left limit: ", Global.last_camera_backscroll, " | ", Global.player.camera.limit_left)
 	else:
 		emit_signal("player_died")
 
@@ -186,6 +245,7 @@ func _deferred_reset_scene():
 	current_scene.free()
 	current_level = null
 	player = null
+	Scoreboard.waiting_on_checkpoint = false
 	
 	is_first_load = false
 	
@@ -203,10 +263,12 @@ func _deferred_reset_scene():
 	
 	# This delay makes the fade animation feel better
 #	OS.delay_msec(100)
+
+	Scoreboard.score = Global.last_checkpoint_score
 	
 	Scoreboard.fade_in()
 #	yield(Scoreboard, "fade_finished")
-	
+
 	get_tree().paused = false
 	emit_signal("scene_reset")
 
@@ -218,6 +280,9 @@ func _deferred_goto_scene(path, loading_level = false):
 	spawn_position = null
 	current_level = null
 	player = null
+	Scoreboard.waiting_on_checkpoint = false
+	last_qoe_position_x = 0
+	Scoreboard.checkpoint_failure_count = 0
 	
 	is_first_load = true
 	
@@ -286,7 +351,7 @@ func get_current_camera():
 # This will reset the options file if it already exists.
 func create_options_data():
 	var options_data = {
-		"music_volume" : -6.0,
+		"music_volume" : -18.0,
 		"sfx_volume" : 0.0,
 		"ambience_volume" : 0.0,
 		"auto_run" : true,

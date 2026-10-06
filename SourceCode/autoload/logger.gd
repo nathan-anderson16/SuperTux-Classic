@@ -1,5 +1,18 @@
 extends Node
 
+# --- PLAYER ID GENERATION ---
+var player_id : String = ""
+
+func generate_random_id(length := 12) -> String:
+	var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()"
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+	var result = ""
+	for i in length:
+		result += charset[rng.randi_range(0, charset.length() - 1)]
+	return result
+
+# --- LOGGING VARIABLES ---
 var frame_log_path: String = "" 
 var frame_logs: Array = [] 
 var event_log_path: String = "" 
@@ -30,10 +43,12 @@ const TICK_RATE_INTERVAL: float = 1.0
 var current_frame_time: float = 0.0
 
 func _ready():
-	
 	set_process(true)
 	set_process_input(true)
-	
+
+	# Generate random player id at game start
+	player_id = generate_random_id(12)  # 12 chars, can adjust
+
 	var datetime = OS.get_datetime()
 	var log_title_timestamp = str(datetime.year) + "-" + str(datetime.month).pad_zeros(2) + "-" + str(datetime.day).pad_zeros(2) + "_" + str(datetime.hour).pad_zeros(2) + "-" + str(datetime.minute).pad_zeros(2) + "-" + str(datetime.second).pad_zeros(2)
 	last_frame_time = OS.get_ticks_usec() / 1000.0
@@ -75,19 +90,30 @@ func _process(delta):
 
 	if elapsed_time >= TICK_RATE_INTERVAL:
 		tick_rate = frame_count / elapsed_time
-		print("Tick Rate:", tick_rate)
+#		print("Tick Rate:", tick_rate)
 
 		start_time = current_time
 		frame_count = 0
 		
 	if Input.is_action_just_released("jump"):
-		Logger.log_event("Pressed Jump")
+		#Logger.log_event("Pressed Jump")
+		OLogger.add_to_event_log("JUMP_RELEASE")
 		
 	if Input.is_action_just_pressed("move_right"):
-		Logger.log_event("Pressed Right")
-		
+		#Logger.log_event("Pressed Right")
+		OLogger.add_to_event_log("RIGHT")
+	
+	if Input.is_action_just_released("move_right"):
+		#Logger.log_event("Pressed Right")
+		OLogger.add_to_event_log("RIGHT_RELEASE")
+	
 	if Input.is_action_just_pressed("move_left"):
-		Logger.log_event("Pressed Left")
+		#Logger.log_event("Pressed Left")
+		OLogger.add_to_event_log("LEFT")
+		
+	if Input.is_action_just_released("move_left"):
+		#Logger.log_event("Pressed Right")
+		OLogger.add_to_event_log("LEFT_RELEASE")
 	
 	if is_instance_valid(Global.player) and Global.player.has_node("state_machine"):
 		var state_machine = Global.player.get_node("state_machine") if Global.player.has_node("state_machine") else null
@@ -175,7 +201,7 @@ func log_frame(delta, total_time):
 	var cumulative_ms = "%.6f" % (cumulative_time)
 	var tick_rate_formatted = "%.2f" % tick_rate
 	var delta_ms = "%.6f" % delta
-	var player_id = read_int_from_file(player_id_path)
+	var player_id_str = player_id  # use generated string
 	var datetime = OS.get_datetime()
 	var micro = str(Time.get_unix_time_from_system()).split(".")
 	micro = "0" if len(micro) == 1 else micro[1]
@@ -186,9 +212,6 @@ func log_frame(delta, total_time):
 	var state = Global.player.state_machine.state
 	var timer_text = $"/root/Scoreboard".timer_text.text
 	var timer_float = "%.6f" % (float(timer_text) - float(cumulative_time))
-	
-#	print("Timer Text:", $"/root/Scoreboard".timer_text.text)
-
 	var coins = str($"/root/Scoreboard".coins_text.text)
 	var lives = str($"/root/Scoreboard".lives_text.text)
 	var deaths = str($"/root/Scoreboard".number_of_deaths)
@@ -196,9 +219,9 @@ func log_frame(delta, total_time):
 	var y_position = str(Global.player.get_position()).split(",")[1].split(")")[0].split(" ")[1]
 	var x_velocity = str(Global.player.velocity).split("(")[1].split(",")[0]
 	var y_velocity = str(Global.player.velocity).split(",")[1].split(")")[0].split(" ")[1]
-	var tick_rate = str(Engine.iterations_per_second)
+	var tick_rate_str = str(Engine.iterations_per_second)
 	
-	var frame_message = str(cumulative_ms) + "," + str(player_id) + "," + str(delta_ms) + "," + timestamp + "," + level_result + "," + state + "," + str(timer_float) + "," + coins + "," + lives + "," + deaths + "," + x_position + "," + y_position + "," + x_velocity + "," + y_velocity + "," + tick_rate_formatted
+	var frame_message = str(cumulative_ms) + "," + str(player_id_str) + "," + str(delta_ms) + "," + timestamp + "," + level_result + "," + state + "," + str(timer_float) + "," + coins + "," + lives + "," + deaths + "," + x_position + "," + y_position + "," + x_velocity + "," + y_velocity + "," + tick_rate_formatted
 	frame_logs.append(frame_message)
 	if !frame_logs_by_round.has(current_round):
 		frame_logs_by_round[current_round] = []
@@ -206,7 +229,6 @@ func log_frame(delta, total_time):
 	
 func summarize_frame_log(data: Array) -> Dictionary:
 	var total_frames = data.size()
-	
 	return {
 		"total_frames": total_frames,
 		}
@@ -215,7 +237,7 @@ func log_event(message: String = ""):
 	if !init:
 		return
 	
-	var player_id = read_int_from_file(player_id_path)
+	var player_id_str = player_id  # use generated string
 	var datetime = OS.get_datetime()
 	var micro = str(Time.get_unix_time_from_system()).split(".")
 	micro = "0" if len(micro) == 1 else micro[1]
@@ -235,11 +257,14 @@ func log_event(message: String = ""):
 	var x_velocity = str(Global.player.velocity).split("(")[1].split(",")[0]
 	var y_velocity = str(Global.player.velocity).split(",")[1].split(")")[0].split(" ")[1]
 	
-	var event_message = str(player_id) + "," + timestamp + "," + level_result + "," + expected_lag + "," + state + "," + timer + "," + coins + "," + lives + "," + deaths + "," + x_position + "," + y_position + "," + x_velocity + "," + y_velocity + "," + message
+	var event_message = str(player_id_str) + "," + timestamp + "," + level_result + "," + expected_lag + "," + state + "," + timer + "," + coins + "," + lives + "," + deaths + "," + x_position + "," + y_position + "," + x_velocity + "," + y_velocity + "," + message
 	event_logs.append(event_message)
 	if !event_logs_by_round.has(current_round):
 		event_logs_by_round[current_round] = []
 	event_logs_by_round[current_round].append(event_message)
+	
+# ... rest of your code is unchanged ...
+
 	
 func summarize_event_log(data: Array) -> Dictionary:
 	var total_events = data.size()
@@ -331,7 +356,7 @@ func get_round_qoe_score(qoe_entries: Array) -> float:
 	var key = "QoE Score:"
 	for entry in qoe_entries:
 		var index = entry.find(key)
-		print(entry)
+#		print(entry)
 		if index != -1:
 			return float(entry.substr(index + key.length(), entry.length()).strip_edges())
 	return 0.0
